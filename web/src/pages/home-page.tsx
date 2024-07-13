@@ -1,27 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store';
+import { setId, setPassword } from '@/store/loginSlice';
 import { COLORS } from '@/theme';
-import { useLoginStore } from '@/store/useLoginStore';
+
+// img
+import logo from '@/assets/logo.svg';
 
 const HomePage: React.FC = () => {
-  const { id, password, setId, setPassword } = useLoginStore();
+  const dispatch = useDispatch();
+  const { id, password } = useSelector((state: RootState) => state.login);
 
   // id, pwd가 모두 입력되었을때 버튼의 backgroundColor이 활성화 됨
   const isActive = id !== '' && password !== '';
 
   return (
     <Container>
-      <Logo>LOGO</Logo>
+      <Logo src={logo} alt="Logo" />
       <Input
         placeholder="아이디"
         value={id}
-        onChange={e => setId(e.target.value)}
+        onChange={e => dispatch(setId(e.target.value))}
       />
       <Input
         placeholder="비밀번호"
         type="password"
         value={password}
-        onChange={e => setPassword(e.target.value)}
+        onChange={e => dispatch(setPassword(e.target.value))}
       />
       <Button isActive={isActive}>로그인</Button>
       <LinkContainer>
@@ -46,7 +52,7 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const Logo = styled.h1`
+const Logo = styled.img`
   margin-bottom: 69px;
 `;
 
