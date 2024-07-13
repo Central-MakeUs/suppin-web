@@ -9,7 +9,8 @@
 - 프론트엔드
   - main
     - Vite, Typscript, React v18^
-    - react-router-dom v6.14^, react-query v5^, redux-toolkit
+    - react-router-dom v6.14^, react-query v5^
+    - redux v9.1.2, redux-toolkit v2.2.6
     - Styled-Components v6^
   - survey
     - Typescript, NextJs v14^
