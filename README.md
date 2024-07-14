@@ -20,14 +20,20 @@
 
 ## 프로젝트 구조
 
-```
-<root>/
-│
-├── app/
-│   └── src/
+```shell
+# web
+<root>
 │
 ├── web/
-│   └── src/
+│   ├── /
+│   ├── (index)
+│   ├── result
+│   ├── survey/
+│   │   └── new
+│   └── collect
+└── auth
+
+# app
 ```
 
 ### 사전 요구사항
