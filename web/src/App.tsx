@@ -8,8 +8,17 @@ import {
 } from '@/pages';
 import store from '@/store';
 import GlobalStyles from '@/styles/global-styles';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -31,8 +40,10 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <Provider store={store}>
-      <GlobalStyles />
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <GlobalStyles />
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </Provider>
   );
 }
