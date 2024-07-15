@@ -1,13 +1,13 @@
-import { LoginState } from '@/types/HomePage';
+import { UserState } from '@/types/HomePage';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: LoginState = {
+const initialState: UserState = {
   id: '',
   password: '',
 };
 
-const loginSlice = createSlice({
-  name: 'login',
+const userSlice = createSlice({
+  name: 'user',
   initialState,
   reducers: {
     setId(state, action: PayloadAction<string>) {
@@ -19,5 +19,5 @@ const loginSlice = createSlice({
   },
 });
 
-export const { setId, setPassword } = loginSlice.actions;
-export default loginSlice.reducer;
+export const { setId, setPassword } = userSlice.actions;
+export default userSlice.reducer;
