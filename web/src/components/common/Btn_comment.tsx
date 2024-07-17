@@ -29,7 +29,7 @@ const CommentButton = styled.button`
 `;
 
 const CommentImage = styled.img`
-  width: 17px; /* 이미지 크기를 조정하세요 */
+  width: 17px;
   height: 17px;
   margin-right: 8px;
 `;

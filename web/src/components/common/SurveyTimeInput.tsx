@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -10,10 +10,10 @@ interface SurveyTimeInputProps {
   placeholderEnd: string;
 }
 
-export const SurveyTimeInput: React.FC<SurveyTimeInputProps> = ({
+export const SurveyTimeInput = ({
   placeholderStart,
   placeholderEnd,
-}) => {
+}: SurveyTimeInputProps) => {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
 

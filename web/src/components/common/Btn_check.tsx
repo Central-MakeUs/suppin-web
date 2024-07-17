@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import checkRound from '../../assets/checkRound.png';
 import checkRect from '../../assets/checkRect.png';
