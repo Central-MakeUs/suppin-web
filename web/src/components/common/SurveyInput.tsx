@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { COLORS } from '@/theme';
-import { DeleteButton } from './Btn_btns';
+import Button from './Btn_btns';
 
 interface SurveyInputProps {
   placeholder: string;
@@ -26,7 +26,7 @@ export const SurveyInput = ({ placeholder }: SurveyInputProps) => {
         onChange={handleChange}
         placeholder={placeholder}
       />
-      <DeleteButton width="24px" height="24px" onClick={handleDelete} />
+      <Button variant="delete" onClick={() => alert('Delete Button Clicked')} />
     </Container>
   );
 };

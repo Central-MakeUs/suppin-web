@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const CompletedContent = () => {
-  return <ContentContainer>진행 완료된 페이지</ContentContainer>;
+  return <ContentContainer />;
 };
 
 export default CompletedContent;

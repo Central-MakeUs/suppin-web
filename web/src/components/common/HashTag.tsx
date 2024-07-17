@@ -1,13 +1,13 @@
 import { body5Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
 import styled from 'styled-components';
-import { DeleteButton } from './Btn_btns';
+import Button from './Btn_btns';
 
 export const Hashtag = () => {
   return (
     <Container>
       <Tag>#웃으며</Tag>
-      <DeleteButton width="35px" height="35px" />
+      <Button variant="delete" />
     </Container>
   );
 };

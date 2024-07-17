@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import React from 'react';
+import styled, { css } from 'styled-components';
 import back_black from '../../assets/btn_back_black.png';
 import deleteBtn from '../../assets/btn_delete.png';
 import openBtn from '../../assets/btn_open.png';
@@ -7,96 +8,61 @@ import retryBtn from '../../assets/retry.png';
 import { body3Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
 
-interface IconButtonProps {
+interface ButtonProps {
+  variant: 'back' | 'delete' | 'open' | 'share' | 'retry' | 'add';
   width?: string;
   height?: string;
   onClick?: () => void;
+  children?: React.ReactNode;
 }
 
-export const BackButton = ({ width, height, onClick }: IconButtonProps) => {
+const Button = ({ variant, width, height, onClick, children }: ButtonProps) => {
   return (
-    <IconButton
-      imgsrc={back_black}
+    <StyledButton
+      variant={variant}
       width={width}
       height={height}
       onClick={onClick}
-    />
+    >
+      {children}
+    </StyledButton>
   );
 };
 
-export const DeleteButton = ({ width, height, onClick }: IconButtonProps) => {
-  return (
-    <IconButton
-      imgsrc={deleteBtn}
-      width={width}
-      height={height}
-      onClick={onClick}
-    />
-  );
+const buttonVariants = {
+  back: back_black,
+  delete: deleteBtn,
+  open: openBtn,
+  share: shareBtn,
+  retry: retryBtn,
 };
 
-export const OpenButton = ({ width, height, onClick }: IconButtonProps) => {
-  return (
-    <IconButton
-      imgsrc={openBtn}
-      width={width}
-      height={height}
-      onClick={onClick}
-    />
-  );
-};
-
-export const ShareButton = ({ width, height, onClick }: IconButtonProps) => {
-  return (
-    <IconButton
-      imgsrc={shareBtn}
-      width={width}
-      height={height}
-      onClick={onClick}
-    />
-  );
-};
-
-export const BtnRetry = () => {
-  return (
-    <Container>
-      <SmallIconButton imgsrc={retryBtn} />
-      <RetryText>다시하기</RetryText>
-    </Container>
-  );
-};
-
-export const BtnAdd = () => {
-  return (
-    <Btn_Add>
-      <Add>추가</Add>
-    </Btn_Add>
-  );
-};
-
-const IconButton = styled.button<{
-  imgsrc: string;
+const StyledButton = styled.button<{
+  variant: 'back' | 'delete' | 'open' | 'share' | 'retry' | 'add';
   width?: string;
   height?: string;
 }>`
   width: ${props => props.width || '45px'};
   height: ${props => props.height || '45px'};
-  background: url(${props => props.imgsrc}) no-repeat center center;
+  background: ${props =>
+    props.variant === 'add'
+      ? COLORS.Main
+      : `url(${buttonVariants[props.variant]}) no-repeat center center`};
   background-size: contain;
   border: none;
   cursor: pointer;
+  ${props =>
+    props.variant === 'add' &&
+    css`
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+    `}
 `;
 
-const SmallIconButton = styled.button<{ imgsrc: string }>`
-  width: 13px;
-  height: 13px;
-  background: url(${props => props.imgsrc}) no-repeat center center;
-  background-size: contain;
-  border: none;
-  cursor: pointer;
-`;
-
-const Container = styled.div`
+const RetryContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,14 +77,21 @@ const RetryText = styled.p`
   color: ${COLORS.Main};
 `;
 
-const Btn_Add = styled.button`
-  width: 63px;
-  height: 46px;
-  border-radius: 10px;
-  border: none;
-  background-color: ${COLORS.Main};
-`;
+export const BtnRetry = () => {
+  return (
+    <RetryContainer>
+      <StyledButton variant="retry" width="13px" height="13px" />
+      <RetryText>다시하기</RetryText>
+    </RetryContainer>
+  );
+};
 
-const Add = styled.h4`
-  color: white;
-`;
+export const BtnAdd = () => {
+  return (
+    <StyledButton variant="add" width="63px" height="46px">
+      추가
+    </StyledButton>
+  );
+};
+
+export default Button;

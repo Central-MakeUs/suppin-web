@@ -62,7 +62,8 @@ const Tab = styled.button<{ $isActive: boolean }>`
   cursor: pointer;
   color: ${props => (props.$isActive ? COLORS.Main : COLORS.Gray3)};
   font-weight: ${props => (props.$isActive ? 'bold' : 'normal')};
-  border-bottom: ${props => (props.$isActive ? '2px solid #215BFB' : 'none')};
+  border-bottom: ${props =>
+    props.$isActive ? '2px solid #215BFB' : `1px solid ${COLORS.Gray3}`};
   &:hover {
     color: ${COLORS.Main};
   }

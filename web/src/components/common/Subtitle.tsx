@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { BackButton } from './Btn_btns';
+import Button from './Btn_btns';
 
 export const Subtitle = () => {
   return (
     <Container>
       <BackContainer>
-        <BackButton />
+        <Button variant="back" onClick={() => alert('Back Button Clicked')} />
       </BackContainer>
       <Title>설문 생성하기</Title>
     </Container>

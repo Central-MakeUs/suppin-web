@@ -1,20 +1,11 @@
 import { BtnMainInactive, BtnMainActive } from '../components/common/Btn_main';
-import { BtnCheckRound } from '../components/common/Btn_check1';
-import { BtnCheckRect } from '../components/common/Btn_check2';
+import { CheckButton } from '../components/common/Btn_check';
 import { Btn_popup } from '../components/common/Btn_popup';
 import { Btn_preview } from '../components/common/Btn_preview';
 import { Popup } from '../components/common/Popup';
 import { Subtitle } from '../components/common/Subtitle';
-import {
-  BackButton,
-  BtnAdd,
-  BtnRetry,
-  DeleteButton,
-  OpenButton,
-  ShareButton,
-} from '@/components/common/Btn_btns';
-import { SurveyCheck } from '@/components/common/Survey_Check1';
-import { SurveyCheck2 } from '@/components/common/Survey_Check2';
+import Button, { BtnRetry, BtnAdd } from '../components/common/Btn_btns';
+import { SurveyCheck } from '@/components/common/Survey_Check';
 import { SurveyForm } from '@/components/common/SurveyForm';
 import MainCard from '@/components/common/main_card/MainCard';
 import { Btn_detail } from '@/components/common/Btn_detail';
@@ -38,20 +29,20 @@ const Components = () => {
     >
       <BtnMainInactive />
       <BtnMainActive />
-      <BtnCheckRound />
-      <BtnCheckRect />
+      <CheckButton variant="round" />
+      <CheckButton variant="rect" />
       <Btn_popup />
       <Btn_preview />
       <Popup />
       <Subtitle />
-      <BackButton />
-      <DeleteButton />
-      <OpenButton />
-      <ShareButton />
+      <Button variant="back" onClick={() => alert('Back Button Clicked')} />
+      <Button variant="delete" onClick={() => alert('Delete Button Clicked')} />
+      <Button variant="open" onClick={() => alert('Open Button Clicked')} />
+      <Button variant="share" onClick={() => alert('Share Button Clicked')} />
       <BtnRetry />
       <BtnAdd />
-      <SurveyCheck />
-      <SurveyCheck2 />
+      <SurveyCheck variant="round" />
+      <SurveyCheck variant="rect" />
       <SurveyForm />
       <MainCard />
       <Btn_detail />

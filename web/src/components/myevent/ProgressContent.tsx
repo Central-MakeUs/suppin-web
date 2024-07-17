@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const ProgressContent = () => {
-  return <ContentContainer>진행 중인 페이지</ContentContainer>;
+  return <ContentContainer />;
 };
 
 export default ProgressContent;

@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { COLORS } from '@/theme';
 import { body5Style } from '@/styles/global-styles';
-import arrowIcon from '../../assets/rightarrow.png'; // 화살표 아이콘 경로
-
+import arrowIcon from '../../assets/rightarrow.png';
 export const Btn_detail = () => {
   return (
     <DetailButton>
