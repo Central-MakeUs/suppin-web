@@ -59,11 +59,11 @@ export const SurveyTimeInput = ({
 const Container = styled.div`
   display: flex;
   align-items: center;
-  background-color: ${COLORS.Gray5};
+  border: 1px solid ${COLORS.Gray3};
   border-radius: 10px;
+  background-color: ${COLORS.Gray5};
   padding: 10px;
-  margin-bottom: 10px;
-  width: 314px;
+  width: 318px;
   height: 46px;
 `;
 

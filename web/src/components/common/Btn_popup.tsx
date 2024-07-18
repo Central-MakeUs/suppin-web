@@ -1,9 +1,13 @@
 import { COLORS } from '@/theme';
 import styled from 'styled-components';
 
-export const Btn_popup = () => {
+interface BtnPopupProps {
+  onClick: () => void;
+}
+
+export const Btn_popup = ({ onClick }: BtnPopupProps) => {
   return (
-    <Btn>
+    <Btn onClick={onClick}>
       <Confirm>확인</Confirm>
     </Btn>
   );

@@ -1,13 +1,24 @@
 import styled from 'styled-components';
 import Button from './Btn_btns';
+import { useNavigate } from 'react-router-dom';
 
-export const Subtitle = () => {
+interface SubtitleProps {
+  title: string;
+}
+
+export const Subtitle = ({ title }: SubtitleProps) => {
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate(-1); // 이전 페이지로 이동
+  };
+
   return (
     <Container>
       <BackContainer>
-        <Button variant="back" onClick={() => alert('Back Button Clicked')} />
+        <Button variant="back" onClick={handleBackClick} />
       </BackContainer>
-      <Title>설문 생성하기</Title>
+      <Title>{title}</Title>
     </Container>
   );
 };
@@ -18,7 +29,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   position: relative; /* 자식 요소의 절대 위치를 위한 기준 컨테이너 */
-  border: 1px solid black;
+  /* border: 1px solid black; */
 `;
 
 const BackContainer = styled.div`
