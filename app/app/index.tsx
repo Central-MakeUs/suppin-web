@@ -1,40 +1,44 @@
-import { INJECTED_JAVASCRIPT } from "@/lib/log";
-import React, { useRef } from "react";
-import { View } from "react-native";
-import WebView, { WebViewMessageEvent } from "react-native-webview";
+import { WebViewBridge } from "@/components/webview-bridge";
+import { bridgeEventEmitter } from "@/lib/event-emitter";
+import { WebViewMessage } from "@/types/webview";
+import React, { useCallback, useEffect } from "react";
+import { Button, SafeAreaView } from "react-native";
 
-const Index = () => {
-  const webViewRef = useRef<WebView>(null);
-
-  const messageHandler = (event: WebViewMessageEvent) => {
-    const data = event.nativeEvent.data;
-    try {
-      const parsedData = JSON.parse(data);
-      if (parsedData.type === "Console") {
-        const { type, args } = parsedData.data as {
-          type: "log" | "warn" | "error";
-          args: string;
-        };
-        console[type]("WebView:", ...args);
+const App = () => {
+  useEffect(() => {
+    const handleMessageFromWebView = (message: WebViewMessage) => {
+      console.log("Received message from WebView:", message);
+      try {
+        const parsedPayload = JSON.parse(message.payload);
+      } catch (error) {
+        console.error("Error parsing payload:", error);
       }
-    } catch (error) {
-      console.error("웹뷰 메시지를 파싱하는데 실패하였습니다: ", error);
-    }
-  };
+    };
+
+    bridgeEventEmitter.on("messageFromWebView", handleMessageFromWebView);
+
+    return () => {
+      bridgeEventEmitter.off("messageFromWebView", handleMessageFromWebView);
+    };
+  }, []);
+
+  const sendMessageToWebView = useCallback(() => {
+    const message: WebViewMessage = {
+      type: "GREETING",
+      payload: JSON.stringify({ text: "!!!!!! APP to Webview" }),
+    };
+    bridgeEventEmitter.emitTyped("sendMessageToWebView", message);
+  }, []);
 
   return (
-    <View style={{ flex: 1 }}>
-      <WebView
-        ref={webViewRef}
-        source={{ uri: "http://0.0.0.0:3000/" }}
-        onMessage={messageHandler}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        startInLoadingState={true}
-        injectedJavaScript={INJECTED_JAVASCRIPT}
+    <SafeAreaView style={{ flex: 1 }}>
+      <WebViewBridge source={{ uri: "http://172.30.1.76:3000/" }} />
+      <Button
+        title="웹뷰로 메시지 보내기 테스트 버튼"
+        onPress={sendMessageToWebView}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
-export default Index;
+export default App;
