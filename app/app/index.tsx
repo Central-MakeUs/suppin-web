@@ -32,7 +32,7 @@ const App = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <WebViewBridge source={{ uri: "http://172.30.1.76:3000/" }} />
+      <WebViewBridge source={{ uri: "http://192.168.0.8:3000/" }} />
       <Button
         title="웹뷰로 메시지 보내기 테스트 버튼"
         onPress={sendMessageToWebView}
