@@ -1,6 +1,10 @@
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { FloatingButton } from '@/components/home/floating-button';
+import { NoResult } from '@/components/home/no-result';
+import { Header } from '@/components/ui/header';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { HomePageWrapper } from './home-page.styles';
 
 const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,12 +28,28 @@ const HomePage = () => {
   );
 
   return (
-    <Tabs value={activeTab} onValueChange={handleTabChange}>
-      <TabsList>
-        <TabsTrigger value="progress">진행 중</TabsTrigger>
-        <TabsTrigger value="complete">진행 완료</TabsTrigger>
-      </TabsList>
-    </Tabs>
+    <HomePageWrapper>
+      <Header>
+        <h1>내 이벤트</h1>
+      </Header>
+      <Tabs
+        style={{ height: 'calc(100% - 6.375rem)' }}
+        value={activeTab}
+        onValueChange={handleTabChange}
+      >
+        <TabsList>
+          <TabsTrigger value="progress">진행 중</TabsTrigger>
+          <TabsTrigger value="complete">진행 완료</TabsTrigger>
+        </TabsList>
+        <TabsContent value="progress">
+          <NoResult />
+        </TabsContent>
+        <TabsContent value="complete">
+          <NoResult />
+        </TabsContent>
+      </Tabs>
+      <FloatingButton />
+    </HomePageWrapper>
   );
 };
 

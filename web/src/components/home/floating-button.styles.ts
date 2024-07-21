@@ -2,7 +2,7 @@ import { COLORS } from '@/theme';
 import styled from 'styled-components';
 
 export const FloatingButtonWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,4 +12,5 @@ export const FloatingButtonWrapper = styled.div`
   height: 4rem;
   border-radius: 100%;
   background: ${COLORS.Main};
+  z-index: 999;
 `;

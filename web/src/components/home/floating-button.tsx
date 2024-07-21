@@ -1,4 +1,5 @@
 import { PlusIcon } from '@/components/common/icons';
+import { Overlay } from '@/components/ui/overlay';
 import { useState } from 'react';
 import { FloatingButtonWrapper } from './floating-button.styles';
 
@@ -10,8 +11,11 @@ export const FloatingButton = () => {
   };
 
   return (
-    <FloatingButtonWrapper onClick={toggleIcon}>
-      <PlusIcon isPlus={isPlus} />
-    </FloatingButtonWrapper>
+    <>
+      <FloatingButtonWrapper onClick={toggleIcon}>
+        <PlusIcon isPlus={isPlus} />
+      </FloatingButtonWrapper>
+      <Overlay isOpen={!isPlus} onClose={() => setIsPlus(true)} />
+    </>
   );
 };

@@ -34,7 +34,7 @@ const GlobalStyles = createGlobalStyle`
   html,
   body {
     height: 100%;
-    max-width: 390px;
+    /* max-width: 390px; */
     display: flex;
     justify-content: center;
   }

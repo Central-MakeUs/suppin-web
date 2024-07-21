@@ -37,7 +37,7 @@ export const tabsTrigger = css`
 `;
 
 export const tabsContent = css`
-  margin-top: 0.5rem;
+  height: 100%;
 `;
 
 export const animatedUnderline = css`
