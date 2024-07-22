@@ -1,13 +1,11 @@
-import Tabs from '@/components/myevent/Tabs';
 import BtnPlus from '@/components/common/Btn_plus';
-import Header from '@/components/ui/header';
 import MainCard from '@/components/common/main_card/MainCard';
+import Tabs from '@/components/myevent/Tabs';
 import styled from 'styled-components';
 
 const MyEvent = () => {
   return (
     <>
-      <Header title="내 이벤트" />
       <Tabs />
       <Container>
         <MainCard />
