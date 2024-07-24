@@ -1,6 +1,6 @@
 import { COLORS } from '@/theme';
 import styled from 'styled-components';
-import { body3Style } from '@/styles/global-styles';
+import { body3Style, body4Style } from '@/styles/global-styles';
 
 export const Btn_preview = () => {
   return (
@@ -11,7 +11,7 @@ export const Btn_preview = () => {
 };
 
 const Btn = styled.button`
-  width: 81px;
+  width: 85px;
   height: 34px;
   border: 1px solid ${COLORS.Main};
   border-radius: 110px;

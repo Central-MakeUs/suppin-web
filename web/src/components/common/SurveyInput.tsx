@@ -14,10 +14,6 @@ export const SurveyInput = ({ placeholder }: SurveyInputProps) => {
     setText(e.target.value);
   };
 
-  const handleDelete = () => {
-    setText('');
-  };
-
   return (
     <Container>
       <Input
@@ -26,7 +22,10 @@ export const SurveyInput = ({ placeholder }: SurveyInputProps) => {
         onChange={handleChange}
         placeholder={placeholder}
       />
-      <Button variant="delete" onClick={() => alert('Delete Button Clicked')} />
+      <Button
+        $variant="delete"
+        onClick={() => alert('Delete Button Clicked')}
+      />
     </Container>
   );
 };

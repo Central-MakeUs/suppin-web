@@ -5,6 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { body4Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
 import calendarIcon from '../../assets/calander.png';
+
 interface SurveyTimeInputProps {
   placeholderStart: string;
   placeholderEnd: string;
@@ -14,8 +15,8 @@ export const SurveyTimeInput = ({
   placeholderStart,
   placeholderEnd,
 }: SurveyTimeInputProps) => {
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   const handleStartDateChange = (date: Date | null) => {
     setStartDate(date);

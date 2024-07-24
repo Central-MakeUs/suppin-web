@@ -7,7 +7,7 @@ export const Hashtag = () => {
   return (
     <Container>
       <Tag>#웃으며</Tag>
-      <Button variant="delete" />
+      <Button $variant="delete" />
     </Container>
   );
 };
