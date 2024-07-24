@@ -1,7 +1,12 @@
+import { Header } from '@/components/common/header';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/common/tabs';
 import { FloatingButton } from '@/components/home/floating-button';
 import { NoResult } from '@/components/home/no-result';
-import { Header } from '@/components/ui/header';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { HomePageWrapper } from './home-page.styles';
