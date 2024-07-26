@@ -24,7 +24,7 @@ export const tabsTrigger = css`
   outline: none;
   padding: 0.5rem 1rem;
   color: ${COLORS.Gray3};
-  border-bottom: 2.5px solid ${COLORS.Gray5};
+  border-bottom: 1px solid ${COLORS.Gray5};
   &:disabled {
     pointer-events: none;
     opacity: 0.5;

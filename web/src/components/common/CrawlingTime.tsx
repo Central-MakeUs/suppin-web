@@ -25,7 +25,7 @@ const Container = styled.div`
   height: 47px;
   background-color: #f4f7ff;
   border-radius: 100px;
-  border: #e9efff;
+  border: 1px solid ${COLORS.Sub2};
   display: flex;
   gap: 10px;
   align-items: center;
