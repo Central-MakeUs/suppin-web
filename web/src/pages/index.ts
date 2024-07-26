@@ -8,6 +8,7 @@ import CreateSurveyPageStep1 from '@/pages/create-survey-page1';
 import CreateSurveyPageStep2 from '@/pages/create-survey-page2';
 import CreateSurveyPageStep3 from '@/pages/create-survey-page3';
 import MyEvent from '@/pages/myevent-page';
+import CreateSurveyPage from '@/pages/create-survey-page';
 
 export {
   AuthPage,
@@ -20,4 +21,5 @@ export {
   CrawlingPage,
   Root,
   MyEvent,
+  CreateSurveyPage,
 };

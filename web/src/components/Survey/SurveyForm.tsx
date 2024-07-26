@@ -18,19 +18,13 @@ const SurveyForm = ({ selectedOption, setSelectedOption, onRemove }) => {
 
   return (
     <DropdownContainer>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
+      <Container>
         <DropdownHeader onClick={toggleDropdown}>
           <SelectedOption>{selectedOption}</SelectedOption>
           <Arrow isOpen={isOpen}>&#9662;</Arrow>
         </DropdownHeader>
         <Button onClick={onRemove} $variant={'delete'} width="24px"></Button>
-      </div>
+      </Container>
       {isOpen && (
         <DropdownList>
           <DropdownItem onClick={() => handleOptionClick('주관식')}>
@@ -52,6 +46,12 @@ const DropdownContainer = styled.div`
   width: 100%;
   height: 32px;
   position: relative;
+`;
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const DropdownHeader = styled.div`

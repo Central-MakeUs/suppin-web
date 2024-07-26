@@ -25,7 +25,8 @@ const CreateSurveyPageStep1 = () => {
   const { title, description, startDate, endDate } = useSelector(
     (state: RootState) => state.survey
   );
-  const isFormComplete = title && description && startDate && endDate;
+  const isFormComplete =
+    title.trim() && description.trim() && startDate && endDate;
 
   return (
     <PageContainer>

@@ -21,6 +21,7 @@ export const Btn_popup = ({
       onClick={isActive ? onClick : undefined}
       width={width}
       height={height}
+      isActive={isActive}
       disabled={!isActive}
     >
       <Confirm>{text}</Confirm>
@@ -31,15 +32,17 @@ export const Btn_popup = ({
 const Btn = styled.button<{
   width: string;
   height: string;
+  isActive: boolean;
 }>`
   width: ${props => props.width};
   height: ${props => props.height};
   border: none;
   border-radius: 10px;
-  background-color: ${COLORS.Main};
+  background-color: ${props => (props.isActive ? COLORS.Main : COLORS.Gray3)};
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  color: ${COLORS.white};
 `;
 
 const Confirm = styled.h4`
-  color: ${COLORS.white};
+  margin: 0;
 `;

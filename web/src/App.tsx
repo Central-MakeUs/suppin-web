@@ -1,9 +1,7 @@
 import {
   AuthPage,
   CollectCommentsPage,
-  CreateSurveyPageStep1,
-  CreateSurveyPageStep2,
-  CreateSurveyPageStep3,
+  CreateSurveyPage,
   CrawlingPage,
   HomePage,
   ResultPage,
@@ -36,11 +34,7 @@ const router = createBrowserRouter([
       { path: 'myevent', element: <MyEvent /> },
       {
         path: 'survey',
-        children: [
-          { path: 'new/step1', element: <CreateSurveyPageStep1 /> },
-          { path: 'new/step2', element: <CreateSurveyPageStep2 /> },
-          { path: 'new/step3', element: <CreateSurveyPageStep3 /> },
-        ],
+        children: [{ path: 'new', element: <CreateSurveyPage /> }],
       },
       // { path: 'components', element: <Components /> },
       { path: 'collect', element: <CollectCommentsPage /> },
