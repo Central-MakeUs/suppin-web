@@ -2,9 +2,9 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { COLORS } from '@/theme';
 import { body5Style } from '@/styles/global-styles';
+import Button from '../common/Btn_btns';
 
-export const SurveyForm = () => {
-  const [selectedOption, setSelectedOption] = useState('주관식');
+const SurveyForm = ({ selectedOption, setSelectedOption, onRemove }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -18,10 +18,13 @@ export const SurveyForm = () => {
 
   return (
     <DropdownContainer>
-      <DropdownHeader onClick={toggleDropdown}>
-        <SelectedOption>{selectedOption}</SelectedOption>
-        <Arrow isOpen={isOpen}>&#9662;</Arrow>
-      </DropdownHeader>
+      <Container className="flex-between">
+        <DropdownHeader onClick={toggleDropdown}>
+          <SelectedOption>{selectedOption}</SelectedOption>
+          <Arrow isOpen={isOpen}>&#9662;</Arrow>
+        </DropdownHeader>
+        <Button onClick={onRemove} $variant={'delete'} width="24px"></Button>
+      </Container>
       {isOpen && (
         <DropdownList>
           <DropdownItem onClick={() => handleOptionClick('주관식')}>
@@ -40,10 +43,12 @@ export const SurveyForm = () => {
 };
 
 const DropdownContainer = styled.div`
-  width: 132px;
+  width: 100%;
   height: 32px;
   position: relative;
 `;
+
+const Container = styled.div``;
 
 const DropdownHeader = styled.div`
   display: flex;
@@ -54,6 +59,7 @@ const DropdownHeader = styled.div`
   border-radius: 10px;
   background-color: white;
   cursor: pointer;
+  width: 132px;
 `;
 
 const SelectedOption = styled.span`
@@ -92,3 +98,5 @@ const Font = styled.p`
   ${body5Style}
   color: ${COLORS.Main};
 `;
+
+export default SurveyForm;

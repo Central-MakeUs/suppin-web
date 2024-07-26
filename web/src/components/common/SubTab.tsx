@@ -4,26 +4,36 @@ import { COLORS } from '@/theme';
 
 interface TabProps {
   active: boolean;
+  onClick: () => void;
+  label: string;
 }
 
-export const SubTab = () => {
-  const [activeTab, setActiveTab] = useState('survey');
+interface SubTabProps {
+  tabs: { label: string; value: string }[];
+  onTabChange: (value: string) => void;
+}
+
+export const SubTab = ({ tabs, onTabChange }: SubTabProps) => {
+  const [activeTab, setActiveTab] = useState(tabs[0].value);
+
+  const handleTabClick = (value: string) => {
+    setActiveTab(value);
+    onTabChange(value);
+  };
 
   return (
     <Container>
       <TabContainer>
-        <Tab
-          active={activeTab === 'survey'}
-          onClick={() => setActiveTab('survey')}
-        >
-          설문 결과
-        </Tab>
-        <Tab
-          active={activeTab === 'selection'}
-          onClick={() => setActiveTab('selection')}
-        >
-          당첨자 선정
-        </Tab>
+        {tabs.map(tab => (
+          <Tab
+            key={tab.value}
+            active={activeTab === tab.value}
+            onClick={() => handleTabClick(tab.value)}
+            label={tab.label}
+          >
+            {tab.label}
+          </Tab>
+        ))}
       </TabContainer>
       <Indicator activeTab={activeTab} />
     </Container>
@@ -62,5 +72,5 @@ const Indicator = styled.div<{ activeTab: string }>`
   height: 2px;
   transition: transform 0.3s ease;
   transform: ${props =>
-    props.activeTab === 'progress' ? 'translateX(0%)' : 'translateX(100%)'};
+    props.activeTab === 'survey' ? 'translateX(0%)' : 'translateX(100%)'};
 `;

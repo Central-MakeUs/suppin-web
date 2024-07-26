@@ -1,5 +1,35 @@
 import { createGlobalStyle, css } from 'styled-components';
 
+export const head1Style = css`
+  font-size: 24px;
+  font-weight: 600; /* semibold */
+`;
+
+export const head2Style = css`
+  font-size: 20px;
+  font-weight: 600; /* semibold */
+`;
+
+export const head3Style = css`
+  font-size: 18px;
+  font-weight: 600; /* semibold */
+`;
+
+export const head4Style = css`
+  font-size: 16px;
+  font-weight: 600; /* semibold */
+`;
+
+export const body1Style = css`
+  font-size: 16px;
+  font-weight: 500; /* medium */
+`;
+
+export const body2Style = css`
+  font-size: 16px;
+  font-weight: 500; /* regular */
+`;
+
 export const body3Style = css`
   font-size: 14px;
   font-weight: 600; /* semibold */
@@ -31,12 +61,18 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Pretendard', sans-serif;
   }
   
+    .flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
   html,
   body {
     height: 100%;
     /* max-width: 390px; */
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: center; */
   }
   body {
     line-height: 1.5;
@@ -74,30 +110,25 @@ const GlobalStyles = createGlobalStyle`
     isolation: isolate;
   }
 
-  /* 추가적인 스타일 설정 */
-  h1 {
-    font-size: 24px;
-    font-weight: 600; /* semibold */
+
+  .head1{
+    ${head1Style}
   }
-  h2 {
-    font-size: 20px;
-    font-weight: 600; /* semibold */
+   .head2{
+    ${head2Style}
   }
-  h3 {
-    font-size: 18px;
-    font-weight: 600; /* semibold */
+   .head3{
+    ${head3Style}
   }
-  h4 {
-    font-size: 16px;
-    font-weight: 600; /* semibold */
+   .head4{
+    ${head4Style}
   }
-  p, h5 {
-    font-size: 16px;
-    font-weight: 500; /* medium */
+
+  .body1 {
+    ${body3Style}
   }
-  h6, span {
-    font-size: 16px;
-    font-weight: 400; /* regular */
+  .body2 {
+    ${body3Style}
   }
   .body3 {
     ${body3Style}
