@@ -1,4 +1,5 @@
 // surveySlice.ts
+import React from 'react';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Field {
