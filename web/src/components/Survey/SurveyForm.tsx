@@ -18,7 +18,7 @@ const SurveyForm = ({ selectedOption, setSelectedOption, onRemove }) => {
 
   return (
     <DropdownContainer>
-      <Container>
+      <Container className="flex-between">
         <DropdownHeader onClick={toggleDropdown}>
           <SelectedOption>{selectedOption}</SelectedOption>
           <Arrow isOpen={isOpen}>&#9662;</Arrow>
@@ -48,11 +48,7 @@ const DropdownContainer = styled.div`
   position: relative;
 `;
 
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+const Container = styled.div``;
 
 const DropdownHeader = styled.div`
   display: flex;

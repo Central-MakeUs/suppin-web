@@ -6,7 +6,7 @@ interface BtnPopupProps {
   text?: string;
   width?: string;
   height?: string;
-  isActive?: boolean;
+  $isactive?: boolean;
 }
 
 export const Btn_popup = ({
@@ -14,15 +14,15 @@ export const Btn_popup = ({
   text = '확인',
   width = '318px',
   height = '50px',
-  isActive = true,
+  isactive = true,
 }: BtnPopupProps) => {
   return (
     <Btn
-      onClick={isActive ? onClick : undefined}
+      onClick={isactive ? onClick : undefined}
       width={width}
       height={height}
-      isActive={isActive}
-      disabled={!isActive}
+      isActive={isactive}
+      disabled={!isactive}
     >
       <Confirm>{text}</Confirm>
     </Btn>

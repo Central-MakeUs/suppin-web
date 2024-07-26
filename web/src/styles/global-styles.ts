@@ -61,6 +61,12 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Pretendard', sans-serif;
   }
   
+    .flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
   html,
   body {
     height: 100%;

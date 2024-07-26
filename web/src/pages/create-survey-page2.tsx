@@ -1,69 +1,71 @@
-import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '@/store';
+import {
+  setDescription,
+  resetForm,
+  addField,
+  toggleFieldChecked,
+  updateFieldLabel,
+} from '@/store/survey';
 import styled from 'styled-components';
 import { COLORS } from '@/theme';
-import {
-  body2Style,
-  body5Style,
-  body6Style,
-  head1Style,
-} from '@/styles/global-styles';
-
+import { body3Style, body6Style, head1Style } from '@/styles/global-styles';
 import { Subtitle } from '@/components/common/Subtitle';
 import { Btn_preview } from '@/components/common/Btn_preview';
 import { Btn_popup } from '@/components/common/Btn_popup';
 import { CheckButton } from '@/components/common/Btn_check';
 import Tag from '@/components/common/Tags';
 import step2 from '../assets/step2.png';
+import { useEffect } from 'react';
 
 const CreateSurveyPageStep2 = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-  const [isFormComplete, setIsFormComplete] = useState(false);
-  const [fields, setFields] = useState<string[]>([
-    '아이디 (필수)',
-    '이름 (필수)',
-    '주소 (필수)',
-    '연락처 (필수)',
-  ]);
+  const dispatch = useDispatch<AppDispatch>();
+  const { description, fields } = useSelector(
+    (state: RootState) => state.survey
+  );
 
+  const defaultDescription = `
+    이벤트 응모에 필요한 개인정보 수집에 동의해 주세요.
+    - 수집 항목: 이벤트 응모 내용(아이디/닉네임), 이름, 휴대전화번호, 유튜브번호, 배송지
+    - 수집·이용 목적: 이벤트 당첨자 본인 확인, 경품 수령 조건 확인, 경품 지급, 의견 수렴 등
+    - 개인정보 이용 및 보유 기간: 경품 지급 완료 후 최대 6개월(지급 내용 및 관련 문의 응답 완료 후 폐기)
+    *개인정보의 수집 및 이용에 대한 동의를 거부할 수 있으며, 이 경우 이벤트 참여가 어려울 수 있습니다.
+  `;
+
+  // 초기 description 값 설정
   useEffect(() => {
-    if (title && description && startDate && endDate) {
-      setIsFormComplete(true);
-    } else {
-      setIsFormComplete(false);
+    if (!description) {
+      dispatch(setDescription(defaultDescription.trim()));
     }
-  }, [title, description, startDate, endDate]);
+  }, [dispatch, description]);
+
+  const isFormComplete = description.length > 0;
 
   const handleDescriptionChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const value = e.target.value;
     if (value.length <= 500) {
-      setDescription(value);
+      dispatch(setDescription(value));
     }
   };
 
   const handleReset = () => {
     const confirmReset = window.confirm('템플릿을 초기화하시겠습니까?');
     if (confirmReset) {
-      setTitle('');
-      setDescription('');
-      setStartDate(null);
-      setEndDate(null);
+      dispatch(resetForm());
     }
   };
 
   const handleAddField = () => {
-    setFields([...fields, `항목 ${fields.length + 1}`]);
+    dispatch(addField(`항목 ${fields.length + 1}`));
   };
 
   return (
     <PageContainer>
       <Subtitle title="설문 생성하기" />
       <Container>
-        <img src={step2} style={{ width: '68px' }}></img>
+        <img src={step2} style={{ width: '68px' }} alt="Step 2" />
         <Btn_preview />
       </Container>
       <MainContent>
@@ -72,16 +74,10 @@ const CreateSurveyPageStep2 = () => {
       </MainContent>
       <SubContainer>
         <Content>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
+          <TopSection>
             <Tag label="정보 수집 동의" $variant="default" />
             <Reset onClick={handleReset}>템플릿 초기화하기</Reset>
-          </div>
+          </TopSection>
           <Explain>저장한 내용은 추후 기본 템플릿으로 사용할 수 있어요</Explain>
           <TextAreaContainer>
             <TextArea
@@ -99,8 +95,18 @@ const CreateSurveyPageStep2 = () => {
           <Comment>수집할 참여자 정보를 입력해주세요</Comment>
           {fields.map((field, index) => (
             <Form key={index}>
-              <CheckButton $variant={'round'} />
-              <Input key={index} type="text" placeholder={field} />
+              <CheckButton
+                $variant={'round'}
+                checked={field.checked}
+                onChange={() => dispatch(toggleFieldChecked(index))}
+              />
+              <Input
+                type="text"
+                value={field.label}
+                onChange={e =>
+                  dispatch(updateFieldLabel({ index, label: e.target.value }))
+                }
+              />
             </Form>
           ))}
           <AddFieldButton onClick={handleAddField}>
@@ -109,7 +115,7 @@ const CreateSurveyPageStep2 = () => {
         </Content2>
         <Btn_popup
           onClick={() => alert('다음으로 버튼 클릭')}
-          isActive={isFormComplete}
+          isactive={isFormComplete}
           text="다음으로"
           width="350px"
         />
@@ -120,6 +126,7 @@ const CreateSurveyPageStep2 = () => {
 
 export default CreateSurveyPageStep2;
 
+// 스타일 정의
 const PageContainer = styled.div``;
 const Container = styled.div`
   display: flex;
@@ -164,8 +171,14 @@ const Content = styled.div`
   padding: 20px;
 `;
 
+const TopSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const Reset = styled.p`
-  ${body5Style}
+  ${body3Style}
   color: ${COLORS.Main};
   cursor: pointer;
 `;
@@ -173,17 +186,18 @@ const Reset = styled.p`
 const Explain = styled.p`
   ${body6Style}
   color: ${COLORS.Gray2};
-  margin: 8px 0px 20px 0px;
+  margin: 8px 0px 17px 0px;
 `;
 
 const TextAreaContainer = styled.div`
-  width: 100%;
+  display: flex;
+  height: 307px;
   position: relative;
 `;
 
 const TextArea = styled.textarea`
   width: 100%;
-  height: 500px;
+  height: 307px;
   background-color: ${COLORS.Sub3};
   font-size: 14px;
   color: ${COLORS.Gray2};
@@ -221,7 +235,7 @@ const Content2 = styled.div`
 `;
 
 const Comment = styled.p`
-  ${body2Style}
+  ${body3Style}
   font-size: 16px;
   font-weight: 600;
   margin-top: 7px;

@@ -1,4 +1,4 @@
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import CreateSurveyPageStep1 from './create-survey-page1';
 import CreateSurveyPageStep2 from './create-survey-page2';
