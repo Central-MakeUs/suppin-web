@@ -15,9 +15,9 @@ const overrideConsole = () => {
     };
   };
 
-  // console.log = createOverride('log');
-  // console.warn = createOverride('warn');
-  // console.error = createOverride('error');
+  console.log = createOverride('log');
+  console.warn = createOverride('warn');
+  console.error = createOverride('error');
 };
 
 export default overrideConsole;

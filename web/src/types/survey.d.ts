@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface SurveyState {
   title: string;
   description: string;

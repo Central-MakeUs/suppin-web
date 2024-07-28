@@ -60,11 +60,11 @@ export const SurveyTimeInput = ({
 const Container = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid ${COLORS.Gray3};
   border-radius: 10px;
-  background-color: ${COLORS.Gray5};
-  padding: 10px;
-  width: 318px;
+  border: 1px solid ${COLORS.Gray5};
+  background-color: ${COLORS.Gray6};
+  padding: 12px 15px;
+  width: 100%;
   height: 46px;
 `;
 
@@ -92,6 +92,7 @@ const DatePickerWrapper = styled.div`
     border: none;
     outline: none;
     width: 100%;
+    text-align: center;
   }
 `;
 

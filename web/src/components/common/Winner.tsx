@@ -30,11 +30,13 @@ export const Winner = ({ title, comment }: CommentBoxProps) => {
 
 const Container = styled.div`
   width: 349px;
-  border: 1px solid ${COLORS.Gray3};
+  /* border: 1px solid ${COLORS.Gray3}; */
   border-radius: 8px;
   margin-bottom: 8px;
   padding: 19px;
   background-color: ${COLORS.white};
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
 `;
 
 const TitleContainer = styled.div`
@@ -60,9 +62,12 @@ const DropDownIcon = styled.img<{ isOpen: boolean }>`
 const Comment = styled.div`
   margin-top: 12px;
   padding: 8px;
-  border: 1px solid ${COLORS.Gray3};
+  border: 1px solid ${COLORS.Gray4};
   border-radius: 8px;
   background-color: ${COLORS.Gray5};
   color: ${COLORS.Gray1};
   font-size: 14px;
+  word-wrap: break-word; /* 긴 단어를 줄바꿈 */
+  overflow-wrap: break-word; /* 긴 단어가 있을 때 줄바꿈 */
+  white-space: pre-wrap; /* 연속된 공백을 유지하고 줄바꿈을 허용 */
 `;
