@@ -5,10 +5,10 @@ import checkRect from '../../assets/checkRect.png';
 import { COLORS } from '@/theme';
 
 interface SurveyCheckProps {
-  variant: 'round' | 'rect';
+  $variant: 'round' | 'rect';
 }
 
-export const SurveyCheck = ({ variant }: SurveyCheckProps) => {
+export const SurveyCheck = ({ $variant }: SurveyCheckProps) => {
   const [isChecked, setIsChecked] = useState<string | null>(null);
 
   const toggleCheck = (check: string) => {
@@ -24,11 +24,11 @@ export const SurveyCheck = ({ variant }: SurveyCheckProps) => {
         <CheckContainer>
           {isChecked === 'yes' ? (
             <CheckImage
-              src={variant === 'round' ? checkRound : checkRect}
+              src={$variant === 'round' ? checkRound : checkRect}
               alt="Checked"
             />
           ) : (
-            <EmptyShape variant={variant} />
+            <EmptyShape $variant={$variant} />
           )}
         </CheckContainer>
         네, 동의합니다.
@@ -40,11 +40,11 @@ export const SurveyCheck = ({ variant }: SurveyCheckProps) => {
         <CheckContainer>
           {isChecked === 'no' ? (
             <CheckImage
-              src={variant === 'round' ? checkRound : checkRect}
+              src={$variant === 'round' ? checkRound : checkRect}
               alt="Checked"
             />
           ) : (
-            <EmptyShape variant={variant} />
+            <EmptyShape $variant={$variant} />
           )}
         </CheckContainer>
         아니요, 동의하지 않습니다.
@@ -75,17 +75,17 @@ const CheckImage = styled.img`
   height: 20px;
 `;
 
-const EmptyShape = styled.div<{ variant: 'round' | 'rect' }>`
+const EmptyShape = styled.div<{ $variant: 'round' | 'rect' }>`
   width: 20px;
   height: 20px;
   border: 1px solid ${COLORS.Gray3};
   ${props =>
-    props.variant === 'round' &&
+    props.$variant === 'round' &&
     `
     border-radius: 50%;
   `}
   ${props =>
-    props.variant === 'rect' &&
+    props.$variant === 'rect' &&
     `
     border-radius: 5px;
   `}

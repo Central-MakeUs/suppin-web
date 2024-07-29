@@ -5,10 +5,10 @@ import checkRect from '../../assets/checkRect.png';
 import { COLORS } from '@/theme';
 
 interface CheckButtonProps {
-  variant: 'round' | 'rect';
+  $variant: 'round' | 'rect';
 }
 
-export const CheckButton = ({ variant }: CheckButtonProps) => {
+export const CheckButton = ({ $variant }: CheckButtonProps) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const toggleCheck = () => {
@@ -19,11 +19,11 @@ export const CheckButton = ({ variant }: CheckButtonProps) => {
     <ButtonContainer onClick={toggleCheck}>
       {isChecked ? (
         <CheckImage
-          src={variant === 'round' ? checkRound : checkRect}
+          src={$variant === 'round' ? checkRound : checkRect}
           alt="Checked"
         />
       ) : (
-        <EmptyShape variant={variant} />
+        <EmptyShape $variant={$variant} />
       )}
     </ButtonContainer>
   );
@@ -43,12 +43,12 @@ const CheckImage = styled.img`
   height: 20px;
 `;
 
-const EmptyShape = styled.div<{ variant: 'round' | 'rect' }>`
+const EmptyShape = styled.div<{ $variant: 'round' | 'rect' }>`
   width: 20px;
   height: 20px;
   border: 1px solid ${COLORS.Gray3};
   ${props =>
-    props.variant === 'round' &&
+    props.$variant === 'round' &&
     `
     border-radius: 50%;
   `}

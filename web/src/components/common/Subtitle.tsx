@@ -16,7 +16,7 @@ export const Subtitle = ({ title }: SubtitleProps) => {
   return (
     <Container>
       <BackContainer>
-        <Button variant="back" onClick={handleBackClick} />
+        <Button $variant="back" onClick={handleBackClick} />
       </BackContainer>
       <Title>{title}</Title>
     </Container>

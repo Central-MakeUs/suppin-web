@@ -24,7 +24,7 @@ const Button = ({
 }: ButtonProps) => {
   return (
     <StyledButton
-      variant={variant}
+      $variant={variant}
       width={width}
       height={height}
       onClick={onClick}
@@ -44,21 +44,21 @@ const buttonVariants = {
 };
 
 const StyledButton = styled.button<{
-  variant: 'back' | 'delete' | 'open' | 'share' | 'retry' | 'add';
+  $variant: 'back' | 'delete' | 'open' | 'share' | 'retry' | 'add';
   width?: string;
   height?: string;
 }>`
   width: ${props => props.width || '45px'};
   height: ${props => props.height || '45px'};
   background: ${props =>
-    props.variant === 'add'
+    props.$variant === 'add'
       ? COLORS.Main
-      : `url(${buttonVariants[props.variant]}) no-repeat center center`};
+      : `url(${buttonVariants[props.$variant]}) no-repeat center center`};
   background-size: contain;
   border: none;
   cursor: pointer;
   ${props =>
-    props.variant === 'add' &&
+    props.$variant === 'add' &&
     css`
       color: white;
       display: flex;
@@ -86,7 +86,7 @@ const RetryText = styled.p`
 export const BtnRetry = () => {
   return (
     <RetryContainer>
-      <StyledButton variant="retry" width="13px" height="13px" />
+      <StyledButton $variant="retry" width="13px" height="13px" />
       <RetryText>다시하기</RetryText>
     </RetryContainer>
   );
@@ -94,7 +94,7 @@ export const BtnRetry = () => {
 
 export const BtnAdd = () => {
   return (
-    <StyledButton variant="add" width="63px" height="46px">
+    <StyledButton $variant="add" width="63px" height="46px">
       추가
     </StyledButton>
   );
