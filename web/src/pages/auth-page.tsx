@@ -1,10 +1,12 @@
-import { SignUp } from '@/components/auth/sign-up';
+// import { SignUp } from '@/components/auth/sign-up';
+import { SignIn } from '@/components/auth/sign-in';
 import { WebviewWrapper } from './root.styles';
 
 const AuthPage = () => {
   return (
     <WebviewWrapper>
-      <SignUp />
+      {/* <SignUp /> */}
+      <SignIn />
     </WebviewWrapper>
   );
 };

@@ -56,4 +56,10 @@ export const signupSchema = z
     }
   });
 
+export const signinSchema = z.object({
+  username: usernameSchema,
+  password: passwordSchema,
+});
+
 export type SignupType = z.infer<typeof signupSchema>;
+export type SigninType = z.infer<typeof signinSchema>;

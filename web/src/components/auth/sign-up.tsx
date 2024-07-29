@@ -17,7 +17,7 @@ import Button from '../common/Btn_btns';
 import { Label } from '../common/label';
 import { SignupWrapper } from './sign-up.styles';
 
-export function SignUp() {
+export const SignUp = () => {
   const [formattedContact, setFormattedContact] = useState<string>('');
 
   const form = useForm<SignupType>({
@@ -174,4 +174,4 @@ export function SignUp() {
       </Form>
     </SignupWrapper>
   );
-}
+};
