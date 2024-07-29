@@ -1,28 +1,34 @@
-import React from 'react';
+import { body3Style } from '@/styles/global-styles';
+import { COLORS } from '@/theme';
+import { ComponentProps } from 'react';
 import styled, { css } from 'styled-components';
 import back_black from '../../assets/btn_back_black.png';
 import deleteBtn from '../../assets/btn_delete.png';
 import openBtn from '../../assets/btn_open.png';
 import shareBtn from '../../assets/btn_share.png';
 import retryBtn from '../../assets/retry.png';
-import { body3Style } from '@/styles/global-styles';
-import { COLORS } from '@/theme';
 
-interface ButtonProps {
+type ButtonProps = ComponentProps<'button'> & {
   variant: 'back' | 'delete' | 'open' | 'share' | 'retry' | 'add';
   width?: string;
   height?: string;
-  onClick?: () => void;
-  children?: React.ReactNode;
-}
+};
 
-const Button = ({ variant, width, height, onClick, children }: ButtonProps) => {
+const Button = ({
+  variant,
+  width,
+  height,
+  onClick,
+  children,
+  className,
+}: ButtonProps) => {
   return (
     <StyledButton
       variant={variant}
       width={width}
       height={height}
       onClick={onClick}
+      className={className}
     >
       {children}
     </StyledButton>

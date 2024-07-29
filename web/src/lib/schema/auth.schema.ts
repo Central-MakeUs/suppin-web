@@ -30,12 +30,7 @@ const emailSchema = z
   .email({ message: '유효한 이메일 형식이어야 합니다.' })
   .transform(removeWhiteSpace);
 
-const phoneSchema = z
-  .string()
-  .regex(/^010-\d{4}-\d{4}$/, {
-    message: '휴대폰 번호는 010-0000-0000 형식이어야 합니다.',
-  })
-  .transform(removeWhiteSpace);
+const phoneSchema = z.string().transform(removeWhiteSpace);
 
 export const signupSchema = z
   .object({
