@@ -1,5 +1,5 @@
 import { PlusIcon } from '@/components/common/icons';
-import { Overlay } from '@/components/ui/overlay';
+import { Overlay } from '@/components/common/overlay';
 import { useState } from 'react';
 import { FloatingButtonWrapper } from './floating-button.styles';
 
