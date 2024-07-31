@@ -3,10 +3,15 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { HomePageWrapper } from './home-page.styles';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { WinnerContent } from '@/components/winner/Winner';
-import Comment from '@/components/winner/Comment';
 import { Subtitle } from '@/components/common/Subtitle';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/common/tabs';
+import Comment from '@/components/winner/Comment';
+import { WinnerContent } from '@/components/winner/Winner';
 
 const CrawlingPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();

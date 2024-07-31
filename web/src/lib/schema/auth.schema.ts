@@ -34,15 +34,15 @@ const phoneSchema = z.string().transform(removeWhiteSpace);
 
 export const signupSchema = z
   .object({
-    username: usernameSchema,
+    userId: usernameSchema,
     password: passwordSchema,
     passwordConfirm: passwordSchema,
-    type: z.enum(
-      ['unselected', '인플루언서', '마케팅 대행사', '브랜드 담당자'],
-      {
-        errorMap: () => ({ message: '유형을 선택해야 합니다.' }),
-      }
-    ),
+    // type: z.enum(
+    //   ['unselected', '인플루언서', '마케팅 대행사', '브랜드 담당자'],
+    //   {
+    //     errorMap: () => ({ message: '유형을 선택해야 합니다.' }),
+    //   }
+    // ),
     name: nameSchema,
     email: emailSchema,
     phone: phoneSchema,
@@ -57,7 +57,7 @@ export const signupSchema = z
   });
 
 export const signinSchema = z.object({
-  username: usernameSchema,
+  userId: usernameSchema,
   password: passwordSchema,
 });
 

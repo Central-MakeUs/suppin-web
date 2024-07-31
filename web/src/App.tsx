@@ -1,11 +1,11 @@
 import {
   AuthPage,
   CollectCommentsPage,
-  CreateSurveyPage,
   CrawlingPage,
+  CreateSurveyPage,
   HomePage,
-  ResultPage,
   MyEvent,
+  ResultPage,
   Root,
 } from '@/pages';
 import store from '@/store';
@@ -13,7 +13,7 @@ import GlobalStyles from '@/styles/global-styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Components from './pages/components';
+import { Toaster } from 'sonner';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -49,6 +49,7 @@ export default function App() {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <GlobalStyles />
+        <Toaster position="top-center" />
         <RouterProvider router={router} />
       </QueryClientProvider>
     </Provider>

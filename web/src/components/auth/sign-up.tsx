@@ -10,31 +10,43 @@ import {
 import { Input } from '@/components/common/input';
 import { signupSchema, SignupType } from '@/lib/schema/auth.schema';
 import { formatPhoneNumber } from '@/lib/utils';
+import { useSignup } from '@/services/queries/user.mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import Button from '../common/Btn_btns';
 import { Label } from '../common/label';
 import { SignupWrapper } from './sign-up.styles';
 
 export const SignUp = () => {
+  const { join, isSignupLoading } = useSignup();
+
+  const router = useNavigate();
+
   const [formattedContact, setFormattedContact] = useState<string>('');
 
   const form = useForm<SignupType>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
-      username: '',
+      userId: '',
       password: '',
       email: '',
       name: '',
       passwordConfirm: '',
       phone: '',
-      type: 'unselected',
     },
   });
 
-  const submitHandler = (values: SignupType) => {
-    console.log(values);
+  const submitHandler = async (values: SignupType) => {
+    const data = await join(values);
+
+    if (data && data.code === '200') {
+      toast.success('회원가입이 정상처리 되었습니다.');
+      form.reset();
+      router('/auth?authType=in');
+    }
   };
 
   return (
@@ -48,7 +60,7 @@ export const SignUp = () => {
           <div>
             <FormField
               control={form.control}
-              name="username"
+              name="userId"
               render={({ field }) => (
                 <FormItem className="form-item">
                   <FormLabel className="form-label form-username">
@@ -167,7 +179,12 @@ export const SignUp = () => {
               </div>
             </div>
           </div>
-          <Button className="signup-btn" type="submit" variant="add">
+          <Button
+            disabled={isSignupLoading}
+            className="signup-btn"
+            type="submit"
+            variant="add"
+          >
             회원가입하기
           </Button>
         </form>
