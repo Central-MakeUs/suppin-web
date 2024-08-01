@@ -1,6 +1,7 @@
-export const queryKeys = {
-  users: {
-    all: ['users'],
-    user: (id: number) => ['user', id], // 예시
+import { createQueryKeyStore } from '@lukemorales/query-key-factory';
+
+export const queries = createQueryKeyStore({
+  user: {
+    all: null,
   },
-};
+});
