@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import btn_plus from '../../assets/btn_plus.png';
-import Btn_Comment from './Btn_comment';
-import Btn_Survey from './Btn_survey';
+import BtnComment from './BtnComment';
+import BtnSurvey from './BtnSurvey';
 
 const BtnPlus = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,10 +17,10 @@ const BtnPlus = () => {
       {isModalOpen && (
         <ModalContainer>
           <ModalButton>
-            <Btn_Comment />
+            <BtnComment />
           </ModalButton>
           <ModalButton>
-            <Btn_Survey />
+            <BtnSurvey />
           </ModalButton>
         </ModalContainer>
       )}
