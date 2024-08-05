@@ -1,13 +1,4 @@
-import {
-  AuthPage,
-  CollectCommentsPage,
-  CrawlingPage,
-  CreateSurveyPage,
-  HomePage,
-  MyEvent,
-  ResultPage,
-  Root,
-} from '@/pages';
+import { AuthPage, HomePage, Root } from '@/pages';
 import store from '@/store';
 import GlobalStyles from '@/styles/global-styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -29,16 +20,60 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: 'result', element: <ResultPage /> },
-      // 공통 컴포넌트 테스트 페이지
-      { path: 'myevent', element: <MyEvent /> },
+      {
+        path: 'result',
+        lazy: async () => {
+          const { ResultPage } = await import('@/pages/result-page');
+          return {
+            Component: ResultPage,
+          };
+        },
+      },
+      {
+        path: 'myevent',
+        lazy: async () => {
+          const { MyEvent } = await import('@/pages/myevent-page');
+          return {
+            Component: MyEvent,
+          };
+        },
+      },
       {
         path: 'survey',
-        children: [{ path: 'new', element: <CreateSurveyPage /> }],
+        children: [
+          {
+            path: 'new',
+            lazy: async () => {
+              const { CreateSurveyPage } = await import(
+                '@/pages/create-survey-page'
+              );
+              return {
+                Component: CreateSurveyPage,
+              };
+            },
+          },
+        ],
       },
-      // { path: 'components', element: <Components /> },
-      { path: 'collect', element: <CollectCommentsPage /> },
-      { path: 'crawling', element: <CrawlingPage /> },
+      {
+        path: 'collect',
+        lazy: async () => {
+          const { CollectCommentsPage } = await import(
+            '@/pages/collect-comments-page'
+          );
+          return {
+            Component: CollectCommentsPage,
+          };
+        },
+      },
+      {
+        path: 'crawling',
+        lazy: async () => {
+          const { CrawlingPage } = await import('@/pages/crawling-result-page');
+          return {
+            Component: CrawlingPage,
+          };
+        },
+      },
     ],
   },
   { path: '/auth', element: <AuthPage /> },

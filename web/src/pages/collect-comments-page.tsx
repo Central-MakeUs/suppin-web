@@ -1,14 +1,14 @@
+import { body3Style } from '@/styles/global-styles';
+import { COLORS } from '@/theme';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { COLORS } from '@/theme';
-import { body3Style } from '@/styles/global-styles';
 
-import { Subtitle } from '@/components/common/Subtitle';
 import { Btn_popup } from '@/components/common/Btn_popup';
-import { SurveyTimeInput } from '@/components/common/SurveyTimeInput';
 import { Popup } from '@/components/common/Popup';
+import { Subtitle } from '@/components/common/Subtitle';
+import { SurveyTimeInput } from '@/components/common/SurveyTimeInput';
 
-const CollectCommentsPage = () => {
+export const CollectCommentsPage = () => {
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
@@ -71,8 +71,6 @@ const CollectCommentsPage = () => {
     </PageContainer>
   );
 };
-
-export default CollectCommentsPage;
 
 const PageContainer = styled.div``;
 
