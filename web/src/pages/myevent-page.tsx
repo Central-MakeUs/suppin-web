@@ -3,7 +3,7 @@ import MainCard from '@/components/common/main_card/MainCard';
 import Tabs from '@/components/myevent/Tabs';
 import styled from 'styled-components';
 
-const MyEvent = () => {
+export const MyEvent = () => {
   return (
     <>
       <Tabs />
@@ -14,8 +14,6 @@ const MyEvent = () => {
     </>
   );
 };
-
-export default MyEvent;
 
 const Container = styled.div`
   width: '100%';

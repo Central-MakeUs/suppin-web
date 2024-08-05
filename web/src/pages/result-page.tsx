@@ -1,3 +1,3 @@
-export default function ResultPage() {
+export const ResultPage = () => {
   return <div />;
-}
+};

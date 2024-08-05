@@ -13,7 +13,7 @@ import {
 import Comment from '@/components/winner/Comment';
 import { WinnerContent } from '@/components/winner/Winner';
 
-const CrawlingPage = () => {
+export const CrawlingPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>('comment');
 
@@ -57,5 +57,3 @@ const CrawlingPage = () => {
     </HomePageWrapper>
   );
 };
-
-export default CrawlingPage;

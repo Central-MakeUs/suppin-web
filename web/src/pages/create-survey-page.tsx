@@ -1,10 +1,10 @@
-import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import CreateSurveyPageStep1 from './create-survey-page1';
 import CreateSurveyPageStep2 from './create-survey-page2';
 import CreateSurveyPageStep3 from './create-survey-page3';
 
-export default function CreateSurveyPage() {
+export const CreateSurveyPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const step = searchParams.get('step');
@@ -27,4 +27,4 @@ export default function CreateSurveyPage() {
   }
 
   return <>{content}</>;
-}
+};
