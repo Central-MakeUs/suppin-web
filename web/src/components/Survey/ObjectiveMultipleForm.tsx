@@ -1,8 +1,8 @@
+import { Button } from '@/components/common/button';
+import { COLORS } from '@/theme';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Button from '../common/Btn_btns';
 import { UnderlineInput } from '../common/underLineInput';
-import { COLORS } from '@/theme';
 
 const ObjectiveMultipleForm = () => {
   const [question, setQuestion] = useState<string>('');
@@ -40,7 +40,7 @@ const ObjectiveMultipleForm = () => {
               placeholder="선택지의 내용을 입력해주세요"
             />
             <ButtonContainer onClick={() => removeOption(index)}>
-              <Button $variant={'delete'} width="24px" height="24px" />
+              <Button variant="delete" width="24px" height="24px" />
             </ButtonContainer>
           </OptionInputContainer>
         </OptionContainer>

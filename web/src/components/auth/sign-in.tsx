@@ -1,5 +1,6 @@
 import logoImg from '@/assets/logo.svg';
 import { SigninWrapper } from '@/components/auth/sign-in.styles';
+import { Button } from '@/components/common/button';
 import {
   Form,
   FormControl,
@@ -14,7 +15,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import Button from '../common/Btn_btns';
 
 export const SignIn = () => {
   const { login, isSigninLoading } = useSignin();

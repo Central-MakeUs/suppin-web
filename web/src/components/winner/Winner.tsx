@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import styled from 'styled-components';
+import { Button } from '@/components/common/button';
+import { body1Style, body3Style, head4Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
-import Button from '../common/Btn_btns';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { SurveyTimeInput } from '../common/SurveyTimeInput';
-import { head4Style, body3Style, body1Style } from '@/styles/global-styles';
 
 export const WinnerContent = () => {
   const [hashtags, setHashtags] = useState<string[]>([]);
@@ -71,7 +71,7 @@ export const WinnerContent = () => {
               <Hashtag key={index}>
                 #{tag}
                 <Button
-                  $variant="delete"
+                  variant="delete"
                   width="20px"
                   height="20px"
                   onClick={() => handleRemoveHashtag(index)}

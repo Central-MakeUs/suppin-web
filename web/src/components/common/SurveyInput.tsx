@@ -1,7 +1,7 @@
+import { Button } from '@/components/common/button';
+import { COLORS } from '@/theme';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { COLORS } from '@/theme';
-import Button from './Btn_btns';
 
 interface SurveyInputProps {
   placeholder: string;
@@ -22,10 +22,7 @@ export const SurveyInput = ({ placeholder }: SurveyInputProps) => {
         onChange={handleChange}
         placeholder={placeholder}
       />
-      <Button
-        $variant="delete"
-        onClick={() => alert('Delete Button Clicked')}
-      />
+      <Button variant="delete" onClick={() => alert('Delete Button Clicked')} />
     </Container>
   );
 };

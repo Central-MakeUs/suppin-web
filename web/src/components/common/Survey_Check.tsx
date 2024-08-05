@@ -1,8 +1,9 @@
+import { COLORS } from '@/theme';
 import { useState } from 'react';
 import styled from 'styled-components';
-import checkRound from '../../assets/checkRound.png';
 import checkRect from '../../assets/checkRect.png';
-import { COLORS } from '@/theme';
+import checkRound from '../../assets/checkRound.png';
+import { Button } from './button';
 
 interface SurveyCheckProps {
   $variant: 'round' | 'rect';
@@ -17,7 +18,8 @@ export const SurveyCheck = ({ $variant }: SurveyCheckProps) => {
 
   return (
     <div>
-      <CheckButton
+      <Button
+        variant="checkRect"
         isActive={isChecked === 'yes'}
         onClick={() => toggleCheck('yes')}
       >
@@ -32,8 +34,9 @@ export const SurveyCheck = ({ $variant }: SurveyCheckProps) => {
           )}
         </CheckContainer>
         네, 동의합니다.
-      </CheckButton>
-      <CheckButton
+      </Button>
+      <Button
+        variant="checkRect"
         isActive={isChecked === 'no'}
         onClick={() => toggleCheck('no')}
       >
@@ -48,7 +51,7 @@ export const SurveyCheck = ({ $variant }: SurveyCheckProps) => {
           )}
         </CheckContainer>
         아니요, 동의하지 않습니다.
-      </CheckButton>
+      </Button>
     </div>
   );
 };
