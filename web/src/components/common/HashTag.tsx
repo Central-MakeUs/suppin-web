@@ -1,13 +1,13 @@
+import { Button } from '@/components/common/button';
 import { body5Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
 import styled from 'styled-components';
-import Button from './Btn_btns';
 
 export const Hashtag = () => {
   return (
     <Container>
       <Tag>#웃으며</Tag>
-      <Button $variant="delete" />
+      <Button variant="delete" />
     </Container>
   );
 };

@@ -1,4 +1,5 @@
 import backBtn from '@/assets/btn_back_black.png';
+import { Button } from '@/components/common/button';
 import {
   Form,
   FormControl,
@@ -16,7 +17,6 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import Button from '../common/Btn_btns';
 import { Label } from '../common/label';
 import { SignupWrapper } from './sign-up.styles';
 

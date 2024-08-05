@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import Button from './Btn_btns';
+import { Button } from '@/components/common/button';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 interface SubtitleProps {
   title: string;
@@ -16,7 +16,7 @@ export const Subtitle = ({ title }: SubtitleProps) => {
   return (
     <Container>
       <BackContainer>
-        <Button $variant="back" onClick={handleBackClick} />
+        <Button variant="back" onClick={handleBackClick} />
       </BackContainer>
       <Title>{title}</Title>
     </Container>

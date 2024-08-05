@@ -1,14 +1,13 @@
-import { useState } from 'react';
+import { ComponentProps, useState } from 'react';
 import styled from 'styled-components';
-import checkRound from '../../assets/checkRound.png';
 import checkRect from '../../assets/checkRect.png';
-import { COLORS } from '@/theme';
+import checkRound from '../../assets/checkRound.png';
 
-interface CheckButtonProps {
-  $variant: 'round' | 'rect';
-}
+type CheckButtonProps = {
+  variant: 'round' | 'rect';
+} & ComponentProps<'button'>;
 
-export const CheckButton = ({ $variant }: CheckButtonProps) => {
+export const CheckButton = ({ variant, ...props }: CheckButtonProps) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const toggleCheck = () => {
@@ -16,40 +15,21 @@ export const CheckButton = ({ $variant }: CheckButtonProps) => {
   };
 
   return (
-    <ButtonContainer onClick={toggleCheck}>
+    <ButtonContainer {...props} onClick={toggleCheck}>
       {isChecked ? (
-        <CheckImage
-          src={$variant === 'round' ? checkRound : checkRect}
-          alt="Checked"
-        />
+        <img src={variant === 'round' ? checkRound : checkRect} alt="Checked" />
       ) : (
-        <EmptyShape $variant={$variant} />
+        <div className="empty" $variant={variant} />
       )}
     </ButtonContainer>
   );
 };
 
-const ButtonContainer = styled.div`
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 20px;
-  height: 20px;
-`;
+const ButtonContainer = styled.button``;
 
 const CheckImage = styled.img`
   width: 20px;
   height: 20px;
 `;
 
-const EmptyShape = styled.div<{ $variant: 'round' | 'rect' }>`
-  width: 20px;
-  height: 20px;
-  border: 1px solid ${COLORS.Gray3};
-  ${props =>
-    props.$variant === 'round' &&
-    `
-    border-radius: 50%;
-  `}
-`;
+const EmptyShape = styled.div<{ $variant: 'round' | 'rect' }>``;

@@ -1,10 +1,11 @@
+import { Button } from '@/components/common/button';
+import { body5Style } from '@/styles/global-styles';
+import { COLORS } from '@/theme';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { COLORS } from '@/theme';
-import { body5Style } from '@/styles/global-styles';
-import Button from '../common/Btn_btns';
 
 const SurveyForm = ({ selectedOption, setSelectedOption, onRemove }) => {
+  // TODO: 타입 정의
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -23,7 +24,7 @@ const SurveyForm = ({ selectedOption, setSelectedOption, onRemove }) => {
           <SelectedOption>{selectedOption}</SelectedOption>
           <Arrow isOpen={isOpen}>&#9662;</Arrow>
         </DropdownHeader>
-        <Button onClick={onRemove} $variant={'delete'} width="24px"></Button>
+        <Button onClick={onRemove} variant="delete" width="24px"></Button>
       </Container>
       {isOpen && (
         <DropdownList>
