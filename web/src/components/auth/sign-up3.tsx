@@ -1,6 +1,5 @@
 // depth3
 
-import backBtn from '@/assets/btn_back_black.png';
 import {
   Form,
   FormControl,
@@ -10,45 +9,52 @@ import {
   FormMessage,
 } from '@/components/common/form';
 import { Input } from '@/components/common/input';
-import { signupSchema, SignupType } from '@/lib/schema/auth.schema';
-import { formatPhoneNumber } from '@/lib/utils';
+import {
+  signupTwoStepSchema,
+  SignupTwoStepType,
+} from '@/lib/schema/auth.schema';
+import { checkUserId } from '@/services/apis/user.service';
 import { useSignup } from '@/services/queries/user.mutation';
+import { RootState } from '@/store';
+import { body1Style, head1Style } from '@/styles/global-styles';
+import { COLORS } from '@/theme';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import Button from '../common/Btn_btns';
-import { Label } from '../common/label';
-import { SignupWrapper } from './sign-up.styles';
-import { checkUserId } from '@/services/apis/user.service';
-import { Subtitle } from '../common/Subtitle';
 import styled from 'styled-components';
-import { body1Style, head1Style } from '@/styles/global-styles';
-import { COLORS } from '@/theme';
+import { Subtitle } from '../common/Subtitle';
+import { Button } from '../common/button';
 
 export const SignUp3 = () => {
-  const { join, isSignupLoading } = useSignup();
   const router = useNavigate();
 
-  const [formattedContact, setFormattedContact] = useState<string>('');
+  const { join, isSignupLoading } = useSignup();
+  const { email, name, phone } = useSelector(
+    (state: RootState) => state.signup
+  );
+
   const [isChecking, setIsChecking] = useState<boolean>(false);
   const [isUserIdValid, setIsUserIdValid] = useState<boolean | null>(null);
 
-  const form = useForm<SignupType>({
-    resolver: zodResolver(signupSchema),
+  const form = useForm<SignupTwoStepType>({
+    resolver: zodResolver(signupTwoStepSchema),
     defaultValues: {
       userId: '',
       password: '',
-      email: '',
-      name: '',
       passwordConfirm: '',
-      phone: '',
     },
   });
 
-  const submitHandler = async (values: SignupType) => {
-    const data = await join(values);
+  const submitHandler = async (values: SignupTwoStepType) => {
+    const data = await join({
+      ...values,
+      email,
+      phone,
+      name,
+    });
 
     if (data && data.code === '200') {
       toast.success('회원가입이 정상처리 되었습니다.');
@@ -66,7 +72,6 @@ export const SignUp3 = () => {
 
     setIsChecking(true);
     try {
-      console.log('전송되는 userId:', userId); // 요청 전 userId 로그 출력
       const response = await checkUserId(userId);
       setIsUserIdValid(response);
       if (response) {
@@ -119,9 +124,7 @@ export const SignUp3 = () => {
                     style={{ borderRadius: '10px' }}
                   />
                 </FormControl>
-                {isUserIdValid === false && (
-                  <FormMessage>이미 사용 중인 아이디입니다.</FormMessage>
-                )}
+                <FormMessage />
                 <FormMessage />
               </FormItem>
             )}
@@ -167,14 +170,13 @@ export const SignUp3 = () => {
             )}
           />
 
-          <Register
+          <Button
             disabled={isSignupLoading}
             className="signup-btn"
-            type="submit"
             variant="add"
           >
             회원가입하기
-          </Register>
+          </Button>
         </form>
       </Form>
     </Container>
@@ -184,6 +186,10 @@ export const SignUp3 = () => {
 const Container = styled.div`
   padding: 0px 20px;
   margin-top: 17px;
+
+  .signup-btn {
+    width: 100%;
+  }
 `;
 
 const H1 = styled.p`
@@ -194,13 +200,4 @@ const H1 = styled.p`
 const Depth = styled.p`
   ${body1Style}
   color: ${COLORS.Main};
-`;
-
-const Register = styled.button`
-  width: 100%;
-  height: 50px;
-  border-radius: 10px;
-  border: none;
-  background-color: ${COLORS.Gray3};
-  color: ${COLORS.white};
 `;

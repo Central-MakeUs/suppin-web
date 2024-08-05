@@ -1,27 +1,29 @@
 // 회원가입 상태 관리
 
 import { SignupState } from '@/types/signup/signup';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState: SignupState = {
   name: '',
   phone: '',
   email: '',
-  emailCode: '',
+  step: '1',
 };
 
 const signupSlice = createSlice({
   name: 'signup',
   initialState,
   reducers: {
-    updateSignupField: (
-      state,
-      action: PayloadAction<{ field: keyof SignupState; value: string }>
-    ) => {
-      state[action.payload.field] = action.payload.value;
+    updateSignupField: (state, action) => {
+      state.email = action.payload.email;
+      state.phone = action.payload.phone;
+      state.name = action.payload.name;
+    },
+    nextStep: (state, action) => {
+      state.step = action.payload;
     },
   },
 });
 
-export const { updateSignupField } = signupSlice.actions;
+export const { updateSignupField, nextStep } = signupSlice.actions;
 export default signupSlice.reducer;

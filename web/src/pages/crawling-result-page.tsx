@@ -8,32 +8,12 @@ import { body3Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
 import styled from 'styled-components';
 
-<<<<<<< Updated upstream
 export const CrawlingPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [activeTab, setActiveTab] = useState<string>('comment');
-
-  useEffect(() => {
-    const type = searchParams.get('type');
-    if (type && (type === 'comment' || type === 'winner')) {
-      setActiveTab(type);
-    } else {
-      setSearchParams({ type: 'comment' });
-    }
-  }, [searchParams, setSearchParams]);
-
-  const handleTabChange = useCallback(
-    (value: string) => {
-      setActiveTab(value);
-      setSearchParams({ type: value });
-=======
-const CrawlingPage = () => {
   // 임시 데이터
   const comments = [
     {
       title: 'Suppin2024',
       comment: '평상시에 스윗미임 영상을 열심히 보다...',
->>>>>>> Stashed changes
     },
     {
       title: 'CMC 23',
@@ -69,10 +49,6 @@ const CrawlingPage = () => {
     </>
   );
 };
-<<<<<<< Updated upstream
-=======
-
-export default CrawlingPage;
 
 const Container = styled.div`
   display: flex;
@@ -95,4 +71,3 @@ const WinnerCount = styled.p`
   ${body3Style}
   color: ${COLORS.Gray3};
 `;
->>>>>>> Stashed changes

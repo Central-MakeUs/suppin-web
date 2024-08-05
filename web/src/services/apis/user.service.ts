@@ -34,10 +34,8 @@ export const signin = async (payload: SigninType) => {
 };
 
 export const checkUserId = async (userId: string) => {
-  console.log('전송되는 userId:', userId); // 요청 전 userId 로그 출력
-
-  const { data } = await axiosInstance.post('/members/checkUserId', {
-    userId,
+  const { data } = await axiosInstance.get('/members/checkUserId', {
+    params: { userId },
   });
   return data;
 };
