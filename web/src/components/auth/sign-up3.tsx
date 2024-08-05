@@ -32,7 +32,7 @@ export const SignUp3 = () => {
   const router = useNavigate();
 
   const { join, isSignupLoading } = useSignup();
-  const { email, name, phone } = useSelector(
+  const { email, name, phone, verificationCode } = useSelector(
     (state: RootState) => state.signup
   );
 
@@ -54,6 +54,7 @@ export const SignUp3 = () => {
       email,
       phone,
       name,
+      verificationCode,
     });
 
     if (data && data.code === '200') {

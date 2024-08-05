@@ -3,4 +3,5 @@ export interface SignupState {
   phone: string;
   email: string;
   step: string;
+  verificationCode: string;
 }

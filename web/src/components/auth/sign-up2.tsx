@@ -71,7 +71,14 @@ export const SignUp2 = () => {
 
   const handleNextClick = (values: SignupOneStepType) => {
     if (isEmailVerified) {
-      dispatch(updateSignupField({ values }));
+      dispatch(
+        updateSignupField({
+          email: values.email,
+          name: values.name,
+          phone: values.phone,
+          verificationCode: emailCode,
+        })
+      );
       dispatch(nextStep('3'));
     } else {
       toast.error('이메일 인증을 완료해주세요.');
