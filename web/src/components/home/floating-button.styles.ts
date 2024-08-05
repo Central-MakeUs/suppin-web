@@ -12,5 +12,5 @@ export const FloatingButtonWrapper = styled.div`
   height: 4rem;
   border-radius: 100%;
   background: ${COLORS.Main};
-  z-index: 999;
+  z-index: 998;
 `;

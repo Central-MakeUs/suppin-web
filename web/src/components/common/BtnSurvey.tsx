@@ -1,19 +1,19 @@
 import styled from 'styled-components';
-import comment from '../../assets/comment.png';
+import survey from '../../assets/survey.png';
 
-import { COLORS } from '@/theme';
 import { body3Style } from '@/styles/global-styles';
+import { COLORS } from '@/theme';
 
-const Btn_Comment = () => {
+const BtnSurvey = () => {
   return (
     <CommentButton>
-      <CommentImage src={comment} alt="Comment Icon" />
-      <CommentText>댓글 수집하기</CommentText>
+      <CommentImage src={survey} alt="Comment Icon" />
+      <CommentText>설문 생성하기</CommentText>
     </CommentButton>
   );
 };
 
-export default Btn_Comment;
+export default BtnSurvey;
 
 const CommentButton = styled.button`
   width: 140px;

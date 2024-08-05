@@ -11,15 +11,43 @@ export const NoResultWrapper = styled.div`
   gap: 1.5rem;
   padding-bottom: 5rem;
 
-  img {
-    width: 12.5rem;
-    height: 12.5rem;
-    border: 1px solid #d9d9d9;
-  }
   p {
-    max-width: 9rem;
-    white-space: break-spaces;
     color: ${COLORS.Gray2};
-    font-size: 1rem;
+    font-size: 0.875rem;
   }
+
+  .no-result-img {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .new-event {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      img {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+
+    p {
+      font-size: 0.75rem;
+      color: ${COLORS.Gray2};
+    }
+  }
+`;
+
+export const MyEventText = styled.span<{ $myEventText: string }>`
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: ${({ $myEventText }) => $myEventText};
 `;

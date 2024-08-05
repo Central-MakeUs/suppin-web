@@ -1,6 +1,6 @@
+import { body3Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
 import styled from 'styled-components';
-import { body3Style, body4Style } from '@/styles/global-styles';
 
 export const Btn_preview = () => {
   return (
