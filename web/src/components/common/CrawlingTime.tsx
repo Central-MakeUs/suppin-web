@@ -14,7 +14,8 @@ export const CrawlingTime = ({
 
   return (
     <Container>
-      <Content>크롤링 시간 </Content>
+      <Content>이벤트 기간 </Content>
+      {/* 이벤트 기간 수정 */}
       <Content2>{crawlingTime}</Content2>
     </Container>
   );

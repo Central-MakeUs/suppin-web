@@ -5,7 +5,7 @@ export const StyledInput = styled.input`
   display: flex;
   height: 2.5rem;
   width: 100%;
-  border-radius: 0.375rem;
+  /* border-radius: 0.375rem; */
   border: 1px solid ${COLORS.Gray4};
   background-color: transparent;
   padding: 0.5rem 0.75rem;

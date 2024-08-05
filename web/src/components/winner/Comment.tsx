@@ -25,6 +25,7 @@ const Comment = () => {
         <WinnerCount>참여자 300</WinnerCount>
         <CrawlingTime />
       </Container>
+
       <Container2>
         {comments.map((item, index) => (
           <Winner key={index} title={item.title} comment={item.comment} />
@@ -48,6 +49,7 @@ const Container2 = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  gap: 12px;
 `;
 
 const WinnerCount = styled.p`

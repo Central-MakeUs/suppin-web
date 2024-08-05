@@ -4,19 +4,24 @@ import {
   setDescription,
   resetForm,
   addField,
-  toggleFieldChecked,
   updateFieldLabel,
+  removeField,
 } from '@/store/survey';
 import styled from 'styled-components';
 import { COLORS } from '@/theme';
-import { body3Style, body6Style, head1Style } from '@/styles/global-styles';
+import {
+  body3Style,
+  body4Style,
+  body6Style,
+  head1Style,
+} from '@/styles/global-styles';
 import { Subtitle } from '@/components/common/Subtitle';
 import { Btn_preview } from '@/components/common/Btn_preview';
 import { Btn_popup } from '@/components/common/Btn_popup';
-import { CheckButton } from '@/components/common/Btn_check';
 import Tag from '@/components/common/Tags';
 import step2 from '../assets/step2.png';
 import { useEffect } from 'react';
+import Button from '@/components/common/Btn_btns';
 
 const CreateSurveyPageStep2 = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -24,13 +29,17 @@ const CreateSurveyPageStep2 = () => {
     (state: RootState) => state.survey
   );
 
+  const handleRemoveField = (index: number) => {
+    dispatch(removeField(index));
+  };
+
   const defaultDescription = `
-    이벤트 응모에 필요한 개인정보 수집에 동의해 주세요.
-    - 수집 항목: 이벤트 응모 내용(아이디/닉네임), 이름, 휴대전화번호, 유튜브번호, 배송지
-    - 수집·이용 목적: 이벤트 당첨자 본인 확인, 경품 수령 조건 확인, 경품 지급, 의견 수렴 등
-    - 개인정보 이용 및 보유 기간: 경품 지급 완료 후 최대 6개월(지급 내용 및 관련 문의 응답 완료 후 폐기)
-    *개인정보의 수집 및 이용에 대한 동의를 거부할 수 있으며, 이 경우 이벤트 참여가 어려울 수 있습니다.
-  `;
+이벤트 응모에 필요한 개인정보 수집에 동의해 주세요.
+- 수집 항목: 이벤트 응모 내용(아이디/닉네임), 이름, 휴대전화번호, 우편번호, 배송지
+- 수집·이용 목적: 이벤트 당첨자 본인 확인, 경품 수령 조건 확인, 경품 지급, 의견
+- 개인정보 이용 및 보유 기간: 경품 지급 완료 후 최대 6개월(지급 내용 및 관련 문의 응답 완료 후 폐기)
+
+*개인정보의 수집 및 이용에 대한 동의를 거부할 수 있으며, 이 경우 이벤트 참여가 어려울 수 있습니다.`;
 
   // 초기 description 값 설정
   useEffect(() => {
@@ -58,7 +67,8 @@ const CreateSurveyPageStep2 = () => {
   };
 
   const handleAddField = () => {
-    dispatch(addField(`항목 ${fields.length + 1}`));
+    // dispatch(addField(`항목 ${fields.length + 1}`));
+    dispatch(addField('내용을 입력해주세요'));
   };
 
   return (
@@ -95,18 +105,25 @@ const CreateSurveyPageStep2 = () => {
           <Comment>수집할 참여자 정보를 입력해주세요</Comment>
           {fields.map((field, index) => (
             <Form key={index}>
-              <CheckButton
+              {/* <CheckButton
                 $variant={'round'}
                 checked={field.checked}
                 onChange={() => dispatch(toggleFieldChecked(index))}
-              />
-              <Input
-                type="text"
-                value={field.label}
-                onChange={e =>
-                  dispatch(updateFieldLabel({ index, label: e.target.value }))
-                }
-              />
+              /> */}
+              <InputContainer>
+                <Input
+                  type="text"
+                  value={field.label}
+                  onChange={e =>
+                    dispatch(updateFieldLabel({ index, label: e.target.value }))
+                  }
+                />
+                <Button
+                  onClick={() => handleRemoveField(index)}
+                  variant={'delete'}
+                  width="24px"
+                ></Button>
+              </InputContainer>
             </Form>
           ))}
           <AddFieldButton onClick={handleAddField}>
@@ -115,7 +132,7 @@ const CreateSurveyPageStep2 = () => {
         </Content2>
         <Btn_popup
           onClick={() => alert('다음으로 버튼 클릭')}
-          isactive={isFormComplete}
+          $isactive={isFormComplete}
           text="다음으로"
           width="350px"
         />
@@ -245,22 +262,31 @@ const Comment = styled.p`
 const Form = styled.div`
   display: flex;
   align-items: center;
-  border-bottom: 1px solid ${COLORS.Gray4};
+  margin-bottom: 10px;
+`;
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 1px solid ${COLORS.Gray5};
+  border-radius: 10px;
+  background-color: ${COLORS.white};
+  padding-right: 10px;
 `;
 
 const Input = styled.input`
   width: 100%;
-  height: 40px;
+  height: 46px;
   padding: 0 10px;
+  border-radius: 10px;
   border: none;
-  border-radius: 5px;
-  font-size: 14px;
   color: ${COLORS.Gray1};
   outline: none;
+  ${body4Style}
 `;
 
 const AddFieldButton = styled.p`
-  width: 95px;
+  width: 100%;
   height: 22px;
   color: ${COLORS.Gray2};
   border: none;
@@ -268,6 +294,8 @@ const AddFieldButton = styled.p`
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 16px;
+  margin-top: 8px;
   text-decoration: underline;
+  display: flex;
+  justify-content: flex-end;
 `;

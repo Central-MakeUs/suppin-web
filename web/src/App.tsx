@@ -1,4 +1,5 @@
 import { AuthPage, HomePage, Root } from '@/pages';
+
 import store from '@/store';
 import GlobalStyles from '@/styles/global-styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
           };
         },
       },
+
       {
         path: 'survey',
         children: [
@@ -84,7 +86,7 @@ export default function App() {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <GlobalStyles />
-        <Toaster position="top-center" />
+        <Toaster position="top-center" richColors />
         <RouterProvider router={router} />
       </QueryClientProvider>
     </Provider>
