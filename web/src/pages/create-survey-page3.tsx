@@ -120,7 +120,7 @@ const CreateSurveyPageStep3 = () => {
         <FixedBottom>
           <Btn_popup
             onClick={() => alert('설문 생성 완료!')}
-            isActive={isFormComplete}
+            $isactive={isFormComplete}
             text="설문 생성 완료"
             width="350px"
           />

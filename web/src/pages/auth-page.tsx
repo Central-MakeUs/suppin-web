@@ -1,5 +1,5 @@
 import { SignIn } from '@/components/auth/sign-in';
-import { SignUp } from '@/components/auth/sign-up';
+import SignUp from '@/components/auth/sign-up';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { WebviewWrapper } from './root.styles';

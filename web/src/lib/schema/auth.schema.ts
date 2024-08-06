@@ -32,20 +32,17 @@ const emailSchema = z
 
 const phoneSchema = z.string().transform(removeWhiteSpace);
 
-export const signupSchema = z
+export const signupOneStepSchema = z.object({
+  name: nameSchema,
+  email: emailSchema,
+  phone: phoneSchema,
+});
+
+export const signupTwoStepSchema = z
   .object({
     userId: usernameSchema,
     password: passwordSchema,
     passwordConfirm: passwordSchema,
-    // type: z.enum(
-    //   ['unselected', '인플루언서', '마케팅 대행사', '브랜드 담당자'],
-    //   {
-    //     errorMap: () => ({ message: '유형을 선택해야 합니다.' }),
-    //   }
-    // ),
-    name: nameSchema,
-    email: emailSchema,
-    phone: phoneSchema,
   })
   .superRefine(({ passwordConfirm, password }, ctx) => {
     if (passwordConfirm !== password) {
@@ -61,5 +58,6 @@ export const signinSchema = z.object({
   password: passwordSchema,
 });
 
-export type SignupType = z.infer<typeof signupSchema>;
+export type SignupOneStepType = z.infer<typeof signupOneStepSchema>;
+export type SignupTwoStepType = z.infer<typeof signupTwoStepSchema>;
 export type SigninType = z.infer<typeof signinSchema>;

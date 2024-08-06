@@ -9,7 +9,6 @@ interface TagProps {
 const Tag = ({ label, $variant }: TagProps) => {
   return <StyledTag $$variant={$variant}>{label}</StyledTag>;
 };
-
 const StyledTag = styled.div<{ $$variant: 'default' | 'completed' }>`
   width: 88px;
   height: 32px;

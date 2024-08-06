@@ -6,8 +6,8 @@ export const SignupWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding: 1.25rem;
+  /* gap: 2rem; */
+  /* padding: 1.25rem; */
 
   .signup-header {
     position: relative;
@@ -34,11 +34,11 @@ export const SignupWrapper = styled.div`
   }
   .form {
     height: 100%;
-    padding: 0.5rem;
+    padding: 0px 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 1.625rem;
+    /* justify-content: space-between; */
+    /* gap: 1.625rem; */
 
     .form-label {
       font-size: 0.875rem;

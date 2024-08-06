@@ -1,20 +1,7 @@
 // surveySlice.ts
 import React from 'react';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface Field {
-  label: string;
-  checked: boolean;
-}
-
-interface SurveyState {
-  title: string;
-  description: string;
-  startDate: Date | null;
-  endDate: Date | null;
-  fields: Field[];
-  questions: { id: number; type: string; content: React.ReactNode }[];
-}
+import { SurveyState } from '@/types/survey';
 
 const initialState: SurveyState = {
   title: '',
@@ -86,6 +73,9 @@ const surveySlice = createSlice({
         question => question.id !== action.payload
       );
     },
+    removeField(state, action: PayloadAction<number>) {
+      state.fields.splice(action.payload, 1);
+    },
   },
 });
 
@@ -96,6 +86,7 @@ export const {
   setEndDate,
   resetForm,
   addField,
+  removeField,
   toggleFieldChecked,
   updateFieldLabel,
   addQuestion,

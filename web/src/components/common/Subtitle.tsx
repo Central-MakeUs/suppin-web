@@ -4,9 +4,10 @@ import styled from 'styled-components';
 
 interface SubtitleProps {
   title: string;
+  backgroundColor?: string;
 }
 
-export const Subtitle = ({ title }: SubtitleProps) => {
+export const Subtitle = ({ title, backgroundColor }: SubtitleProps) => {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
@@ -14,7 +15,7 @@ export const Subtitle = ({ title }: SubtitleProps) => {
   };
 
   return (
-    <Container>
+    <Container backgroundColor={backgroundColor}>
       <BackContainer>
         <Button variant="back" onClick={handleBackClick} />
       </BackContainer>
@@ -23,13 +24,15 @@ export const Subtitle = ({ title }: SubtitleProps) => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ backgroundColor?: string }>`
   width: 100%;
   height: 47px;
   display: flex;
   align-items: center;
   position: relative; /* 자식 요소의 절대 위치를 위한 기준 컨테이너 */
   /* border: 1px solid black; */
+  background-color: ${({ backgroundColor }) =>
+    backgroundColor || 'inherit'}; /* 배경색을 props로 받음 */
 `;
 
 const BackContainer = styled.div`
