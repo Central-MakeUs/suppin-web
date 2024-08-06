@@ -24,6 +24,7 @@ import { toast } from 'sonner';
 import styled from 'styled-components';
 import { Subtitle } from '../common/Subtitle';
 import { Label } from '../common/label';
+import { useNavigate } from 'react-router-dom';
 
 export const SignUp2 = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -84,10 +85,17 @@ export const SignUp2 = () => {
       toast.error('이메일 인증을 완료해주세요.');
     }
   };
+  const navigate = useNavigate();
+  const handleCustomBackClick = () => {
+    navigate('/auth?page=1');
+  };
 
   return (
     <>
-      <Subtitle title={'회원가입'}></Subtitle>
+      <Subtitle
+        title={'회원가입'}
+        onBackClick={handleCustomBackClick}
+      ></Subtitle>
       <Container>
         <Depth>2/3</Depth>
         <H1 style={{ marginTop: '15px' }}>회원 가입에 필요한</H1>

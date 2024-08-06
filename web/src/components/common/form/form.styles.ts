@@ -7,6 +7,10 @@ export const StyledFormItem = styled.div`
 
 export const StyledFormLabel = styled(Label)<{ $error?: boolean }>`
   color: ${props => (props.$error ? 'red' : 'inherit')};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
 `;
 
 export const StyledFormDescription = styled.p`
