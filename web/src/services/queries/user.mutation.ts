@@ -1,6 +1,7 @@
 import { SigninType, SignupType } from '@/lib/schema/auth.schema';
-import { signin, signup } from '@/services/apis/user.service';
+import { deleteUser, signin, signup } from '@/services/apis/user.service';
 import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 export const useSignup = () => {
@@ -37,13 +38,42 @@ export const useSignin = () => {
       }
       toast.error('로그인 중 오류가 발생했습니다, 다시 시도해주세요');
     },
-    // onSuccess: () => {
-    //   console.log('로그인 성공');
-    // },
+    // 로그인 성공 시 token 저장 및 콘솔 출력
+    onSuccess: data => {
+      console.log(data); // 로그인 성공 시 응답 콘솔 출력
+      if (data && data.data && data.data.token) {
+        localStorage.setItem('token', data.data.token); // token을 로컬스토리지에 저장
+      }
+      // toast.success('로그인이 정상처리 되었습니다.');
+    },
   });
 
   return {
     login,
     isSigninLoading,
+  };
+};
+
+export const useDeleteUser = () => {
+  const navigate = useNavigate();
+
+  const { mutateAsync: deleteUserAccount, isPending: isDeleting } = useMutation(
+    {
+      mutationFn: async () => await deleteUser(),
+      onError: error => {
+        console.error('회원 탈퇴 에러:', error);
+        toast.error('회원 탈퇴 중 오류가 발생했습니다, 다시 시도해주세요');
+      },
+      onSuccess: () => {
+        toast.success('회원 탈퇴가 완료되었습니다.');
+        localStorage.removeItem('token');
+        navigate('/auth?authType=in');
+      },
+    }
+  );
+
+  return {
+    deleteUserAccount,
+    isDeleting,
   };
 };

@@ -6,6 +6,7 @@ export const HeaderWrapper = styled.header`
   padding: 0 1.25rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   h1 {
     font-weight: bold;

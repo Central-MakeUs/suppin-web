@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Toaster } from 'sonner';
+import { NextUIProvider } from '@nextui-org/react';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,6 +28,15 @@ const router = createBrowserRouter([
           const { ResultPage } = await import('@/pages/result-page');
           return {
             Component: ResultPage,
+          };
+        },
+      },
+      {
+        path: 'mypage',
+        lazy: async () => {
+          const { default: MyPage } = await import('@/pages/my-page');
+          return {
+            Component: MyPage,
           };
         },
       },
@@ -85,9 +95,11 @@ export default function App() {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <GlobalStyles />
-        <Toaster position="top-center" richColors />
-        <RouterProvider router={router} />
+        <NextUIProvider>
+          <GlobalStyles />
+          <Toaster position="bottom-center" richColors />
+          <RouterProvider router={router} />
+        </NextUIProvider>
       </QueryClientProvider>
     </Provider>
   );
