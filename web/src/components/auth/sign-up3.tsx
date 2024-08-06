@@ -1,5 +1,3 @@
-// depth3
-
 import {
   Form,
   FormControl,
@@ -16,7 +14,7 @@ import {
 import { checkUserId } from '@/services/apis/user.service';
 import { useSignup } from '@/services/queries/user.mutation';
 import { RootState } from '@/store';
-import { body1Style, head1Style } from '@/styles/global-styles';
+import { body1Style, body3Style, head1Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
@@ -74,10 +72,11 @@ export const SignUp3 = () => {
     setIsChecking(true);
     try {
       const response = await checkUserId(userId);
-      setIsUserIdValid(response);
-      if (response) {
+      if (response && response.data.checkUserId === true) {
+        setIsUserIdValid(true);
         toast.success('사용 가능한 아이디입니다.');
       } else {
+        setIsUserIdValid(false);
         toast.error('이미 사용 중인 아이디입니다.');
       }
     } catch (error) {
@@ -87,100 +86,102 @@ export const SignUp3 = () => {
     }
   };
 
+  const navigate = useNavigate();
+  const handleCustomBackClick = () => {
+    navigate('/auth?page=2');
+  };
+
   return (
-    <Container>
-      <Subtitle title={'회원가입'}></Subtitle>
-      <Depth>3/3</Depth>
-      <H1 style={{ marginTop: '15px' }}>Suppin 이용을 위한</H1>
-      <H1 style={{ marginBottom: '40px' }}>계정 정보를 생성해주세요</H1>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(submitHandler)} className="form">
-          <FormField
-            control={form.control}
-            name="userId"
-            render={({ field }) => (
-              <FormItem className="form-item">
-                <FormLabel
-                  className="form-label form-username"
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  ID
-                  <button
-                    type="button"
-                    onClick={handleCheckUserId}
-                    disabled={isChecking}
-                  >
-                    {isChecking ? '확인 중...' : '중복확인'}
-                  </button>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    className="form-input"
-                    placeholder="아이디를 입력해주세요"
-                    style={{ borderRadius: '10px' }}
-                  />
-                </FormControl>
-                <FormMessage />
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <>
+      <Subtitle
+        title={'회원가입'}
+        onBackClick={handleCustomBackClick}
+      ></Subtitle>
+      <Container>
+        <Depth>3/3</Depth>
+        <H1 style={{ marginTop: '15px' }}>Suppin 이용을 위한</H1>
+        <H1 style={{ marginBottom: '40px' }}>계정 정보를 생성해주세요</H1>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(submitHandler)} className="form">
+            <FormField
+              control={form.control}
+              name="userId"
+              render={({ field }) => (
+                <FormItem className="form-item">
+                  <FormLabel className="form-label form-username">
+                    ID
+                    <DoubleCheck
+                      type="button"
+                      onClick={handleCheckUserId}
+                      disabled={isChecking}
+                    >
+                      {isChecking ? '확인 중...' : '중복확인'}
+                    </DoubleCheck>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className="form-input"
+                      placeholder="아이디를 입력해주세요"
+                      style={{ borderRadius: '10px' }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem className="form-item">
-                <FormLabel className="form-label">비밀번호</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="password"
-                    className="form-input"
-                    placeholder="비밀번호를 입력해주세요"
-                    style={{ borderRadius: '10px' }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="form-item">
+                  <FormLabel className="form-label">비밀번호</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="password"
+                      className="form-input"
+                      placeholder="비밀번호를 입력해주세요"
+                      style={{ borderRadius: '10px' }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="passwordConfirm"
-            render={({ field }) => (
-              <FormItem className="form-item">
-                <FormLabel className="form-label">비밀번호 확인</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="password"
-                    className="form-input"
-                    placeholder="비밀번호를 다시 입력해주세요"
-                    style={{ borderRadius: '10px' }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="passwordConfirm"
+              render={({ field }) => (
+                <FormItem className="form-item">
+                  <FormLabel className="form-label">비밀번호 확인</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="password"
+                      className="form-input"
+                      placeholder="비밀번호를 다시 입력해주세요"
+                      style={{ borderRadius: '10px' }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <Button
-            disabled={isSignupLoading}
-            className="signup-btn"
-            variant="add"
-          >
-            회원가입하기
-          </Button>
-        </form>
-      </Form>
-    </Container>
+            <Button
+              disabled={isSignupLoading}
+              className="signup-btn"
+              variant="add"
+            >
+              회원가입하기
+            </Button>
+          </form>
+        </Form>
+      </Container>
+    </>
   );
 };
 
@@ -201,4 +202,11 @@ const H1 = styled.p`
 const Depth = styled.p`
   ${body1Style}
   color: ${COLORS.Main};
+`;
+
+const DoubleCheck = styled.button`
+  background-color: transparent;
+  border: none;
+  color: ${COLORS.Main};
+  ${body3Style}
 `;

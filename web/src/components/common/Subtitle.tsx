@@ -5,13 +5,22 @@ import styled from 'styled-components';
 interface SubtitleProps {
   title: string;
   backgroundColor?: string;
+  onBackClick?: () => void;
 }
 
-export const Subtitle = ({ title, backgroundColor }: SubtitleProps) => {
+export const Subtitle = ({
+  title,
+  backgroundColor,
+  onBackClick,
+}: SubtitleProps) => {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate(-1); // 이전 페이지로 이동
+    if (onBackClick) {
+      onBackClick();
+    } else {
+      navigate(-1); // 기본 동작: 이전 페이지로 이동
+    }
   };
 
   return (
