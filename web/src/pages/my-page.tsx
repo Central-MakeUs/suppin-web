@@ -1,18 +1,15 @@
-import { useQuery } from '@tanstack/react-query';
-import { getUserInfo } from '@/services/apis/user.service';
+import backImg from '@/assets/btn_back_black.png';
 import { Subtitle } from '@/components/common/Subtitle';
+import { UserInfo } from '@/components/mypage/user-info';
+import { useDeleteUser } from '@/services/queries/user.mutation';
+import { useUserInfo } from '@/services/queries/user.queries';
 import { body1Style, head2Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
+import { JSX } from 'react';
 import styled from 'styled-components';
-import btn_mypage from '../assets/btn_mypage.png';
-import { useDeleteUser } from '@/services/queries/user.mutation';
-import { DeleteModal } from '@/components/mypage/DeleteModal';
 
 const MyPage = () => {
-  const { data, error, isLoading } = useQuery({
-    queryKey: ['userInfo'],
-    queryFn: getUserInfo,
-  });
+  const { userInfo } = useUserInfo();
 
   const { deleteUserAccount, isDeleting } = useDeleteUser();
 
@@ -22,43 +19,31 @@ const MyPage = () => {
     }
   };
 
-  if (isLoading) {
-    return <div>로딩 중...</div>;
+  // TODO: Loading 스켈레톤 추가
+  let content: JSX.Element;
+  if (userInfo.isPending) {
+    content = <div>Loading,,,</div>;
+  } else if (userInfo.isFetching) {
+    content = <div>Loading,,,</div>;
+  } else if (userInfo.isError) {
+    content = <div>Error,,,</div>;
+  } else {
+    content = <UserInfo user={userInfo.data} />;
   }
-
-  if (error) {
-    return <div>정보를 불러오는데 실패했습니다!</div>;
-  }
-
-  const user = data.data;
-
   return (
     <div>
       <Subtitle title={'마이페이지'} backgroundColor={COLORS.Gray6}></Subtitle>
       <TotalContainer>
         <Container1>
-          <img src={btn_mypage} width="58px" alt="Profile"></img>
+          <img src={backImg} width="58px" alt="Profile" />
           <SubContainer>
-            <Name>{user.name}</Name>
+            <Name>{userInfo.data && userInfo.data.name}</Name>
             <Type>인플루언서</Type>
           </SubContainer>
         </Container1>
         <Container2>
-          <Information>
-            <BasicInfo>기본 정보</BasicInfo>
-            <InfoContainer>
-              <Info>아이디</Info>
-              <Id>{user.userId}</Id>
-            </InfoContainer>
-            <InfoContainer>
-              <Info>휴대폰</Info>
-              <Id>{user.phoneNumber}</Id>
-            </InfoContainer>
-            <InfoContainer>
-              <Info>이메일</Info>
-              <Id>{user.email}</Id>
-            </InfoContainer>
-          </Information>
+          {/* TODO: 스켈레톤 컴포넌트 추가 */}
+          {content}
           <Change>비밀번호 변경하기</Change>
           <Leave onClick={handleDelete} disabled={isDeleting}>
             {isDeleting ? '탈퇴 중...' : '회원 탈퇴하기'}
@@ -107,34 +92,7 @@ const Type = styled.div`
 const Container2 = styled.div`
   padding: 0px 20px;
 `;
-const Information = styled.div`
-  ${body1Style}
-  color: ${COLORS.Gray1};
-  border-bottom: 1px solid ${COLORS.Gray5};
-  padding: 30px 0px 30px 0px;
-`;
 
-const BasicInfo = styled.div`
-  margin-bottom: 20px;
-`;
-
-const InfoContainer = styled.div`
-  display: flex;
-  gap: 27px;
-
-  a {
-    text-decoration: none; /* 밑줄 제거 */
-  }
-`;
-const Info = styled.p`
-  ${body1Style}
-  color: ${COLORS.Gray2};
-`;
-
-const Id = styled.a`
-  color: ${COLORS.Gray2};
-  text-decoration: none;
-`;
 const Change = styled.div`
   padding: 20px 0px;
   border-bottom: 1px solid ${COLORS.Gray5};

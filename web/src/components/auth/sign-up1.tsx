@@ -1,16 +1,16 @@
+import { AppDispatch, RootState } from '@/store';
+import { toggleCheck } from '@/store/signup/terms';
+import { body1Style, head1Style } from '@/styles/global-styles';
+import { COLORS } from '@/theme';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Subtitle } from '../common/Subtitle';
-import { body1Style, head1Style } from '@/styles/global-styles';
-import { COLORS } from '@/theme';
-import { toggleCheck } from '@/store/signup/terms';
-import { AppDispatch, RootState } from '@/store';
 
-import checkRound from '../../assets/checkRound.png';
-import uncheckRound from '../../assets/uncheckRound.png';
-import rightArrow from '../../assets/rigth.png';
 import { useNavigate } from 'react-router-dom';
+import checkRound from '../../assets/checkRound.png';
+import rightArrow from '../../assets/rigth.png';
+import uncheckRound from '../../assets/uncheckRound.png';
 
 export const SignUp1: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -98,7 +98,7 @@ export const SignUp1: React.FC = () => {
             <img src={rightArrow} width="18px" height="18px" />
           </TermItem>
         </TermsContainer>
-        <NextButton onClick={handleNextClick} enabled={isButtonEnabled}>
+        <NextButton onClick={handleNextClick} $enabled={isButtonEnabled}>
           다음으로
         </NextButton>
       </Container>
@@ -183,17 +183,17 @@ const Total = styled.div`
 `;
 
 interface NextButtonProps {
-  enabled: boolean;
+  $enabled: boolean;
 }
 
 const NextButton = styled.button<NextButtonProps>`
   width: 100%;
   padding: 10px;
-  background-color: ${props => (props.enabled ? COLORS.Main : COLORS.Gray3)};
+  background-color: ${props => (props.$enabled ? COLORS.Main : COLORS.Gray3)};
   color: #fff;
   border: none;
   border-radius: 10px;
-  cursor: ${props => (props.enabled ? 'pointer' : 'not-allowed')};
+  cursor: ${props => (props.$enabled ? 'pointer' : 'not-allowed')};
   font-size: 16px;
   font-weight: bold;
   margin-top: 200px;

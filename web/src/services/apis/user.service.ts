@@ -1,7 +1,8 @@
-import { SigninType, SignupType } from '@/lib/schema/auth.schema';
+import { SigninType, SignupPayload } from '@/lib/schema/auth.schema';
 import { axiosInstance } from '@/services/axios-instance';
+import { UserResponse } from '@/types/user';
 
-export const signup = async (payload: SignupType) => {
+export const signup = async (payload: SignupPayload) => {
   const { data } = await axiosInstance.post('/members/join', payload);
   return data;
 };
@@ -42,12 +43,8 @@ export const checkUserId = async (userId: string) => {
 };
 
 // 회원정보 상세 조회
-export const getUserInfo = async () => {
-  const { data } = await axiosInstance.get('/members/me', {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
+export const getUserInfo = async (): Promise<UserResponse> => {
+  const { data } = await axiosInstance.get('/members/me');
   return data;
 };
 

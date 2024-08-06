@@ -1,7 +1,7 @@
-import { createQueryKeyStore } from '@lukemorales/query-key-factory';
+const USER = 'user';
 
-export const queries = createQueryKeyStore({
+export const queries = {
   user: {
-    all: null,
+    DEFAULT: [USER],
   },
-});
+};

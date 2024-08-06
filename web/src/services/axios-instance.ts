@@ -7,6 +7,7 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   config => {
+    config.headers.Authorization = `Bearer ${window.localStorage.getItem('token')}`;
     return config;
   },
   error => {
@@ -17,6 +18,9 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   response => {
+    if (response.config.url === '/members/login') {
+      window.localStorage.setItem('token', response.data.data.token);
+    }
     return response;
   },
   error => {

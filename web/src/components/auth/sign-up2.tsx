@@ -20,11 +20,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import styled from 'styled-components';
 import { Subtitle } from '../common/Subtitle';
 import { Label } from '../common/label';
-import { useNavigate } from 'react-router-dom';
 
 export const SignUp2 = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -171,7 +171,7 @@ export const SignUp2 = () => {
                 </div>
               </div>
             </div>
-            <NextButton as="button" type="submit" enabled={isEmailVerified}>
+            <NextButton as="button" type="submit" $enabled={isEmailVerified}>
               다음으로
             </NextButton>
           </form>
@@ -251,17 +251,17 @@ const Confirm1 = styled.button`
 `;
 
 interface NextButtonProps {
-  enabled: boolean;
+  $enabled: boolean;
 }
 
 const NextButton = styled.button<NextButtonProps>`
   width: 100%;
   padding: 10px;
-  background-color: ${props => (props.enabled ? COLORS.Main : COLORS.Gray3)};
+  background-color: ${props => (props.$enabled ? COLORS.Main : COLORS.Gray3)};
   color: #fff;
   border: none;
   border-radius: 10px;
-  cursor: ${props => (props.enabled ? 'pointer' : 'not-allowed')};
+  cursor: ${props => (props.$enabled ? 'pointer' : 'not-allowed')};
   font-size: 16px;
   font-weight: bold;
   margin-top: 80px;
