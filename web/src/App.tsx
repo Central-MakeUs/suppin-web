@@ -31,6 +31,15 @@ const router = createBrowserRouter([
         },
       },
       {
+        path: 'mypage',
+        lazy: async () => {
+          const { default: MyPage } = await import('@/pages/my-page');
+          return {
+            Component: MyPage,
+          };
+        },
+      },
+      {
         path: 'myevent',
         lazy: async () => {
           const { MyEvent } = await import('@/pages/myevent-page');
@@ -86,7 +95,7 @@ export default function App() {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <GlobalStyles />
-        <Toaster position="top-center" richColors />
+        <Toaster position="bottom-center" richColors />
         <RouterProvider router={router} />
       </QueryClientProvider>
     </Provider>

@@ -61,3 +61,11 @@ export const signinSchema = z.object({
 export type SignupOneStepType = z.infer<typeof signupOneStepSchema>;
 export type SignupTwoStepType = z.infer<typeof signupTwoStepSchema>;
 export type SigninType = z.infer<typeof signinSchema>;
+export type SignupPayload = {
+  userId: string;
+  name: string;
+  password: string;
+  email: string;
+  phone: string;
+  verificationCode: string;
+};

@@ -1,7 +1,8 @@
-import { SigninType, SignupType } from '@/lib/schema/auth.schema';
+import { SigninType, SignupPayload } from '@/lib/schema/auth.schema';
 import { axiosInstance } from '@/services/axios-instance';
+import { UserResponse } from '@/types/user';
 
-export const signup = async (payload: SignupType) => {
+export const signup = async (payload: SignupPayload) => {
   const { data } = await axiosInstance.post('/members/join', payload);
   return data;
 };
@@ -33,9 +34,26 @@ export const signin = async (payload: SigninType) => {
   return data;
 };
 
+// 아이디 중복 확인 (sign-up3.tsx)
 export const checkUserId = async (userId: string) => {
   const { data } = await axiosInstance.get('/members/checkUserId', {
     params: { userId },
+  });
+  return data;
+};
+
+// 회원정보 상세 조회
+export const getUserInfo = async (): Promise<UserResponse> => {
+  const { data } = await axiosInstance.get('/members/me');
+  return data;
+};
+
+// 회원탈퇴
+export const deleteUser = async () => {
+  const { data } = await axiosInstance.delete('/members/delete', {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
   });
   return data;
 };

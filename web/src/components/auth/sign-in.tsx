@@ -78,9 +78,9 @@ export const SignIn = () => {
         </form>
       </Form>
       <div className="signin-config">
-        <span>비밀번호 찾기</span>
+        <p>아이디 찾기</p>
         <div className="sep" />
-        <span>아이디 찾기</span>
+        <p>비밀번호 찾기</p>
         <div className="sep" />
         <Link to="/auth?authType=up" className="signup">
           회원가입
