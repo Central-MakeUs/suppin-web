@@ -113,7 +113,7 @@ export const logout = async () => {
 };
 
 // 전체 이벤트 조회
-export const getEvents = async (status: any) => {
+export const getEvents = async () => {
   const { data } = await axiosInstance.get('/events/all', {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
