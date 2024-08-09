@@ -35,12 +35,13 @@ export const SingleDatePicker = ({ placeholder }: SingleDatePickerProps) => {
 const Container = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid ${COLORS.Gray3};
+  border: 1px solid ${COLORS.Gray5};
   border-radius: 10px;
-  background-color: ${COLORS.Gray5};
+  background-color: ${COLORS.Gray6};
   padding: 10px;
-  width: 314px;
+  width: 100%;
   height: 46px;
+  margin-bottom: 40px;
 `;
 
 const Icon = styled.img`
