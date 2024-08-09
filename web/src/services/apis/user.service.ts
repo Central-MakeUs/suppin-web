@@ -8,12 +8,12 @@ export const signup = async (payload: SignupPayload) => {
   return data;
 };
 
-const customAxiosInstance = axios.create({
-  baseURL: 'https://coherent-midge-probably.ngrok-free.app',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+// const customAxiosInstance = axios.create({
+//   baseURL: 'https://coherent-midge-probably.ngrok-free.app',
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+// });
 
 // 로그인
 export const signin = async (payload: SigninType) => {
