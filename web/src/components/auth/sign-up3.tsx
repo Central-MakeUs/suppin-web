@@ -36,6 +36,9 @@ export const SignUp3 = () => {
 
   const [isChecking, setIsChecking] = useState<boolean>(false);
   const [isUserIdValid, setIsUserIdValid] = useState<boolean | null>(null);
+  const [selectedUserType, setSelectedUserType] = useState<string | undefined>(
+    undefined
+  );
 
   const form = useForm<SignupTwoStepType>({
     resolver: zodResolver(signupTwoStepSchema),
@@ -53,6 +56,12 @@ export const SignUp3 = () => {
       phone,
       name,
       verificationCode,
+      termsAgree: {
+        ageOver14Agree: false,
+        serviceUseAgree: false,
+        personalInfoAgree: false,
+        marketingAgree: false,
+      },
     });
 
     if (data && data.code === '200') {
@@ -86,9 +95,27 @@ export const SignUp3 = () => {
     }
   };
 
-  const navigate = useNavigate();
+  const handleUserTypeSelect = (userType: string) => {
+    let formattedUserType = '';
+    switch (userType) {
+      case 'influencer':
+        formattedUserType = '인플루언서';
+        break;
+      case 'agency':
+        formattedUserType = '마케팅대행사';
+        break;
+      case 'brand_manager':
+        formattedUserType = '브랜딩담당자';
+        break;
+      default:
+        break;
+    }
+    setSelectedUserType(formattedUserType);
+    form.setValue('userType', formattedUserType);
+  };
+
   const handleCustomBackClick = () => {
-    navigate('/auth?page=2');
+    router('/auth?page=2');
   };
 
   return (
@@ -119,11 +146,12 @@ export const SignUp3 = () => {
                     </DoubleCheck>
                   </FormLabel>
                   <FormControl>
-                    <Input
+                    <StyledInput
                       {...field}
                       className="form-input"
                       placeholder="아이디를 입력해주세요"
-                      style={{ borderRadius: '10px' }}
+                      isValid={isUserIdValid}
+                      style={{ borderRadius: '10px', height: '46px' }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -143,7 +171,7 @@ export const SignUp3 = () => {
                       type="password"
                       className="form-input"
                       placeholder="비밀번호를 입력해주세요"
-                      style={{ borderRadius: '10px' }}
+                      style={{ borderRadius: '10px', height: '46px' }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -163,8 +191,44 @@ export const SignUp3 = () => {
                       type="password"
                       className="form-input"
                       placeholder="비밀번호를 다시 입력해주세요"
-                      style={{ borderRadius: '10px' }}
+                      style={{ borderRadius: '10px', height: '46px' }}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="userType"
+              render={({ field }) => (
+                <FormItem className="form-item">
+                  <FormLabel className="form-label">유형</FormLabel>
+                  <FormControl>
+                    <ButtonGroup>
+                      <TypeButton
+                        type="button"
+                        isSelected={selectedUserType === '인플루언서'}
+                        onClick={() => handleUserTypeSelect('influencer')}
+                      >
+                        인플루언서
+                      </TypeButton>
+                      <TypeButton
+                        type="button"
+                        isSelected={selectedUserType === '마케팅대행사'}
+                        onClick={() => handleUserTypeSelect('agency')}
+                      >
+                        마케팅 대행사
+                      </TypeButton>
+                      <TypeButton
+                        type="button"
+                        isSelected={selectedUserType === '브랜딩담당자'}
+                        onClick={() => handleUserTypeSelect('brand_manager')}
+                      >
+                        브랜딩 담당자
+                      </TypeButton>
+                    </ButtonGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -209,4 +273,38 @@ const DoubleCheck = styled.button`
   border: none;
   color: ${COLORS.Main};
   ${body3Style}
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 6px;
+`;
+
+const TypeButton = styled.button<{ isSelected: boolean }>`
+  ${body1Style}
+  color: ${COLORS.Gray1};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 100%;
+  padding: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid ${COLORS.Main};
+  background-color: ${({ isSelected }) =>
+    isSelected ? COLORS.Sub2 : COLORS.white};
+  color: ${({ isSelected }) => (isSelected ? COLORS.Main : COLORS.Main)};
+  border-radius: 10px;
+`;
+
+const StyledInput = styled(Input)<{ isValid: boolean | null }>`
+  border-color: ${({ isValid }) =>
+    isValid === false ? '#FF425B' : COLORS.Gray4};
+  &:focus {
+    border-color: ${({ isValid }) =>
+      isValid === false ? '#FF425B' : COLORS.Main};
+  }
 `;

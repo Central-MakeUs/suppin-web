@@ -1,12 +1,12 @@
-import { body3Style } from '@/styles/global-styles';
+import { body2Style, body3Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { Btn_popup } from '@/components/common/Btn_popup';
 import { Popup } from '@/components/common/Popup';
 import { Subtitle } from '@/components/common/Subtitle';
 import { SurveyTimeInput } from '@/components/common/SurveyTimeInput';
+import { SingleDatePicker } from '@/components/common/SingleDatePicker';
 
 export const CollectCommentsPage = () => {
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
@@ -27,8 +27,9 @@ export const CollectCommentsPage = () => {
         <Head>댓글 수집을 위한</Head>
         <Head>정보를 입력해주세요</Head>
 
-        <Label style={{ marginTop: '48px' }}>댓글 수집 경로</Label>
-        <ButtonGroup>
+        <Sub>현재까지 게시된 유튜브 댓글이 수집됩니다.</Sub>
+        {/* <Label style={{ marginTop: '48px' }}>Youtube URL</Label> */}
+        {/* <ButtonGroup>
           <PathButton
             active={selectedPath === 'instagram'}
             onClick={() => handlePathSelect('instagram')}
@@ -41,25 +42,29 @@ export const CollectCommentsPage = () => {
           >
             <PathButtonText>유튜브</PathButtonText>
           </PathButton>
-        </ButtonGroup>
+        </ButtonGroup> */}
 
-        <Label>URL</Label>
+        <Label>Youtube URL</Label>
         <Input type="text" placeholder="https://www.instagram.com/" />
 
         <Label>이벤트 제목</Label>
         <Input type="text" placeholder="멤피스 공연 홍보 이벤트" />
 
         <Label>이벤트 기간</Label>
-        <SurveyTimeInput placeholderStart={''} placeholderEnd={''} />
+        <SurveyTimeInput
+          placeholderStart={'시작 날짜'}
+          placeholderEnd={'종료 날짜'}
+        />
 
-        <Label>당첨자 선정 기간</Label>
-        <Input
+        <Label>당첨자 발표일</Label>
+        <SingleDatePicker placeholder={'날짜 선택'} />
+        {/* <Input
           type="text"
           placeholder="기록용 설명"
           style={{ marginBottom: '40px' }}
-        />
+        /> */}
 
-        <Btn_popup onClick={handlePopupToggle} />
+        <ConfirmBtn>댓글 수집하기</ConfirmBtn>
       </MainContent>
       {isPopupVisible && (
         <Popup
@@ -84,6 +89,12 @@ const MainContent = styled.div`
 const Head = styled.h1`
   font-size: 24px;
   font-weight: bold;
+`;
+
+const Sub = styled.p`
+  ${body2Style}
+  color: ${COLORS.Gray1};
+  margin-top: 6px;
 `;
 
 const Label = styled.p`
@@ -126,9 +137,20 @@ const PathButtonText = styled.p`
 
 const Input = styled.input`
   padding: 10px;
-  border: 1px solid ${COLORS.Gray3};
+  border: 1px solid ${COLORS.Gray5};
   border-radius: 10px;
-  background-color: ${COLORS.Gray5};
+  background-color: ${COLORS.Gray6};
   font-size: 16px;
-  color: ${COLORS.Gray2};
+  color: ${COLORS.Gray1};
+`;
+
+const ConfirmBtn = styled.button`
+  width: 100%;
+  background-color: ${COLORS.Main};
+  height: 46px;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 16px;
 `;

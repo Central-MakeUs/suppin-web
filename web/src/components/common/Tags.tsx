@@ -7,10 +7,45 @@ interface TagProps {
 }
 
 const Tag = ({ label, $variant }: TagProps) => {
-  return <StyledTag $$variant={$variant}>{label}</StyledTag>;
+  return (
+    <StyledTag label={label} $$variant={$variant}>
+      {label}
+    </StyledTag>
+  );
 };
-const StyledTag = styled.div<{ $$variant: 'default' | 'completed' }>`
-  width: 88px;
+
+const getWidth = (label: string) => {
+  switch (label) {
+    case '댓글 수집형':
+      return '72px';
+    case '설문형':
+      return '52px';
+    case '당첨자 선정 완료':
+      return '99px';
+    default:
+      return 'auto';
+  }
+};
+
+const getBackgroundColor = (label: string, variant: string) => {
+  if (variant === 'completed') {
+    return '#E63D54';
+  }
+  return COLORS.Sub2;
+};
+
+const getColor = (label: string, variant: string) => {
+  if (variant === 'completed') {
+    return '#FF425B';
+  }
+  return COLORS.Main;
+};
+
+const StyledTag = styled.div<{
+  $$variant: 'default' | 'completed';
+  label: string;
+}>`
+  width: ${props => getWidth(props.label)};
   height: 32px;
   display: flex;
   justify-content: center;
@@ -19,9 +54,8 @@ const StyledTag = styled.div<{ $$variant: 'default' | 'completed' }>`
   font-weight: 600;
   font-size: 12px;
   background-color: ${props =>
-    props.$$variant === 'completed' ? '#FCECEE' : COLORS.Sub2};
-  color: ${props =>
-    props.$$variant === 'completed' ? '#FF425B' : COLORS.Main};
+    getBackgroundColor(props.label, props.$$variant)};
+  color: ${props => getColor(props.label, props.$$variant)};
 `;
 
 export default Tag;

@@ -21,7 +21,7 @@ import { Btn_popup } from '@/components/common/Btn_popup';
 import Tag from '@/components/common/Tags';
 import step2 from '../assets/step2.png';
 import { useEffect } from 'react';
-import Button from '@/components/common/Btn_btns';
+import { Button } from '@/components/common/button';
 
 const CreateSurveyPageStep2 = () => {
   const dispatch = useDispatch<AppDispatch>();

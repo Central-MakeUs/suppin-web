@@ -18,6 +18,23 @@ const passwordSchema = z
   })
   .transform(removeWhiteSpace);
 
+// 비밀번호 변경 유효성 검사 스키마
+export const changePasswordSchema = z
+  .object({
+    currentPassword: passwordSchema,
+    newPassword: passwordSchema,
+    confirmNewPassword: passwordSchema,
+  })
+  .superRefine(({ newPassword, confirmNewPassword }, ctx) => {
+    if (newPassword !== confirmNewPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: '새 비밀번호와 비밀번호 확인이 일치하지 않습니다.',
+        path: ['confirmNewPassword'],
+      });
+    }
+  });
+
 const nameSchema = z
   .string()
   .min(2, { message: '이름은 최소 2자 이상이어야 합니다.' })
@@ -38,17 +55,23 @@ export const signupOneStepSchema = z.object({
   phone: phoneSchema,
 });
 
+const userTypeSchema = z
+  .enum(['인플루언서', '마케팅대행사', '브랜딩담당자'])
+  .optional();
+
 export const signupTwoStepSchema = z
   .object({
     userId: usernameSchema,
     password: passwordSchema,
     passwordConfirm: passwordSchema,
+    userType: userTypeSchema,
   })
   .superRefine(({ passwordConfirm, password }, ctx) => {
     if (passwordConfirm !== password) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: '비밀번호가 일치해야 합니다.',
+        path: ['passwordConfirm'],
       });
     }
   });
@@ -62,10 +85,19 @@ export type SignupOneStepType = z.infer<typeof signupOneStepSchema>;
 export type SignupTwoStepType = z.infer<typeof signupTwoStepSchema>;
 export type SigninType = z.infer<typeof signinSchema>;
 export type SignupPayload = {
+  userType?: string | undefined;
+  termsAgree: {
+    ageOver14Agree: boolean;
+    serviceUseAgree: boolean;
+    personalInfoAgree: boolean;
+    marketingAgree: boolean;
+  };
   userId: string;
   name: string;
   password: string;
   email: string;
   phone: string;
   verificationCode: string;
+  // userType: string;
 };
+export type ChangePasswordType = z.infer<typeof changePasswordSchema>;
