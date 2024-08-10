@@ -1,4 +1,4 @@
-import { SigninType, SignupType } from '@/lib/schema/auth.schema';
+import { SigninType, SignupPayload } from '@/lib/schema/auth.schema';
 import { deleteUser, signin, signup } from '@/services/apis/user.service';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 
 export const useSignup = () => {
   const { mutateAsync: join, isPending: isSignupLoading } = useMutation({
-    mutationFn: async (payload: SignupType) => await signup(payload),
+    mutationFn: async (payload: SignupPayload) => await signup(payload),
     onError: error => {
       console.error('Signup error:', error);
       // @ts-expect-error no type

@@ -9,7 +9,7 @@ export const NoResultWrapper = styled.div`
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
-  padding-bottom: 5rem;
+  padding: 0px 20px;
 
   p {
     color: ${COLORS.Gray2};
