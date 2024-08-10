@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import { COLORS } from '@/theme';
-import Tag from '../common/Tags';
 import { body5Style, body6Style, head4Style } from '@/styles/global-styles';
+import { COLORS } from '@/theme';
+import styled from 'styled-components';
+import chain from '../../assets/chain.png';
 import mainCard from '../../assets/main_card.png';
 import mainCard2 from '../../assets/main_card2.png';
-import chain from '../../assets/chain.png';
+import Tag from '../common/Tags';
 
 const EventList = ({ events }) => {
-  console.log('Events:', events); // 디버깅을 위한 콘솔 로그
+  console.log('Events:', events);
 
   return (
     <EventListWrapper>

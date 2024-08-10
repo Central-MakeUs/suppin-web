@@ -19,7 +19,6 @@ export default function Root() {
   return (
     <WebviewWrapper>
       <Outlet />
-      {/* <button onClick={handleSendMessage}>웹뷰 테스트 버튼</button> */}
     </WebviewWrapper>
   );
 }

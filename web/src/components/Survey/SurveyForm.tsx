@@ -5,7 +5,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 const SurveyForm = ({ selectedOption, setSelectedOption, onRemove }) => {
-  // TODO: 타입 정의
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {

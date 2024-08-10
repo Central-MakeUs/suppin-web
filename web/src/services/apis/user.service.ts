@@ -1,5 +1,6 @@
 import { SigninType, SignupPayload } from '@/lib/schema/auth.schema';
 import { axiosInstance } from '@/services/axios-instance';
+import { EventResponseType } from '@/types/event';
 import { UserResponse } from '@/types/user';
 // import axios from 'axios';
 
@@ -113,12 +114,8 @@ export const logout = async () => {
 };
 
 // 전체 이벤트 조회
-export const getEvents = async () => {
-  const { data } = await axiosInstance.get('/events/all', {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-  console.log(data);
+export const getEvents = async (): Promise<EventResponseType> => {
+  const { data } = await axiosInstance.get('/events/all');
+
   return data.data;
 };
