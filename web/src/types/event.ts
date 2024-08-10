@@ -1,7 +1,9 @@
 export type EventStatus = 'PROCESSING' | 'DONE';
+
+type EventOrServey = 'COMMENT' | 'SURVEY';
 export type EventType = {
   eventId: number;
-  type: 'COMMENT' | 'SURVEY';
+  type: EventOrServey;
   title: string;
   url: string;
   startDate: string;
@@ -16,4 +18,13 @@ export type EventResponseType = {
   code: string;
   message: string;
   data: EventType[];
+};
+
+export type CreateEventPayload = {
+  type: 'COMMENT' | 'SURVEY';
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  announcementDate: string;
 };

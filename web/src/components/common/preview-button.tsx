@@ -2,15 +2,15 @@ import { body3Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
 import styled from 'styled-components';
 
-export const Btn_preview = () => {
+export const PreviewButton = () => {
   return (
-    <Btn>
+    <PreviewButtonWrapper>
       <Preview>미리보기</Preview>
-    </Btn>
+    </PreviewButtonWrapper>
   );
 };
 
-const Btn = styled.button`
+const PreviewButtonWrapper = styled.button`
   width: 85px;
   height: 34px;
   border: 1px solid ${COLORS.Main};

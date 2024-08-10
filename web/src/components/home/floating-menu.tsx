@@ -6,7 +6,7 @@ import { FloatingMenuWrapper } from './floating-menu.styles';
 export const FloatingMenu = () => {
   return (
     <FloatingMenuWrapper>
-      <Link to="/survey">
+      <Link to="/survey/new">
         <BtnSurvey />
       </Link>
       <Link to="/collect">

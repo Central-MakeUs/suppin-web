@@ -1,15 +1,15 @@
+import { head1Style } from '@/styles/global-styles';
+import { COLORS } from '@/theme';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { COLORS } from '@/theme';
-import { head1Style } from '@/styles/global-styles';
 
-import { Subtitle } from '@/components/common/Subtitle';
-import { Btn_preview } from '@/components/common/Btn_preview';
 import { Btn_popup } from '@/components/common/Btn_popup';
-import SurveyForm from '@/components/Survey/SurveyForm';
-import SubjectiveForm from '@/components/Survey/SubjectiveForm';
-import ObjectiveSingleForm from '@/components/Survey/ObjectiveSingleForm';
-import ObjectiveMultipleForm from '@/components/Survey/ObjectiveMultipleForm';
+import { PreviewButton } from '@/components/common/preview-button';
+import { Subtitle } from '@/components/common/Subtitle';
+import ObjectiveMultipleForm from '@/components/survey/ObjectiveMultipleForm';
+import ObjectiveSingleForm from '@/components/survey/ObjectiveSingleForm';
+import SubjectiveForm from '@/components/survey/SubjectiveForm';
+import SurveyForm from '@/components/survey/surveyForm';
 import step3 from '../assets/step3.png';
 
 const CreateSurveyPageStep3 = () => {
@@ -96,7 +96,7 @@ const CreateSurveyPageStep3 = () => {
       <Subtitle title="설문 생성하기" />
       <Container>
         <img src={step3} style={{ width: '68px' }}></img>
-        <Btn_preview />
+        <PreviewButton />
       </Container>
       <MainContent>
         <Heading>당첨자 선정을 위해 필요한</Heading>
