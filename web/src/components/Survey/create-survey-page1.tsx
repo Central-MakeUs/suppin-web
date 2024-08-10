@@ -2,11 +2,12 @@ import step1 from '@/assets/step1.png';
 import { PreviewButton } from '@/components/common/preview-button';
 import { Subtitle } from '@/components/common/Subtitle';
 import { createEventSchema, CreateEventType } from '@/lib/schema/event.schema';
-import { formatDate } from '@/lib/timeUtils';
+import { useCreateEvent } from '@/services/queries/event.mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Box } from '../common/box';
+import { Button } from '../common/button';
+import { SignleDatePicker } from '../common/date-picker/single-date-picker';
 import {
   Form,
   FormControl,
@@ -15,16 +16,17 @@ import {
   FormMessage,
 } from '../common/form';
 import { Input } from '../common/input';
+import { Label } from '../common/label';
 import { Textarea } from '../common/textarea';
-import { RangeDatePicker } from '../myevent/range-date-picker';
-import { SingleDatePicker } from '../myevent/single-date-picker';
 import {
   CreateSurveyPageContent,
   CreateSurveyPageHeader,
   CreateSurveyPageWrapper,
 } from './create-survey-page.styles';
 
-export const CreateSurveyPageStep1: React.FC = () => {
+export const CreateSurveyPageStep1 = () => {
+  const { createEventMutation, isCreateEventLoading } = useCreateEvent();
+
   const form = useForm<CreateEventType>({
     resolver: zodResolver(createEventSchema),
     defaultValues: {
@@ -37,6 +39,17 @@ export const CreateSurveyPageStep1: React.FC = () => {
       description: '',
     },
   });
+
+  const submitHandler = (values: CreateEventType) => {
+    createEventMutation({
+      announcementDate: values.announcementDate,
+      description: values.description,
+      title: values.title,
+      endDate: values.eventPeriod.endDate,
+      startDate: values.eventPeriod.startDate,
+      type: 'SURVEY',
+    });
+  };
 
   return (
     <CreateSurveyPageWrapper>
@@ -54,7 +67,7 @@ export const CreateSurveyPageStep1: React.FC = () => {
       </CreateSurveyPageHeader>
       <CreateSurveyPageContent>
         <Form {...form}>
-          <form>
+          <form onSubmit={form.handleSubmit(submitHandler)}>
             <Box className="box">
               <FormField
                 control={form.control}
@@ -90,36 +103,65 @@ export const CreateSurveyPageStep1: React.FC = () => {
               />
             </Box>
             <Box className="box">
-              <FormField
-                name="eventPeriod"
-                control={form.control}
-                render={({ field }) => (
-                  <RangeDatePicker
-                    startDate={field.value.startDate}
-                    endDate={field.value.endDate}
-                    onChange={(startDate, endDate) =>
-                      field.onChange({
-                        startDate: formatDate(startDate),
-                        endDate: formatDate(endDate),
-                      })
-                    }
-                    placeholderStart="시작 날짜 선택"
-                    placeholderEnd="종료 날짜 선택"
-                  />
-                )}
-              />
-              <FormField
-                name="announcementDate"
-                control={form.control}
-                render={({ field }) => (
-                  <SingleDatePicker
-                    selected={field.value}
-                    onChange={date => field.onChange(formatDate(date))}
-                    placeholder="날짜 선택"
-                  />
-                )}
-              />
+              <Label>이벤트 진행 기간</Label>
+              <div className="date-container">
+                <FormField
+                  control={form.control}
+                  name="eventPeriod.startDate"
+                  render={({ field }) => (
+                    <FormItem style={{ marginBottom: 0 }}>
+                      <FormControl>
+                        <SignleDatePicker
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="eventPeriod.endDate"
+                  render={({ field }) => (
+                    <FormItem style={{ marginBottom: 0 }}>
+                      <FormControl>
+                        <SignleDatePicker
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <Label style={{ marginTop: '1rem' }}>당첨자 발표일</Label>
+              <div className="date-container">
+                <FormField
+                  control={form.control}
+                  name="announcementDate"
+                  render={({ field }) => (
+                    <FormItem style={{ marginBottom: 0 }}>
+                      <FormControl>
+                        <SignleDatePicker
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </Box>
+            <Button
+              disabled={isCreateEventLoading}
+              variant="add"
+              className="button"
+            >
+              다음으로
+            </Button>
           </form>
         </Form>
       </CreateSurveyPageContent>

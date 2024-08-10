@@ -6,7 +6,6 @@ export const useGetEvent = () => {
   const eventsData = useQuery({
     queryKey: queries.events.DEFAULT,
     queryFn: getEvents,
-    select: data => data.data,
   });
 
   return { eventsData };

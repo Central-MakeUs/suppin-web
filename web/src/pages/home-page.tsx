@@ -46,7 +46,7 @@ const HomePage = () => {
     if (eventsData.data && eventsData.data.length > 0) {
       setEvents(eventsData.data.filter(ev => ev.status === activeTab));
     }
-  }, [activeTab, eventsData]);
+  }, [activeTab, eventsData.data]);
 
   let content: React.ReactNode;
   if (eventsData.isPending) {
@@ -55,7 +55,7 @@ const HomePage = () => {
     content = <div>Loading,,,</div>;
   } else if (eventsData.isError) {
     content = <div>Error,,</div>;
-  } else if (!events) {
+  } else if (!events || events.length === 0) {
     content = <NoResult />;
   } else {
     content = <EventList events={events} />;

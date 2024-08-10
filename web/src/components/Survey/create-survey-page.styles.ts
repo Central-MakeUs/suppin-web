@@ -1,7 +1,10 @@
 import { COLORS } from '@/theme';
 import styled from 'styled-components';
 
-export const CreateSurveyPageWrapper = styled.main``;
+export const CreateSurveyPageWrapper = styled.main`
+  height: 100%;
+  overflow-y: hidden;
+`;
 
 export const CreateSurveyPageHeader = styled.header`
   display: flex;
@@ -26,6 +29,7 @@ export const CreateSurveyPageHeader = styled.header`
 `;
 
 export const CreateSurveyPageContent = styled.section`
+  height: 100%;
   background-color: ${COLORS.Sub2};
   padding: 1.25rem;
 
@@ -69,5 +73,21 @@ export const CreateSurveyPageContent = styled.section`
       font-size: 400;
       margin-bottom: 0.625rem;
     }
+
+    .date-container {
+      height: 2.875rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: ${COLORS.Gray5};
+      border: 1px solid ${COLORS.Gray5};
+      border-radius: 10px;
+      padding: 0.5rem 0.75rem;
+    }
+  }
+
+  .button {
+    width: 100%;
+    margin-top: 1rem;
   }
 `;
