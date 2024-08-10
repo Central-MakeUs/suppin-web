@@ -1,7 +1,7 @@
 import { SigninType, SignupPayload } from '@/lib/schema/auth.schema';
 import { axiosInstance } from '@/services/axios-instance';
 import { UserResponse } from '@/types/user';
-import axios from 'axios';
+// import axios from 'axios';
 
 export const signup = async (payload: SignupPayload) => {
   const { data } = await axiosInstance.post('/members/join', payload);
