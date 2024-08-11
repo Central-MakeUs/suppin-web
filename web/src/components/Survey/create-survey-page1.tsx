@@ -24,12 +24,13 @@ import {
   CreateSurveyPageContent,
   CreateSurveyPageHeader,
   CreateSurveyPageWrapper,
-} from './create-survey-page.styles';
+} from './create-survey-page1.styles';
 
 export const CreateSurveyPageStep1 = () => {
   const router = useNavigate();
 
-  const { createEventMutation, isCreateEventLoading } = useCreateEvent();
+  const { createEventMutation, isCreateEventLoading, isCreateEventSuccess } =
+    useCreateEvent();
 
   const form = useForm<CreateEventType>({
     resolver: zodResolver(createEventSchema),
@@ -53,6 +54,9 @@ export const CreateSurveyPageStep1 = () => {
       startDate: values.eventPeriod.startDate,
       type: 'SURVEY',
     });
+    if (isCreateEventSuccess) {
+      router('/survey/new?step=2');
+    }
   };
 
   return (
