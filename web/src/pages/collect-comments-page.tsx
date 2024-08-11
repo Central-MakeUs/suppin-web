@@ -4,9 +4,9 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import { Popup } from '@/components/common/Popup';
-import { Subtitle } from '@/components/common/Subtitle';
-import { SurveyTimeInput } from '@/components/common/SurveyTimeInput';
 import { SingleDatePicker } from '@/components/common/SingleDatePicker';
+import { Subtitle } from '@/components/common/Subtitle';
+import { SurveyTimeInput } from '@/components/common/surveyTimeInput';
 
 export const CollectCommentsPage = () => {
   const [selectedPath, setSelectedPath] = useState<string | null>(null);

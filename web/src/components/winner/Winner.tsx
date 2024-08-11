@@ -3,7 +3,7 @@ import { body1Style, body3Style, head4Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { SurveyTimeInput } from '../common/SurveyTimeInput';
+import { SurveyTimeInput } from '../common/surveyTimeInput';
 <<<<<<< Updated upstream
 =======
 <<<<<<< Updated upstream

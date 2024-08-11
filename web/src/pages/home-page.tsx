@@ -5,46 +5,61 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/common/tabs';
+import EventList from '@/components/home/event-list';
 import { FloatingButton } from '@/components/home/floating-button';
 import { NoResult } from '@/components/home/no-result';
-import EventList from '@/components/home/event-list';
-import { useQuery } from '@tanstack/react-query';
-import { getEvents } from '@/services/apis/user.service';
-import { useCallback, useEffect, useState } from 'react';
+import { useGetEvent } from '@/services/queries/event.queries';
+import { EventStatus, EventType } from '@/types/event';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { HomePageWrapper } from './home-page.styles';
 
+const p = 'PROCESSING';
+const d = 'DONE';
+
 const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [activeTab, setActiveTab] = useState<string>('progress');
+  const type = searchParams.get('type');
 
-  const { data: progressEvents, isPending: isPendingProgress } = useQuery({
-    queryKey: ['events', 'progress'],
-    queryFn: () => getEvents('PROCESSING'),
-  });
+  const { eventsData } = useGetEvent();
 
-  const { data: completeEvents, isPending: isPendingComplete } = useQuery({
-    queryKey: ['events', 'complete'],
-    queryFn: () => getEvents('COMPLETE'),
-  });
+  const [activeTab, setActiveTab] = useState<EventStatus>(p);
+  const [events, setEvents] = useState<EventType[] | null>(null);
 
   useEffect(() => {
-    const type = searchParams.get('type');
-    if (type && (type === 'progress' || type === 'complete')) {
+    if (type && (type === p || type === d)) {
       setActiveTab(type);
     } else {
-      setSearchParams({ type: 'progress' });
+      setSearchParams({ type: p });
     }
-  }, [searchParams, setSearchParams]);
+  }, []);
 
   const handleTabChange = useCallback(
     (value: string) => {
-      setActiveTab(value);
+      setActiveTab(value as EventStatus);
       setSearchParams({ type: value });
     },
     [setSearchParams]
   );
 
+  useEffect(() => {
+    if (eventsData.data && eventsData.data.length > 0) {
+      setEvents(eventsData.data.filter(ev => ev.status === activeTab));
+    }
+  }, [activeTab, eventsData.data]);
+
+  let content: React.ReactNode;
+  if (eventsData.isPending) {
+    content = <div>Loading,,</div>;
+  } else if (eventsData.isFetching) {
+    content = <div>Loading,,,</div>;
+  } else if (eventsData.isError) {
+    content = <div>Error,,</div>;
+  } else if (!events || events.length === 0) {
+    content = <NoResult />;
+  } else {
+    content = <EventList events={events} />;
+  }
   return (
     <HomePageWrapper>
       <Header>
@@ -56,27 +71,11 @@ const HomePage = () => {
         onValueChange={handleTabChange}
       >
         <TabsList>
-          <TabsTrigger value="progress">진행 중</TabsTrigger>
-          <TabsTrigger value="complete">진행 완료</TabsTrigger>
+          <TabsTrigger value={p}>진행 중</TabsTrigger>
+          <TabsTrigger value={d}>진행 완료</TabsTrigger>
         </TabsList>
-        <TabsContent value="progress">
-          {isPendingProgress ? (
-            <div>로딩 중...</div>
-          ) : progressEvents.length > 0 ? (
-            <EventList events={progressEvents} />
-          ) : (
-            <NoResult />
-          )}
-        </TabsContent>
-        <TabsContent value="complete">
-          {isPendingComplete ? (
-            <div>로딩 중...</div>
-          ) : completeEvents.length > 0 ? (
-            <EventList events={completeEvents} />
-          ) : (
-            <NoResult />
-          )}
-        </TabsContent>
+        <TabsContent value={p}>{content}</TabsContent>
+        <TabsContent value={d}>{content}</TabsContent>
       </Tabs>
       <FloatingButton />
     </HomePageWrapper>

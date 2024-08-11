@@ -12,3 +12,14 @@ export interface SurveyState {
   fields: Field[];
   questions: { id: number; type: string; content: React.ReactNode }[];
 }
+
+type QuestionType = 'SUBJECTIVE' | 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE';
+export type SurveyPayload = {
+  eventId: number;
+  personalInfoOptionList: { optionName: string }[];
+  questionList: {
+    questionType: QuestionType;
+    questionText: string;
+    options: string[];
+  }[];
+};

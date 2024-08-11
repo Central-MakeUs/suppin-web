@@ -1,10 +1,4 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Input, Button } from '@nextui-org/react';
-import styled from 'styled-components';
 import btnDelete from '@/assets/btn_delete.png';
-import { useNavigate } from 'react-router-dom';
 import {
   changePasswordSchema,
   ChangePasswordType,
@@ -13,9 +7,14 @@ import {
   checkCurrentPassword,
   updatePassword,
 } from '@/services/apis/user.service';
-import { toast } from 'sonner';
 import { body3Style, head3Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import styled from 'styled-components';
 
 const ChangePwd = ({ onClose }: { onClose: () => void }) => {
   const {

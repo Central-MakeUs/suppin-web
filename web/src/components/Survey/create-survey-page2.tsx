@@ -1,27 +1,27 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from '@/store';
+import { Btn_popup } from '@/components/common/Btn_popup';
+import { Subtitle } from '@/components/common/Subtitle';
+import Tag from '@/components/common/Tags';
+import { Button } from '@/components/common/button';
+import { PreviewButton } from '@/components/common/preview-button';
+import { AppDispatch, RootState } from '@/store';
 import {
-  setDescription,
-  resetForm,
   addField,
-  updateFieldLabel,
   removeField,
+  resetForm,
+  setDescription,
+  updateFieldLabel,
 } from '@/store/survey';
-import styled from 'styled-components';
-import { COLORS } from '@/theme';
 import {
   body3Style,
   body4Style,
   body6Style,
   head1Style,
 } from '@/styles/global-styles';
-import { Subtitle } from '@/components/common/Subtitle';
-import { Btn_preview } from '@/components/common/Btn_preview';
-import { Btn_popup } from '@/components/common/Btn_popup';
-import Tag from '@/components/common/Tags';
-import step2 from '../assets/step2.png';
+import { COLORS } from '@/theme';
 import { useEffect } from 'react';
-import { Button } from '@/components/common/button';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+import step2 from '../assets/step2.png';
 
 const CreateSurveyPageStep2 = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -76,7 +76,7 @@ const CreateSurveyPageStep2 = () => {
       <Subtitle title="설문 생성하기" />
       <Container>
         <img src={step2} style={{ width: '68px' }} alt="Step 2" />
-        <Btn_preview />
+        <PreviewButton />
       </Container>
       <MainContent>
         <Heading>수집할 참여자 정보를</Heading>
