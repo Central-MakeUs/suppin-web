@@ -1,4 +1,5 @@
 import { Header } from '@/components/common/header';
+import { BarLoader } from '@/components/common/loader';
 import {
   Tabs,
   TabsContent,
@@ -9,7 +10,7 @@ import EventList from '@/components/home/event-list';
 import { FloatingButton } from '@/components/home/floating-button';
 import { NoResult } from '@/components/home/no-result';
 import { useGetEvent } from '@/services/queries/event.queries';
-import { EventStatus, EventType } from '@/types/event';
+import type { EventStatus, EventType } from '@/types/event';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { HomePageWrapper } from './home-page.styles';
@@ -50,9 +51,9 @@ const HomePage = () => {
 
   let content: React.ReactNode;
   if (eventsData.isPending) {
-    content = <div>Loading,,</div>;
+    content = <BarLoader />;
   } else if (eventsData.isFetching) {
-    content = <div>Loading,,,</div>;
+    content = <BarLoader />;
   } else if (eventsData.isError) {
     content = <div>Error,,</div>;
   } else if (!events || events.length === 0) {

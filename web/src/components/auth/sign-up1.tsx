@@ -18,7 +18,6 @@ export const SignUp1: React.FC = () => {
 
   const handleCheck = (item: keyof typeof checkedItems) => {
     dispatch(toggleCheck(item));
-    console.log('check됨!');
   };
 
   const isButtonEnabled =
@@ -33,7 +32,7 @@ export const SignUp1: React.FC = () => {
   };
   return (
     <>
-      <Subtitle title={'회원가입'}></Subtitle>
+      <Subtitle title={'회원가입'} />
       <Container>
         <Depth>1/3</Depth>
         <H1 style={{ marginTop: '15px' }}>약관에 동의해주세요</H1>

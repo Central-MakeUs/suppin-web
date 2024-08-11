@@ -11,7 +11,8 @@ import {
   SignupOneStepType,
 } from '@/lib/schema/auth.schema';
 import { formatPhoneNumber } from '@/lib/utils';
-import { sendEmailCode, verifyEmailCode } from '@/services/apis/user.service';
+import { verifyEmailCode } from '@/services/apis/user.service';
+import { useSendEmailCode } from '@/services/queries/user.mutation';
 import { AppDispatch } from '@/store';
 import { nextStep, updateSignupField } from '@/store/signup/signup';
 import { body1Style, head1Style } from '@/styles/global-styles';
@@ -25,9 +26,12 @@ import { toast } from 'sonner';
 import styled from 'styled-components';
 import { Subtitle } from '../common/Subtitle';
 import { Label } from '../common/label';
+import { SpinLoader } from '../common/loader';
 
 export const SignUp2 = () => {
   const dispatch = useDispatch<AppDispatch>();
+
+  const { sendEmailMutation, isSendEmailLoading } = useSendEmailCode();
 
   const [formattedContact, setFormattedContact] = useState<string>('');
   const [isEmailVerified, setIsEmailVerified] = useState<boolean>(false);
@@ -44,8 +48,7 @@ export const SignUp2 = () => {
 
   const handleSendEmailCode = async () => {
     try {
-      await sendEmailCode(form.getValues('email'));
-      console.log('이메일 전송완료');
+      await sendEmailMutation(form.getValues('email'));
       toast.success('인증번호가 이메일로 전송되었습니다.');
     } catch (error) {
       console.log('이메일 전송 중 오류 발생!');
@@ -152,8 +155,16 @@ export const SignUp2 = () => {
                     render={({ field }) => (
                       <EmailContainer>
                         <Email placeholder="이메일을 입력해주세요" {...field} />
-                        <Confirm type="button" onClick={handleSendEmailCode}>
-                          이메일 인증하기
+                        <Confirm
+                          disabled={isSendEmailLoading}
+                          type="button"
+                          onClick={handleSendEmailCode}
+                        >
+                          {isSendEmailLoading ? (
+                            <SpinLoader />
+                          ) : (
+                            '이메일 인증하기'
+                          )}
                         </Confirm>
                       </EmailContainer>
                     )}
