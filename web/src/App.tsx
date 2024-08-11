@@ -48,6 +48,17 @@ const router = createBrowserRouter([
           };
         },
       },
+      {
+        path: 'collect',
+        lazy: async () => {
+          const { CollectCommentsPage } = await import(
+            '@/pages/collect-comments-page'
+          );
+          return {
+            Component: CollectCommentsPage,
+          };
+        },
+      },
 
       {
         path: 'survey',
@@ -65,21 +76,13 @@ const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: 'collect',
-        lazy: async () => {
-          const { CollectCommentsPage } = await import(
-            '@/pages/collect-comments-page'
-          );
-          return {
-            Component: CollectCommentsPage,
-          };
-        },
-      },
+
       {
         path: 'crawling',
         lazy: async () => {
-          const { CrawlingPage } = await import('@/pages/crawling-result-page');
+          const { default: CrawlingPage } = await import(
+            '@/pages/crawling-result-page'
+          );
           return {
             Component: CrawlingPage,
           };

@@ -6,13 +6,22 @@ interface PopupProps {
   title: string;
   message: string;
   onClose: () => void;
+  imgSrc: string; // 이미지 소스를 받아올 수 있음
+  width: string;
+  height: string;
 }
 
-export const Popup = ({ message, onClose }: PopupProps) => {
+export const Popup = ({
+  message,
+  onClose,
+  imgSrc,
+  width,
+  height,
+}: PopupProps) => {
   return (
     <PopupOverlay>
       <Container>
-        <Container2></Container2>
+        <Container2 src={imgSrc} width={width} height={height} />
         <Msg>{message}</Msg>
         <Btn_popup onClick={onClose} />
       </Container>
@@ -45,10 +54,9 @@ const Container = styled.div`
   border: 1px solid ${COLORS.Gray4};
 `;
 
-const Container2 = styled.div`
-  border: 1px solid ${COLORS.Gray4};
-  width: 200px;
-  height: 150px;
+const Container2 = styled.img`
+  width: 100px;
+  height: auto;
   margin-bottom: 20px;
 `;
 

@@ -2,8 +2,8 @@ import { DateState } from '@/types/comment';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: DateState = {
-  startDate: null,
-  endDate: null,
+  startDate: '',
+  endDate: '',
   announcementDate: null,
 };
 
@@ -18,7 +18,7 @@ const dateSlice = createSlice({
       state.endDate = action.payload;
     },
     setAnnouncementDate(state, action: PayloadAction<string | null>) {
-      state.announcementDate = action.payload; // 새로운 리듀서 추가
+      state.announcementDate = action.payload;
     },
   },
 });

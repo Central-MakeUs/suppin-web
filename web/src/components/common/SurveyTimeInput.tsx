@@ -4,11 +4,11 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { handleEndDateChange, handleStartDateChange } from '@/lib/timeUtils';
 import { body4Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
 import { CSSProperties } from 'react';
 import calendarIcon from '../../assets/calander.png';
+import { handleEndDateChange, handleStartDateChange } from '@/lib/timeUtil';
 
 interface SurveyTimeInputProps {
   placeholderStart: string;

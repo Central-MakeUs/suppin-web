@@ -1,4 +1,4 @@
-import { CreateSurveyPageStep1 } from '@/components/survey/create-survey-page1';
+import { CreateSurveyPageStep1 } from '@/components/Survey/create-survey-page1';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 

@@ -3,6 +3,7 @@ import termsReducer from '@/store/signup/terms';
 import surveyReducer from '@/store/survey';
 import userReducer from '@/store/user';
 import winnerReducer from '@/store/winner';
+import datesReducer from '@/store/comment';
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
@@ -12,6 +13,7 @@ const store = configureStore({
     winner: winnerReducer,
     terms: termsReducer,
     signup: signupReducer,
+    dates: datesReducer,
   },
 });
 
