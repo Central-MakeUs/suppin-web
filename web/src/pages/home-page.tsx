@@ -37,7 +37,7 @@ const HomePage = () => {
   const handleTabChange = useCallback(
     (value: string) => {
       setActiveTab(value as EventStatus);
-      setSearchParams({ type: value });
+      setSearchParams({ type: value }, { replace: true });
     },
     [setSearchParams]
   );

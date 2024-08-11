@@ -5,6 +5,7 @@ import { createEventSchema, CreateEventType } from '@/lib/schema/event.schema';
 import { useCreateEvent } from '@/services/queries/event.mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { Box } from '../common/box';
 import { Button } from '../common/button';
 import { SignleDatePicker } from '../common/date-picker/single-date-picker';
@@ -25,6 +26,8 @@ import {
 } from './create-survey-page.styles';
 
 export const CreateSurveyPageStep1 = () => {
+  const router = useNavigate();
+
   const { createEventMutation, isCreateEventLoading } = useCreateEvent();
 
   const form = useForm<CreateEventType>({
@@ -53,7 +56,7 @@ export const CreateSurveyPageStep1 = () => {
 
   return (
     <CreateSurveyPageWrapper>
-      <Subtitle title="설문 생성하기" />
+      <Subtitle title="설문 생성하기" onBackClick={() => router('/')} />
       <CreateSurveyPageHeader>
         <div className="progress">
           <img src={step1} style={{ width: '68px' }} alt="Step 1" />

@@ -9,9 +9,9 @@ export const CreateSurveyPage = () => {
 
   useEffect(() => {
     if (!step) {
-      setSearchParams({ step: '1' });
+      setSearchParams({ step: '1' }, { replace: true });
     }
-  }, [step, setSearchParams]);
+  }, []);
 
   let content;
   if (step === '1') {
