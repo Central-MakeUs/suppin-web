@@ -1,6 +1,6 @@
 export type EventStatus = 'PROCESSING' | 'DONE';
 
-type EventOrServey = 'COMMENT' | 'SURVEY';
+export type EventOrServey = 'COMMENT' | 'SURVEY';
 export type EventType = {
   eventId: number;
   type: EventOrServey;

@@ -1,5 +1,10 @@
 import { SigninType, SignupPayload } from '@/lib/schema/auth.schema';
-import { deleteUser, signin, signup } from '@/services/apis/user.service';
+import {
+  deleteUser,
+  sendEmailCode,
+  signin,
+  signup,
+} from '@/services/apis/user.service';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -75,5 +80,17 @@ export const useDeleteUser = () => {
   return {
     deleteUserAccount,
     isDeleting,
+  };
+};
+
+export const useSendEmailCode = () => {
+  const { mutateAsync: sendEmailMutation, isPending: isSendEmailLoading } =
+    useMutation({
+      mutationFn: (email: string) => sendEmailCode(email),
+    });
+
+  return {
+    sendEmailMutation,
+    isSendEmailLoading,
   };
 };

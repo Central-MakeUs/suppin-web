@@ -1,27 +1,26 @@
 import { body5Style, body6Style, head4Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
+import type { EventOrServey, EventType } from '@/types/event';
 import styled from 'styled-components';
 import chain from '../../assets/chain.png';
 import mainCard from '../../assets/main_card.png';
 import mainCard2 from '../../assets/main_card2.png';
 import Tag from '../common/Tags';
 
-const EventList = ({ events }) => {
-  console.log('Events:', events);
-
+const EventList = ({ events }: { events: EventType[] }) => {
   return (
     <EventListWrapper>
       {events.map(event => (
         <EventCard key={event.eventId} $eventType={event.type}>
           <HeaderContainer>
             <CardHeader>
-              <EventType $eventType={event.type}>
+              <EventTypeWrapper $eventType={event.type}>
                 {event.type === 'COMMENT' ? (
                   <Tag label={'댓글 수집형'} $variant={'default'} />
                 ) : (
                   <Tag label={'설문형'} $variant={'default'} />
                 )}
-              </EventType>
+              </EventTypeWrapper>
               <EventCount>
                 {event.type === 'COMMENT' ? '수집 댓글 수' : '응답자 수'} |{' '}
                 {event.commentCount}
@@ -60,10 +59,13 @@ const EventListWrapper = styled.div`
   margin-top: 32px;
 `;
 
-const EventCard = styled.div<{ $eventType: string }>`
+const getBackgroundImage = ($eventType: EventOrServey) => {
+  return $eventType === 'COMMENT' ? mainCard2 : mainCard;
+};
+
+const EventCard = styled.div<{ $eventType: EventOrServey }>`
   padding: 20px;
-  background-image: url(${({ $eventType }) =>
-    $eventType === 'COMMENT' ? mainCard2 : mainCard});
+  background-image: url(${({ $eventType }) => getBackgroundImage($eventType)});
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -81,7 +83,7 @@ const CardHeader = styled.div`
   gap: 8px;
 `;
 
-const EventType = styled.div<{ $eventType: string }>`
+const EventTypeWrapper = styled.div<{ $eventType: EventOrServey }>`
   color: ${({ $eventType }) =>
     $eventType === 'COMMENT' ? COLORS.Sub1 : COLORS.Main};
 `;

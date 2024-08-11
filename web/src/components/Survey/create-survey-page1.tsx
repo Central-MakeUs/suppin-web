@@ -18,6 +18,7 @@ import {
 } from '../common/form';
 import { Input } from '../common/input';
 import { Label } from '../common/label';
+import { SpinLoader } from '../common/loader';
 import { Textarea } from '../common/textarea';
 import {
   CreateSurveyPageContent,
@@ -126,17 +127,36 @@ export const CreateSurveyPageStep1 = () => {
                 <FormField
                   control={form.control}
                   name="eventPeriod.endDate"
-                  render={({ field }) => (
-                    <FormItem style={{ marginBottom: 0 }}>
-                      <FormControl>
-                        <SignleDatePicker
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) => {
+                    const startDate = form.getValues('eventPeriod.startDate')
+                      ? new Date(form.getValues('eventPeriod.startDate'))
+                      : undefined;
+
+                    const minTime = startDate
+                      ? new Date(
+                          startDate.setHours(startDate.getHours(), 0, 0, 0)
+                        )
+                      : undefined;
+
+                    const maxTime = startDate
+                      ? new Date(startDate.setHours(23, 59, 59, 999))
+                      : undefined;
+
+                    return (
+                      <FormItem style={{ marginBottom: 0 }}>
+                        <FormControl>
+                          <SignleDatePicker
+                            value={field.value}
+                            onChange={field.onChange}
+                            minDate={startDate}
+                            minTime={minTime}
+                            maxTime={maxTime}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
               </div>
               <Label style={{ marginTop: '1rem' }}>당첨자 발표일</Label>
@@ -163,7 +183,7 @@ export const CreateSurveyPageStep1 = () => {
               variant="add"
               className="button"
             >
-              다음으로
+              {isCreateEventLoading ? <SpinLoader /> : '다음으로'}
             </Button>
           </form>
         </Form>

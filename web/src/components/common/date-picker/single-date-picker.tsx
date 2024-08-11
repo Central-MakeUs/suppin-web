@@ -9,12 +9,18 @@ type SignleDatePickerProps = {
   value: string;
   onChange: (dateString: string) => void;
   className?: string;
+  minDate?: Date;
+  minTime?: Date;
+  maxTime?: Date;
 };
 
 export const SignleDatePicker = ({
   value,
   onChange,
   className,
+  minDate,
+  minTime,
+  maxTime,
 }: SignleDatePickerProps) => {
   const [selected, setSelected] = useState<Date | null>(null);
 
@@ -53,6 +59,9 @@ export const SignleDatePicker = ({
           placeholderText="날짜 선택"
           showTimeSelect
           dateFormat={'yyyy-MM-dd HH:mm'}
+          minDate={minDate}
+          minTime={minTime}
+          maxTime={maxTime}
         />
       </div>
     </SignleDatePickerWrapper>
