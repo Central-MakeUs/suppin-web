@@ -2,10 +2,13 @@ import cancelImg from '@/assets/cancel.svg';
 import step2 from '@/assets/step2.png';
 import { Subtitle } from '@/components/common/Subtitle';
 import { PreviewButton } from '@/components/common/preview-button';
+import { setFields, setPolicy } from '@/store/survey';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '../common/badge';
 import { Box } from '../common/box';
+import { Button } from '../common/button';
 import { Input } from '../common/input';
 import { Textarea } from '../common/textarea';
 import {
@@ -28,6 +31,7 @@ const defaultFields = ['연락처', '아이디', '이름', '주소'];
 
 export const CreateSurveyPageStep2 = () => {
   const router = useNavigate();
+  const dispatch = useDispatch();
 
   const [text, setText] = useState<{
     line1: string;
@@ -35,7 +39,7 @@ export const CreateSurveyPageStep2 = () => {
     line3: string;
     line4: string;
   }>(defaultText);
-  const [fields, setFields] = useState<string[]>(defaultFields);
+  const [fields, setLocalFields] = useState<string[]>(defaultFields);
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -57,7 +61,7 @@ export const CreateSurveyPageStep2 = () => {
   }, []);
 
   const handleFieldChange = (index: number, value: string) => {
-    setFields(prevFields => {
+    setLocalFields(prevFields => {
       const newFields = [...prevFields];
       newFields[index] = value;
       return newFields;
@@ -65,11 +69,16 @@ export const CreateSurveyPageStep2 = () => {
   };
 
   const handleAddField = () => {
-    setFields(prevFields => [...prevFields, '']);
+    setLocalFields(prevFields => [...prevFields, '']);
   };
 
   const handleRemoveField = (index: number) => {
-    setFields(prevFields => prevFields.filter((_, i) => i !== index));
+    setLocalFields(prevFields => prevFields.filter((_, i) => i !== index));
+  };
+
+  const saveHandler = () => {
+    dispatch(setPolicy(text));
+    dispatch(setFields(fields));
   };
 
   return (
@@ -158,6 +167,14 @@ export const CreateSurveyPageStep2 = () => {
           </div>
         </Box>
       </CreateSurveyPageContent>
+      <Button
+        type="button"
+        onClick={saveHandler}
+        variant="add"
+        className="button"
+      >
+        다음으로
+      </Button>
     </PageContainer>
   );
 };

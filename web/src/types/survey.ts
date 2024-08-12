@@ -1,16 +1,11 @@
-import React from 'react';
-interface Field {
-  label: string;
-  checked: boolean;
-}
-
 export interface SurveyState {
-  title: string;
-  description: string;
-  startDate: Date | null;
-  endDate: Date | null;
-  fields: Field[];
-  questions: { id: number; type: string; content: React.ReactNode }[];
+  policy: {
+    line1: string;
+    line2: string;
+    line3: string;
+    line4: string;
+  };
+  fields: string[];
 }
 
 type QuestionType = 'SUBJECTIVE' | 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE';
