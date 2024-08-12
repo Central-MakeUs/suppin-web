@@ -1,5 +1,6 @@
 import step3 from '@/assets/step3.png';
 import { SelectValue } from '@radix-ui/react-select';
+import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '../common/box';
 import { PreviewButton } from '../common/preview-button';
@@ -38,17 +39,27 @@ export const CreateSurveyPageStep3 = () => {
         <Box className="box">
           <div className="box-header">
             <Select>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue defaultValue="" />
+              <SelectTrigger className="select-trigger">
+                <SelectValue
+                  defaultValue="SUBJECTIVE"
+                  className="select-value"
+                />
               </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="apple">주관식</SelectItem>
-                  <SelectItem value="banana">객관식 (단일 선택)</SelectItem>
-                  <SelectItem value="blueberry">객관식 (복수 선택)</SelectItem>
+              <SelectContent className="select-content">
+                <SelectGroup className="select-group">
+                  <SelectItem className="select-item" value="SUBJECTIVE">
+                    주관식
+                  </SelectItem>
+                  <SelectItem className="select-item" value="SINGLE_CHOICE">
+                    객관식 (단일 선택)
+                  </SelectItem>
+                  <SelectItem className="select-item" value="MULTIPLE_CHOICE">
+                    객관식 (복수 선택)
+                  </SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
+            <X />
           </div>
         </Box>
       </CreateSurveyPageContent>

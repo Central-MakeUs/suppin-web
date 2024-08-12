@@ -1,5 +1,5 @@
 import * as SelectPrimitive from '@radix-ui/react-select';
-import { Check, ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import React from 'react';
 import {
   StyledSelectContent,
@@ -56,9 +56,7 @@ const SelectItem = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
 >((props, ref) => (
   <StyledSelectItem ref={ref} {...props}>
-    <SelectPrimitive.ItemIndicator>
-      <Check />
-    </SelectPrimitive.ItemIndicator>
+    <SelectPrimitive.ItemIndicator></SelectPrimitive.ItemIndicator>
     <SelectPrimitive.ItemText>{props.children}</SelectPrimitive.ItemText>
   </StyledSelectItem>
 ));

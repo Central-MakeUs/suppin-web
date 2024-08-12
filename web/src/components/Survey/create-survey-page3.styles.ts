@@ -45,6 +45,18 @@ export const CreateSurveyPageContent = styled.section`
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+
+    .select-trigger {
+      min-width: 8.25rem;
+      width: fit-content;
+      border: 1px solid ${COLORS.Gray4};
+      padding: 0.5rem 0.625rem;
     }
   }
 `;
