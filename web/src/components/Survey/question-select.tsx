@@ -7,7 +7,6 @@ import {
   SelectValue,
 } from '@/components/common/select';
 import { X } from 'lucide-react';
-import { useState } from 'react';
 import { QuestionSelectWrapper } from './question-select.styles';
 
 const valueMap = {
@@ -18,16 +17,17 @@ const valueMap = {
 
 type ValueType = keyof typeof valueMap;
 
-export const QuestionSelect = () => {
-  const [value, setValue] = useState<ValueType>('SUBJECTIVE');
+type QuestionSelectProps = {
+  value: ValueType;
+  onChange: (value: ValueType) => void;
+};
 
+export const QuestionSelect = ({ value, onChange }: QuestionSelectProps) => {
   return (
     <QuestionSelectWrapper>
-      <Select value={value} onValueChange={(e: ValueType) => setValue(e)}>
+      <Select value={value} onValueChange={onChange}>
         <SelectTrigger className="select-trigger">
-          <SelectValue defaultValue="SUBJECTIVE" className="select-value">
-            {valueMap[value]}
-          </SelectValue>
+          <SelectValue className="select-value">{valueMap[value]}</SelectValue>
         </SelectTrigger>
         <SelectContent
           className="select-content"

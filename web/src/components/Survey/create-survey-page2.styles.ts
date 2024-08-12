@@ -1,7 +1,9 @@
 import { COLORS } from '@/theme';
 import styled from 'styled-components';
 
-export const PageContainer = styled.div``;
+export const PageContainer = styled.div`
+  height: 100%;
+`;
 
 export const CreateSurveyPageHeader = styled.header`
   display: flex;

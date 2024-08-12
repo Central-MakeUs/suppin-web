@@ -27,7 +27,12 @@ const defaultText = {
     '*개인정보의 수집 및 이용에 대한 동의를 거부할 수 있으며, 이 경우 이벤트 참여가 어렵습니다.',
 };
 
-const defaultFields = ['연락처', '아이디', '이름', '주소'];
+const defaultFields = [
+  { optionName: '연락처' },
+  { optionName: '아이디' },
+  { optionName: '이름' },
+  { optionName: '주소' },
+];
 
 export const CreateSurveyPageStep2 = () => {
   const router = useNavigate();
@@ -39,7 +44,8 @@ export const CreateSurveyPageStep2 = () => {
     line3: string;
     line4: string;
   }>(defaultText);
-  const [fields, setLocalFields] = useState<string[]>(defaultFields);
+  const [fields, setLocalFields] =
+    useState<{ optionName: string }[]>(defaultFields);
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -63,13 +69,13 @@ export const CreateSurveyPageStep2 = () => {
   const handleFieldChange = (index: number, value: string) => {
     setLocalFields(prevFields => {
       const newFields = [...prevFields];
-      newFields[index] = value;
+      newFields[index].optionName = value;
       return newFields;
     });
   };
 
   const handleAddField = () => {
-    setLocalFields(prevFields => [...prevFields, '']);
+    setLocalFields(prevFields => [...prevFields, { optionName: '' }]);
   };
 
   const handleRemoveField = (index: number) => {
@@ -79,6 +85,7 @@ export const CreateSurveyPageStep2 = () => {
   const saveHandler = () => {
     dispatch(setPolicy(text));
     dispatch(setFields(fields));
+    router('/survey/new?step=3');
   };
 
   return (
@@ -149,7 +156,7 @@ export const CreateSurveyPageStep2 = () => {
             {fields.map((field, index) => (
               <div key={index} className="field-row">
                 <Input
-                  value={field}
+                  value={field.optionName}
                   onChange={e => handleFieldChange(index, e.target.value)}
                 />
                 {fields.length > 1 && (
@@ -166,15 +173,15 @@ export const CreateSurveyPageStep2 = () => {
             + 항목 추가 생성
           </div>
         </Box>
+        <Button
+          type="button"
+          onClick={saveHandler}
+          variant="add"
+          className="button"
+        >
+          다음으로
+        </Button>
       </CreateSurveyPageContent>
-      <Button
-        type="button"
-        onClick={saveHandler}
-        variant="add"
-        className="button"
-      >
-        다음으로
-      </Button>
     </PageContainer>
   );
 };

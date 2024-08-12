@@ -29,8 +29,7 @@ import {
 export const CreateSurveyPageStep1 = () => {
   const router = useNavigate();
 
-  const { createEventMutation, isCreateEventLoading, isCreateEventSuccess } =
-    useCreateEvent();
+  const { createEventMutation, isCreateEventLoading } = useCreateEvent();
 
   const form = useForm<CreateEventType>({
     resolver: zodResolver(createEventSchema),
@@ -54,9 +53,6 @@ export const CreateSurveyPageStep1 = () => {
       startDate: values.eventPeriod.startDate,
       type: 'SURVEY',
     });
-    if (isCreateEventSuccess) {
-      router('/survey/new?step=2');
-    }
   };
 
   return (

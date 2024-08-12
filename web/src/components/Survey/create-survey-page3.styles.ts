@@ -1,7 +1,29 @@
 import { COLORS } from '@/theme';
 import styled from 'styled-components';
 
-export const CreateSurveyPageContainer = styled.main``;
+export const CreateSurveyPageContainer = styled.main`
+  min-height: 100%;
+
+  .btns {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .add {
+      width: 100%;
+      background: ${COLORS.white};
+      box-shadow: 0px 0px 4px 0px #00000040;
+      color: ${COLORS.Main};
+      font-size: 1rem;
+    }
+    .submit {
+      width: 100%;
+      background: ${COLORS.Main};
+      color: ${COLORS.white};
+      font-size: 1rem;
+    }
+  }
+`;
 
 export const CreateSurveyPageHeader = styled.header`
   display: flex;
@@ -22,6 +44,14 @@ export const CreateSurveyPageHeader = styled.header`
     line-height: 2rem;
     font-weight: 400;
     margin-bottom: 0.75rem;
+  }
+
+  .add {
+    width: 100%;
+    background: ${COLORS.white};
+    box-shadow: 0px 0px 4px 0px #00000040;
+    color: ${COLORS.Main};
+    font-size: 1rem;
   }
 `;
 
