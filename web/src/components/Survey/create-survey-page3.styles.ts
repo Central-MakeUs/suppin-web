@@ -41,17 +41,6 @@ export const CreateSurveyPageContent = styled.section`
     flex-direction: column;
     gap: 0.625rem;
 
-    .box-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      svg {
-        width: 1.5rem;
-        height: 1.5rem;
-      }
-    }
-
     .select-trigger {
       min-width: 8.25rem;
       width: fit-content;
