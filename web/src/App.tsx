@@ -51,6 +51,10 @@ const router = createBrowserRouter([
 
       {
         path: 'survey',
+        lazy: async () => {
+          const { SurveyPage } = await import('@/pages/survey-page');
+          return { Component: SurveyPage };
+        },
         children: [
           {
             path: 'new',
