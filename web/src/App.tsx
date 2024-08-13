@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Toaster } from 'sonner';
+import { ModalProvider } from './lib/providers/modal-provider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -99,6 +100,7 @@ export default function App() {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <GlobalStyles />
+        <ModalProvider />
         <Toaster position="bottom-center" richColors />
         <RouterProvider router={router} />
       </QueryClientProvider>

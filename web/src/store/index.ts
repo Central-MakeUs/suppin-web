@@ -1,3 +1,4 @@
+import modalReducer from '@/store/modal';
 import signupReducer from '@/store/signup/signup';
 import termsReducer from '@/store/signup/terms';
 import surveyReducer from '@/store/survey';
@@ -12,6 +13,7 @@ const store = configureStore({
     winner: winnerReducer,
     terms: termsReducer,
     signup: signupReducer,
+    modal: modalReducer,
   },
 });
 
