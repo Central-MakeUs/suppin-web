@@ -24,7 +24,7 @@ import {
   CreateSurveyPageContent,
   CreateSurveyPageHeader,
   CreateSurveyPageWrapper,
-} from './create-survey-page.styles';
+} from './create-survey-page1.styles';
 
 export const CreateSurveyPageStep1 = () => {
   const router = useNavigate();
@@ -164,17 +164,24 @@ export const CreateSurveyPageStep1 = () => {
                 <FormField
                   control={form.control}
                   name="announcementDate"
-                  render={({ field }) => (
-                    <FormItem style={{ marginBottom: 0 }}>
-                      <FormControl>
-                        <SignleDatePicker
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) => {
+                    const endDate = form.getValues('eventPeriod.endDate')
+                      ? new Date(form.getValues('eventPeriod.endDate'))
+                      : undefined;
+
+                    return (
+                      <FormItem style={{ marginBottom: 0 }}>
+                        <FormControl>
+                          <SignleDatePicker
+                            value={field.value}
+                            onChange={field.onChange}
+                            minDate={endDate}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
               </div>
             </Box>

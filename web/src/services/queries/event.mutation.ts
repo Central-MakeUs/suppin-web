@@ -1,13 +1,29 @@
+import { setEventId } from '@/store/survey';
 import { CreateEventPayload } from '@/types/event';
 import { useMutation } from '@tanstack/react-query';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { createEvent } from '../apis/event.service';
 
 export const useCreateEvent = () => {
-  const { mutateAsync: createEventMutation, isPending: isCreateEventLoading } =
-    useMutation({
-      mutationFn: async (payload: CreateEventPayload) =>
-        await createEvent(payload),
-    });
+  const router = useNavigate();
+  const dispatch = useDispatch();
 
-  return { createEventMutation, isCreateEventLoading };
+  const {
+    mutateAsync: createEventMutation,
+    isPending: isCreateEventLoading,
+    isSuccess: isCreateEventSuccess,
+  } = useMutation({
+    mutationFn: async (payload: CreateEventPayload) =>
+      await createEvent(payload),
+
+    onSuccess: (data: { data: { eventId: number } }) => {
+      console.log(data);
+
+      dispatch(setEventId(data.data.eventId));
+      router('/survey/new?step=2');
+    },
+  });
+
+  return { createEventMutation, isCreateEventLoading, isCreateEventSuccess };
 };
