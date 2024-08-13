@@ -160,6 +160,7 @@ export const CreateSurveyPageStep1 = () => {
                 />
               </div>
               <Label style={{ marginTop: '1rem' }}>당첨자 발표일</Label>
+              {/* TODO: 발표일 유효성 */}
               <div className="date-container">
                 <FormField
                   control={form.control}

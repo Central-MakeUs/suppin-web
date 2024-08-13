@@ -17,8 +17,10 @@ export const useCreateEvent = () => {
     mutationFn: async (payload: CreateEventPayload) =>
       await createEvent(payload),
 
-    onSuccess: (data: { eventId: number }) => {
-      dispatch(setEventId(data.eventId));
+    onSuccess: (data: { data: { eventId: number } }) => {
+      console.log(data);
+
+      dispatch(setEventId(data.data.eventId));
       router('/survey/new?step=2');
     },
   });

@@ -2,7 +2,7 @@ import { COLORS } from '@/theme';
 import styled from 'styled-components';
 
 export const PageContainer = styled.div`
-  height: 100%;
+  min-height: 100%;
 `;
 
 export const CreateSurveyPageHeader = styled.header`
