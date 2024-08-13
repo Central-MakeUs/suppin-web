@@ -160,22 +160,28 @@ export const CreateSurveyPageStep1 = () => {
                 />
               </div>
               <Label style={{ marginTop: '1rem' }}>당첨자 발표일</Label>
-              {/* TODO: 발표일 유효성 */}
               <div className="date-container">
                 <FormField
                   control={form.control}
                   name="announcementDate"
-                  render={({ field }) => (
-                    <FormItem style={{ marginBottom: 0 }}>
-                      <FormControl>
-                        <SignleDatePicker
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) => {
+                    const endDate = form.getValues('eventPeriod.endDate')
+                      ? new Date(form.getValues('eventPeriod.endDate'))
+                      : undefined;
+
+                    return (
+                      <FormItem style={{ marginBottom: 0 }}>
+                        <FormControl>
+                          <SignleDatePicker
+                            value={field.value}
+                            onChange={field.onChange}
+                            minDate={endDate}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
               </div>
             </Box>

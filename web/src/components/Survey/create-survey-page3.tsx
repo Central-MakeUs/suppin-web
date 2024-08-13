@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { Box } from '../common/box';
 import { Button } from '../common/button';
+import { SpinLoader } from '../common/loader';
 import { PreviewButton } from '../common/preview-button';
 import { Subtitle } from '../common/Subtitle';
 import { Choice } from './choice';
@@ -22,7 +23,7 @@ import { Subjective } from './subjective';
 export const CreateSurveyPageStep3 = () => {
   const router = useNavigate();
 
-  const { createSurveyMutation } = useCreateSurvey();
+  const { createSurveyMutation, isCreateSurveyLoading } = useCreateSurvey();
 
   const { personalInfoOptionList, eventId } = useSelector(
     (state: RootState) => state.survey
@@ -128,8 +129,13 @@ export const CreateSurveyPageStep3 = () => {
           <Button variant="add" className="add" onClick={addQuestion}>
             + 질문 추가하기
           </Button>
-          <Button variant="add" className="submit" onClick={handleSubmit}>
-            설문 생성 완료
+          <Button
+            disabled={isCreateSurveyLoading}
+            variant="add"
+            className="submit"
+            onClick={handleSubmit}
+          >
+            {isCreateSurveyLoading ? <SpinLoader /> : '설문 생성 완료'}
           </Button>
         </div>
       </CreateSurveyPageContent>
