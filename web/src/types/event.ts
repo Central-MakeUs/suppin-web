@@ -12,6 +12,7 @@ export type EventType = {
   surveyCount: number;
   commentCount: number;
   status: EventStatus;
+  uuid: string;
 };
 
 export type EventResponseType = {

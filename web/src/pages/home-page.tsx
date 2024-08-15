@@ -51,7 +51,6 @@ const HomePage = () => {
 
   useEffect(() => {
     if (eventsData.data && eventsData.data.length > 0) {
-      console.log('Fetched Events:', eventsData.data);
       setEvents(eventsData.data.filter(ev => ev.status === activeTab));
     }
   }, [activeTab, eventsData.data]);
@@ -66,7 +65,7 @@ const HomePage = () => {
   } else if (!events || events.length === 0) {
     content = <NoResult />;
   } else {
-    content = <EventList events={events} />;
+    content = <EventList events={events} status={activeTab} />;
   }
   return (
     <HomePageWrapper>

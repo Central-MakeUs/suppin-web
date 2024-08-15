@@ -1,13 +1,28 @@
+import { body5Style, body6Style, head4Style } from '@/styles/global-styles';
+import { COLORS } from '@/theme';
+import { EventOrServey, EventStatus, EventType } from '@/types/event';
+import { toast } from 'sonner';
 import styled from 'styled-components';
 import chain from '../../assets/chain.png';
-import mainCard2 from '../../assets/main_card2.png';
 import mainCard from '../../assets/main_card.png';
+import mainCard2 from '../../assets/main_card2.png';
 import Tag from '../common/Tags';
-import { COLORS } from '@/theme';
-import { body5Style, body6Style, head4Style } from '@/styles/global-styles';
-import { EventOrServey, EventStatus, EventType } from '@/types/event';
 
 const ProcessingEventCard = ({ event }: { event: EventType }) => {
+  const handleCopyLink = () => {
+    const link = `https://suppin-servey.vercel.app/${event.uuid}`;
+    navigator.clipboard.writeText(link).then(
+      () => {
+        toast.success('링크가 클립보드에 복사되었습니다.');
+      },
+      err => {
+        console.log('복사 에러: ', err);
+
+        toast.error('링크 복사에 실패했습니다.');
+      }
+    );
+  };
+
   return (
     <ProcessingCardWrapper $eventType={event.type} $eventStatus={event.status}>
       <HeaderContainer>
@@ -25,7 +40,7 @@ const ProcessingEventCard = ({ event }: { event: EventType }) => {
           </EventCount>
         </CardHeader>
         {event.type === 'SURVEY' && (
-          <EventLinkContainer>
+          <EventLinkContainer onClick={handleCopyLink}>
             <Copy src={chain} />
             <EventLink>링크 복사하기</EventLink>
           </EventLinkContainer>
@@ -50,19 +65,16 @@ const ProcessingEventCard = ({ event }: { event: EventType }) => {
 
 export default ProcessingEventCard;
 
-const getBackgroundImage = (
-  $eventType: EventOrServey,
-  $eventStatus: EventStatus
-) => {
+const getBackgroundImage = ($eventType: EventOrServey) => {
   return $eventType === 'COMMENT' ? mainCard2 : mainCard;
 };
 
 const ProcessingCardWrapper = styled.div.attrs<{
   $eventType: EventOrServey;
   $eventStatus: EventStatus;
-}>(({ $eventType, $eventStatus }) => ({
+}>(({ $eventType }) => ({
   style: {
-    backgroundImage: `url(${getBackgroundImage($eventType, $eventStatus)})`,
+    backgroundImage: `url(${getBackgroundImage($eventType)})`,
   },
 }))<{ $eventType: EventOrServey; $eventStatus: EventStatus }>`
   padding: 20px;
@@ -133,6 +145,7 @@ const EventLinkContainer = styled.div`
   background-color: ${COLORS.Gray6};
   color: ${COLORS.Gray2};
   margin-left: 60px;
+  cursor: pointer;
 `;
 
 const Copy = styled.img`
@@ -142,5 +155,4 @@ const EventLink = styled.div`
   ${body5Style}
   color: ${COLORS.Gray2};
   text-align: right;
-  cursor: pointer;
 `;
