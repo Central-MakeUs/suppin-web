@@ -1,10 +1,13 @@
 import { bridgeEventEmitter } from '@/lib/event-emitter';
+import { useUserInfo } from '@/services/queries/user.queries';
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { WebviewWrapper } from './root.styles';
 
 export default function Root() {
   const router = useNavigate();
+
+  const { userInfo } = useUserInfo();
 
   useEffect(() => {
     const handleNativeMessage = (payload: string) => {
@@ -18,13 +21,9 @@ export default function Root() {
     };
   }, []);
 
-  const accessToken = window.localStorage.getItem('token');
-
-  useEffect(() => {
-    if (!accessToken) {
-      router('/auth');
-    }
-  }, [accessToken]);
+  if (!userInfo.isFetching && !userInfo.data?.email) {
+    router('/auth');
+  }
 
   return (
     <WebviewWrapper>

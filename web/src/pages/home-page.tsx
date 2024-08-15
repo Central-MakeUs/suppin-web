@@ -23,6 +23,7 @@ const HomePage = () => {
   const type = searchParams.get('type');
 
   const { eventsData } = useGetEvent();
+
   const [activeTab, setActiveTab] = useState<EventStatus>(p);
   const [events, setEvents] = useState<EventType[] | null>(null);
 

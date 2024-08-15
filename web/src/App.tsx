@@ -5,13 +5,14 @@ import GlobalStyles from '@/styles/global-styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Toaster } from 'sonner';
 import { PersistGate } from 'redux-persist/integration/react';
+import { Toaster } from 'sonner';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
+      retry: 1,
     },
   },
 });
