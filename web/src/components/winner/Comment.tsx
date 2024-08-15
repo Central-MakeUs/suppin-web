@@ -1,35 +1,35 @@
-// 당첨자 선청하기 - 댓글 크롤링 결과 페이지입니다.
-
+import styled from 'styled-components';
 import { CrawlingTime } from '@/components/common/CrawlingTime';
 import { Winner } from '@/components/common/Winner';
 import { body3Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
-import styled from 'styled-components';
 
-const Comment = () => {
-  // 임시 데이터
-  const comments = [
-    {
-      title: 'Suppin2024',
-      comment: '평상시에 스윗미임 영상을 열심히 보다...',
-    },
-    {
-      title: 'CMC 23',
-      comment:
-        '이벤트를 한다는 소식을 듣고 학교 친구들과 함께.asdadasdasldalsdklasdjlasjdlasjasdajsdjlasjdlajsdlajsdlajsdljalsdjalsjdlasjdasdadasdasldalsdklasdjlasjdlasjasdajsdjlasjdlajsdlajsdlajsdljalsdjalsjdlasjdasdadasdasldalsdklasdjlasjdlasjasdajsdjlasjdlajsdlajsdlajsdljalsdjalsjdlasjd',
-    },
-  ];
+interface CommentProps {
+  eventId: string | null;
+  url: string | null;
+  comments: any[];
+  participantCount: number;
+}
+
+const Comment = ({ comments, participantCount }: CommentProps) => {
   return (
     <>
       <Container>
-        <WinnerCount>참여자 300</WinnerCount>
+        <WinnerCount>참여자 {participantCount}</WinnerCount>
         <CrawlingTime />
       </Container>
-
       <Container2>
-        {comments.map((item, index) => (
-          <Winner key={index} title={item.title} comment={item.comment} />
-        ))}
+        {comments.length > 0 ? (
+          comments.map((item, index) => (
+            <Winner
+              key={index}
+              title={item.author}
+              comment={item.commentText}
+            />
+          ))
+        ) : (
+          <div>댓글이 없습니다.</div>
+        )}
       </Container2>
     </>
   );
@@ -50,6 +50,7 @@ const Container2 = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 12px;
+  padding: 0px 20px;
 `;
 
 const WinnerCount = styled.p`

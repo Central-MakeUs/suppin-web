@@ -72,7 +72,12 @@ export const SignUp1: React.FC = () => {
               />
               <Label>(필수) 서비스 이용약관 동의</Label>
             </TermContent>
-            <img src={rightArrow} width="18px" height="18px" />
+            <a
+              href="https://phase-comic-d2b.notion.site/c77adc8b28934f1194b9787150a16364?pvs=4"
+              target="blank"
+            >
+              <img src={rightArrow} width="18px" height="18px" />
+            </a>
           </TermItem>
           <TermItem>
             <TermContent onClick={() => handleCheck('privacy')}>
@@ -83,7 +88,12 @@ export const SignUp1: React.FC = () => {
               />
               <Label>(필수) 개인정보 처리방침 동의</Label>
             </TermContent>
-            <img src={rightArrow} width="18px" height="18px" />
+            <a
+              href="https://phase-comic-d2b.notion.site/7ab3169dc4564272b42c0074d86e5806?pvs=4"
+              target="blank"
+            >
+              <img src={rightArrow} width="18px" height="18px" />
+            </a>
           </TermItem>
           <TermItem>
             <TermContent onClick={() => handleCheck('marketing')}>
@@ -94,7 +104,12 @@ export const SignUp1: React.FC = () => {
               />
               <Label>(선택) 마케팅 수신 동의</Label>
             </TermContent>
-            <img src={rightArrow} width="18px" height="18px" />
+            <a
+              href="https://phase-comic-d2b.notion.site/7b8c9c80568f4599acd1046c619425ee?pvs=4"
+              target="blank"
+            >
+              <img src={rightArrow} width="18px" height="18px" />
+            </a>
           </TermItem>
         </TermsContainer>
         <NextButton onClick={handleNextClick} $enabled={isButtonEnabled}>

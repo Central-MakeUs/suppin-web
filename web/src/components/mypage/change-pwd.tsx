@@ -15,6 +15,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import styled from 'styled-components';
+import { Input } from '../common/input';
 
 const ChangePwd = ({ onClose }: { onClose: () => void }) => {
   const {
@@ -244,23 +245,34 @@ const CurrentPasswordContainer = styled.div`
   width: 100%;
 `;
 
-const CheckButton = styled(Button)`
+const BaseButton = styled.button`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+`;
+
+const CheckButton = styled(BaseButton)`
   width: 63px;
   height: 46px;
   border-radius: 10px;
   background-color: transparent;
   color: ${COLORS.Main};
   border: 1px solid ${COLORS.Main};
-  font-size: 14px;
-  font-weight: 600;
 `;
 
-const ChangeButton = styled(Button)`
+const ChangeButton = styled(BaseButton)`
   width: 100%;
   height: 46px;
   border-radius: 10px;
   font-size: 16px;
-  font-weight: 600;
   margin-top: 200px;
   background-color: ${COLORS.Main};
   border: none;

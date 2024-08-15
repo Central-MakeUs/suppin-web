@@ -18,7 +18,7 @@ const dateSlice = createSlice({
       state.endDate = action.payload;
     },
     setAnnouncementDate(state, action: PayloadAction<string | null>) {
-      state.announcementDate = action.payload; // 새로운 리듀서 추가
+      state.announcementDate = action.payload;
     },
   },
 });

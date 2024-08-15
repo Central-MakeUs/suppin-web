@@ -44,12 +44,14 @@ export const SignupWrapper = styled.div`
       font-size: 0.875rem;
       font-weight: 600;
       color: ${COLORS.Gray2};
+      border-bottom: 12px;
     }
     .form-item {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
     }
+
     .form-username {
       width: 100%;
       display: flex;

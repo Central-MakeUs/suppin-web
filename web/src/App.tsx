@@ -1,11 +1,12 @@
 import { AuthPage, HomePage, Root } from '@/pages';
 
-import store from '@/store';
+import store, { persistor } from '@/store';
 import GlobalStyles from '@/styles/global-styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Toaster } from 'sonner';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -48,6 +49,17 @@ const router = createBrowserRouter([
           };
         },
       },
+      {
+        path: 'collect',
+        lazy: async () => {
+          const { CollectCommentsPage } = await import(
+            '@/pages/collect-comments-page'
+          );
+          return {
+            Component: CollectCommentsPage,
+          };
+        },
+      },
 
       {
         path: 'survey',
@@ -65,21 +77,13 @@ const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: 'collect',
-        lazy: async () => {
-          const { CollectCommentsPage } = await import(
-            '@/pages/collect-comments-page'
-          );
-          return {
-            Component: CollectCommentsPage,
-          };
-        },
-      },
+
       {
         path: 'crawling',
         lazy: async () => {
-          const { CrawlingPage } = await import('@/pages/crawling-result-page');
+          const { default: CrawlingPage } = await import(
+            '@/pages/crawling-result-page'
+          );
           return {
             Component: CrawlingPage,
           };
@@ -93,11 +97,13 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <GlobalStyles />
-        <Toaster position="bottom-center" richColors />
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <QueryClientProvider client={queryClient}>
+          <GlobalStyles />
+          <Toaster position="bottom-center" richColors />
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </PersistGate>
     </Provider>
   );
 }

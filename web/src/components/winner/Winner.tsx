@@ -1,54 +1,116 @@
-import { Button } from '@/components/common/button';
-import { body1Style, body3Style, head4Style } from '@/styles/global-styles';
-import { COLORS } from '@/theme';
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { SurveyTimeInput } from '../common/surveyTimeInput';
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-import { head4Style, body3Style, body1Style } from '@/styles/global-styles';
-=======
-import {
-  head4Style,
-  body3Style,
-  body1Style,
-  body6Style,
-} from '@/styles/global-styles';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/store';
+import styled from 'styled-components';
+import { RootState } from '@/store';
+import { COLORS } from '@/theme';
+import { Button } from '../common/button';
+import { SurveyTimeInput } from '../common/SurveyTimeInput';
+import { head4Style, body3Style, body1Style } from '@/styles/global-styles';
 import {
-  toggleKeywordChecked,
-  toggleMinLengthChecked,
-  togglePeriodChecked,
+  setParticipantCount,
+  setMinCharacterCount,
+  addKeyword,
+  removeKeyword,
+  setWinners,
+  setWinnerCount,
 } from '@/store/winner';
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+import { setStartDate, setEndDate } from '@/store/comment';
+import { toast } from 'sonner';
+import { draftWinners } from '@/services/apis/crawling.service';
 
-export const WinnerContent = () => {
-  const [hashtags, setHashtags] = useState<string[]>([]);
-  const [inputValue, setInputValue] = useState('');
-<<<<<<< Updated upstream
-=======
-  const dispatch = useDispatch<AppDispatch>();
-  const { isPeriodChecked, isKeywordChecked, isMinLengthChecked } = useSelector(
+interface WinnerContentProps {
+  onWinnerSelected: () => void; // 당첨자 선택 시 호출되는 함수
+  participantCount: number; // 참여자 수
+}
+
+export const WinnerContent = ({
+  participantCount,
+  onWinnerSelected,
+}: WinnerContentProps) => {
+  const dispatch = useDispatch(); // Redux의 dispatch 함수를 사용하기 위해 선언
+
+  const startDate = useSelector((state: RootState) => state.dates.startDate); // 시작 날짜를 가져옴
+  const endDate = useSelector((state: RootState) => state.dates.endDate); // 종료 날짜를 가져옴
+
+  const { participant, minCharacterCount, keywords } = useSelector(
     (state: RootState) => state.winner
-  );
->>>>>>> Stashed changes
+  ); // 참여자, 최소 글자 수, 키워드 목록을 가져옴
 
-  const handleAddHashtag = () => {
+  const [inputValue, setInputValue] = useState(''); // 입력 필드의 상태를 관리
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false); // 버튼 활성화 여부를 관리
+
+  // 모든 필드가 입력되었는지 확인하고 버튼 활성화 여부를 설정
+  useEffect(() => {
+    if (
+      participant.trim() !== '' &&
+      minCharacterCount.trim() !== '' &&
+      (startDate ?? '').trim() !== '' &&
+      (endDate ?? '').trim() !== '' &&
+      keywords.length > 0
+    ) {
+      setIsButtonEnabled(true);
+    } else {
+      setIsButtonEnabled(false);
+    }
+  }, [participant, minCharacterCount, startDate, endDate, keywords]);
+
+  // 키워드를 추가하는 함수
+  const handleAddKeyword = () => {
     if (inputValue.trim() !== '') {
-      setHashtags([...hashtags, inputValue.trim()]);
-      setInputValue('');
+      dispatch(addKeyword(inputValue.trim())); // Redux 상태에 키워드를 추가
+      setInputValue(''); // 입력 필드를 초기화
     }
   };
 
-  const handleRemoveHashtag = (index: number) => {
-    setHashtags(hashtags.filter((_, i) => i !== index));
+  // 키워드를 제거하는 함수
+  const handleRemoveKeyword = (index: number) => {
+    dispatch(removeKeyword(index)); // Redux 상태에서 키워드를 제거
   };
 
+  // 입력 필드의 상태를 업데이트하는 함수
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+  };
+
+  const eventId = localStorage.getItem('eventId'); // 로컬 스토리지에서 이벤트 ID를 가져옴
+
+  // 추첨 버튼 클릭 시 호출되는 함수
+  const handleSubmit = async () => {
+    if (!isButtonEnabled) {
+      toast.error('모든 필드를 입력해주세요.'); // 모든 필드가 입력되지 않았을 경우 경고 메시지 표시
+      return;
+    }
+
+    const numericEventId = eventId ? parseInt(eventId, 10) : null; // 이벤트 ID를 숫자로 변환
+    const payload = {
+      eventId: numericEventId,
+      winnerCount: parseInt(participant, 10),
+      minLength: parseInt(minCharacterCount, 10),
+      startDate: startDate || '',
+      endDate: endDate || '',
+      keywords,
+    };
+
+    try {
+      const data = await draftWinners(payload); // 추첨 API를 호출
+      console.log(data);
+
+      if (data.data.winners.length > 0) {
+        dispatch(setWinners(data.data.winners)); // 당첨자 목록을 Redux 상태에 저장
+        dispatch(setWinnerCount(data.data.winners.length)); // 당첨자 수를 Redux 상태에 저장
+        dispatch(setStartDate(startDate)); // 시작 날짜를 Redux 상태에 저장
+        dispatch(setEndDate(endDate)); // 종료 날짜를 Redux 상태에 저장
+        toast.success('당첨자 선정이 완료되었습니다'); // 성공 메시지 표시
+        onWinnerSelected(); // 당첨자 선택 시 호출되는 함수 실행
+      } else {
+        toast.error(
+          '키워드가 포함된 댓글이 조회되지 않았습니다! 키워드 설정을 다시 해주세요!'
+        ); // 키워드가 포함된 댓글이 없을 경우 경고 메시지 표시
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('당첨자 추첨 요청 중 오류가 발생했습니다.'); // 에러 발생 시 경고 메시지 표시
+    }
   };
 
   return (
@@ -56,30 +118,23 @@ export const WinnerContent = () => {
       <Container>
         <Container2>
           <Label>당첨자 수</Label>
-          <ParticipantInfo>참여자 300</ParticipantInfo>
+          <ParticipantInfo>참여자 {participantCount}</ParticipantInfo>{' '}
+          {/* 참여자 수 표시 */}
         </Container2>
-        <Input1 placeholder="당첨자 수를 입력해주세요" />
+        <Input1
+          placeholder="당첨자 수를 입력해주세요"
+          value={participant}
+          onChange={e => {
+            dispatch(setParticipantCount(e.target.value)); // 참여자 수를 설정
+          }}
+        />
       </Container>
       <Container3>
         <Section>
-          <SettingLabel>
-<<<<<<< Updated upstream
-            <Checkbox type="checkbox" defaultChecked />
-            기간 설정
-=======
-            <Checkbox
-              type="checkbox"
-              checked={isPeriodChecked}
-              onChange={() => dispatch(togglePeriodChecked())}
-            />
-            <TextContainer>
-              <Text1 isChecked={isPeriodChecked}>기간 설정</Text1>
-              <Text2>
-                특정 날짜에 응답한 참여자 중 당첨자를 선정할 수 있어요.
-              </Text2>
-            </TextContainer>
->>>>>>> Stashed changes
-          </SettingLabel>
+          <SettingLabel>기간 설정</SettingLabel>
+          <Inform>
+            특정 날짜에 응답한 참여자 중 당첨자를 선정할 수 있어요.
+          </Inform>
           <SurveyTimeInput
             placeholderStart={'날짜 선택'}
             placeholderEnd={'날짜 선택'}
@@ -87,62 +142,40 @@ export const WinnerContent = () => {
         </Section>
 
         <Section>
-          <SettingLabel>
-<<<<<<< Updated upstream
-            <Checkbox type="checkbox" />
-            최소 글자수
-=======
-            <Checkbox
-              type="checkbox"
-              checked={isMinLengthChecked}
-              onChange={() => dispatch(toggleMinLengthChecked())}
-            />
-            <Text1 isChecked={isMinLengthChecked}>최소 글자수</Text1>
->>>>>>> Stashed changes
-          </SettingLabel>
-          <Input2 placeholder="글자 수를 입력해주세요" />
+          <SettingLabel>최소 글자수</SettingLabel>
+          <Inform>
+            정성어린 응답의 기준이 되는 최소 글자수를 입력해 주세요.
+          </Inform>
+          <Input2
+            placeholder="글자 수를 입력해주세요"
+            value={minCharacterCount}
+            onChange={e => {
+              dispatch(setMinCharacterCount(e.target.value)); // 최소 글자 수를 설정
+            }}
+          />
         </Section>
 
         <Section>
-          <SettingLabel>
-<<<<<<< Updated upstream
-            <Checkbox type="checkbox" defaultChecked />
-            키워드 설정
-=======
-            <Checkbox
-              type="checkbox"
-              checked={isKeywordChecked}
-              onChange={() => dispatch(toggleKeywordChecked())}
-            />
-            <TextContainer>
-              <Text1 isChecked={isKeywordChecked}>키워드 설정</Text1>
-              <Text2>
-                정성어린 응답의 기준이 되는 최소 글자수를 입력해 주세요.
-              </Text2>
-            </TextContainer>
->>>>>>> Stashed changes
-          </SettingLabel>
+          <SettingLabel>키워드 설정</SettingLabel>
+          <Inform>주관식에서 포함되길 바라는 키워드를 입력해 주세요.</Inform>
           <KeywordInputWrapper>
             <Input2
               placeholder="키워드를 입력해주세요"
               value={inputValue}
               onChange={handleInputChange}
             />
-            <AddButton onClick={handleAddHashtag}>추가</AddButton>
+            <AddButton onClick={handleAddKeyword}>추가</AddButton>{' '}
+            {/* 키워드 추가 버튼 */}
           </KeywordInputWrapper>
           <HashtagsContainer>
-            {hashtags.map((tag, index) => (
+            {keywords.map((tag, index) => (
               <Hashtag key={index}>
-<<<<<<< Updated upstream
-                #{tag}
-=======
                 # {tag}
->>>>>>> Stashed changes
                 <Button
                   variant="delete"
                   width="20px"
                   height="20px"
-                  onClick={() => handleRemoveHashtag(index)}
+                  onClick={() => handleRemoveKeyword(index)} // 키워드 제거 버튼
                 />
               </Hashtag>
             ))}
@@ -151,7 +184,13 @@ export const WinnerContent = () => {
       </Container3>
 
       <BtnContainer>
-        <SubmitButton>랜덤 추천하기</SubmitButton>
+        <SubmitButton
+          disabled={!isButtonEnabled}
+          $enabled={isButtonEnabled}
+          onClick={handleSubmit} // 추첨 버튼 클릭 시 호출되는 함수
+        >
+          랜덤 추첨하기
+        </SubmitButton>
       </BtnContainer>
     </>
   );
@@ -166,7 +205,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  padding: 30px 37px 30px 37px;
+  padding: 30px 20px;
 `;
 
 const Container2 = styled.div`
@@ -179,7 +218,7 @@ const Container3 = styled.div`
   display: flex;
   gap: 23px;
   flex-direction: column;
-  padding: 0px 37px;
+  padding: 0px 20px;
   margin-top: 27px;
 `;
 
@@ -191,6 +230,13 @@ const Section = styled.div`
 const Label = styled.p`
   ${head4Style}
   color: ${COLORS.Main};
+`;
+
+const Inform = styled.p`
+  color: ${COLORS.Gray2};
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 8px;
 `;
 
 const ParticipantInfo = styled.p`
@@ -220,11 +266,7 @@ const Input2 = styled.input`
   height: 46px;
   padding: 10px;
   border: 1px solid ${COLORS.Gray5};
-<<<<<<< Updated upstream
-  border-radius: 5px;
-=======
   border-radius: 10px;
->>>>>>> Stashed changes
   background-color: ${COLORS.Gray6};
   color: ${COLORS.Gray1};
   font-size: 14px;
@@ -235,40 +277,12 @@ const Input2 = styled.input`
   }
 `;
 
-const SettingLabel = styled.div`
+const SettingLabel = styled.a`
   display: flex;
-<<<<<<< Updated upstream
   align-items: center;
-=======
-  align-items: flex-start;
->>>>>>> Stashed changes
-  margin-bottom: 8px;
   ${body1Style}
   color: ${COLORS.Gray1};
 `;
-
-const Checkbox = styled.input`
-  margin-right: 8px;
-  width: 20px;
-  height: 20px;
-`;
-<<<<<<< Updated upstream
-=======
-const TextContainer = styled.div`
-  display: 'flex';
-  flex-direction: column;
-  margin-left: 2px;
-`;
-
-const Text1 = styled.p<{ isChecked: boolean }>`
-  ${body1Style}
-  color: ${({ isChecked }) => (isChecked ? COLORS.Gray1 : COLORS.Gray3)};
-`;
-const Text2 = styled.p`
-  ${body6Style}
-  color: ${COLORS.Gray3};
-`;
->>>>>>> Stashed changes
 
 const KeywordInputWrapper = styled.div`
   display: flex;
@@ -314,16 +328,17 @@ const BtnContainer = styled.div`
   margin-top: 50px;
 `;
 
-const SubmitButton = styled.button`
+const SubmitButton = styled.button<{ $enabled: boolean }>`
   width: 350px;
   height: 50px;
   padding: 15px;
-  background-color: ${COLORS.Gray3};
+  background-color: ${({ $enabled }) =>
+    $enabled ? COLORS.Main : COLORS.Gray3};
   color: ${COLORS.white};
   border: none;
   border-radius: 10px;
   font-size: 16px;
-  cursor: pointer;
+  cursor: ${({ $enabled }) => ($enabled ? 'pointer' : 'not-allowed')};
 `;
 
 export default WinnerContent;

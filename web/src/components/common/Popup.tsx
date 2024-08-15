@@ -1,20 +1,30 @@
 import styled from 'styled-components';
-import { Btn_popup } from './Btn_popup';
 import { COLORS } from '@/theme';
 
 interface PopupProps {
   title: string;
   message: string;
   onClose: () => void;
+  imgSrc: string; // 이미지 소스를 받아올 수 있음
+  width: string;
+  height: string;
+  text: string;
 }
 
-export const Popup = ({ message, onClose }: PopupProps) => {
+export const Popup = ({
+  onClose,
+  message,
+  imgSrc,
+  width,
+  height,
+  text,
+}: PopupProps) => {
   return (
     <PopupOverlay>
       <Container>
-        <Container2></Container2>
+        <Container2 src={imgSrc} width={width} height={height} />
         <Msg>{message}</Msg>
-        <Btn_popup onClick={onClose} />
+        <CloseBtn onClick={onClose}>{text}</CloseBtn>
       </Container>
     </PopupOverlay>
   );
@@ -43,15 +53,23 @@ const Container = styled.div`
   border-radius: 16px;
   background-color: white;
   border: 1px solid ${COLORS.Gray4};
+  padding: 20px;
 `;
 
-const Container2 = styled.div`
-  border: 1px solid ${COLORS.Gray4};
-  width: 200px;
-  height: 150px;
-  margin-bottom: 20px;
+const Container2 = styled.img`
+  height: auto;
+  margin-bottom: 40px;
 `;
 
 const Msg = styled.p`
   margin-bottom: 20px;
+`;
+
+const CloseBtn = styled.button`
+  width: 90%;
+  height: 46px;
+  background-color: ${COLORS.Main};
+  border-radius: 10px;
+  border: none;
+  color: ${COLORS.white};
 `;

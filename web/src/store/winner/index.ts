@@ -1,32 +1,77 @@
-// store/winnerSlice.ts
 import { WinnerState } from '@/types/winner';
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: WinnerState = {
-  isPeriodChecked: true,
-  isKeywordChecked: true,
-  isMinLengthChecked: false,
+  eventId: 0,
+  url: '',
+  participant: '',
+  minCharacterCount: '',
+  startDate: null,
+  endDate: null,
+  keywords: [],
+  winners: [],
+  winnerCount: 0,
 };
 
 const winnerSlice = createSlice({
   name: 'winner',
   initialState,
   reducers: {
-    togglePeriodChecked(state) {
-      state.isPeriodChecked = !state.isPeriodChecked;
+    setEventId(state, action: PayloadAction<number>) {
+      state.eventId = action.payload;
     },
-    toggleKeywordChecked(state) {
-      state.isKeywordChecked = !state.isKeywordChecked;
+    setUrl(state, action: PayloadAction<string>) {
+      state.url = action.payload;
     },
-    toggleMinLengthChecked(state) {
-      state.isMinLengthChecked = !state.isMinLengthChecked;
+    setParticipantCount(state, action: PayloadAction<string>) {
+      state.participant = action.payload;
+    },
+    setMinCharacterCount(state, action: PayloadAction<string>) {
+      state.minCharacterCount = action.payload;
+    },
+    setStartDate(state, action: PayloadAction<string | null>) {
+      state.startDate = action.payload;
+    },
+    setEndDate(state, action: PayloadAction<string | null>) {
+      state.endDate = action.payload;
+    },
+    setKeywords(state, action: PayloadAction<string[]>) {
+      state.keywords = action.payload;
+    },
+    addKeyword(state, action: PayloadAction<string>) {
+      state.keywords.push(action.payload);
+    },
+    removeKeyword(state, action: PayloadAction<number>) {
+      state.keywords.splice(action.payload, 1);
+    },
+
+    setWinners(
+      state,
+      action: PayloadAction<
+        Array<{ author: string; commentText: string; commentDate: string }>
+      >
+    ) {
+      state.winners = action.payload;
+    },
+
+    setWinnerCount(state, action: PayloadAction<number>) {
+      state.winnerCount = action.payload;
     },
   },
 });
 
 export const {
-  togglePeriodChecked,
-  toggleKeywordChecked,
-  toggleMinLengthChecked,
+  setEventId,
+  setParticipantCount,
+  setMinCharacterCount,
+  setStartDate,
+  setEndDate,
+  setKeywords,
+  addKeyword,
+  removeKeyword,
+  setWinners,
+  setWinnerCount,
+  setUrl,
 } = winnerSlice.actions;
+
 export default winnerSlice.reducer;
