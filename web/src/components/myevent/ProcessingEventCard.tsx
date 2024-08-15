@@ -10,7 +10,7 @@ import Tag from '../common/Tags';
 
 const ProcessingEventCard = ({ event }: { event: EventType }) => {
   const handleCopyLink = () => {
-    const link = `https://suppin-servey.vercel.app/${event.uuid}`;
+    const link = `https://suppin-survey.vercel.app/${event.uuid}`;
     navigator.clipboard.writeText(link).then(
       () => {
         toast.success('링크가 클립보드에 복사되었습니다.');

@@ -1,23 +1,27 @@
-import React, { useState } from 'react';
-import { logout } from '@/services/apis/user.service';
+import user from '@/assets/btn_mypage.png';
+import { AskPopup } from '@/components/common/Ask_Popup';
+import { BarLoader } from '@/components/common/loader';
 import { Subtitle } from '@/components/common/Subtitle';
+import ChangePwd from '@/components/mypage/change-pwd';
+import Terms from '@/components/mypage/terms';
 import { UserInfo } from '@/components/mypage/user-info';
+import { queries } from '@/lib/query-keys';
+import { logout } from '@/services/apis/user.service';
 import { useDeleteUser } from '@/services/queries/user.mutation';
 import { useUserInfo } from '@/services/queries/user.queries';
 import { body1Style, head2Style } from '@/styles/global-styles';
+import '@/styles/slide.css'; // 슬라이드 애니메이션 스타일
 import { COLORS } from '@/theme';
+import { useQueryClient } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CSSTransition } from 'react-transition-group';
 import { toast } from 'sonner';
 import styled, { css } from 'styled-components';
-import ChangePwd from '@/components/mypage/change-pwd';
-import Terms from '@/components/mypage/terms';
-import { CSSTransition } from 'react-transition-group';
-import { useNavigate } from 'react-router-dom';
-import user from '@/assets/btn_mypage.png';
-import '@/styles/slide.css'; // 슬라이드 애니메이션 스타일
-import { BarLoader } from '@/components/common/loader';
-import { AskPopup } from '@/components/common/Ask_Popup';
 
 const MyPage = () => {
+  const queryClient = useQueryClient();
+
   const { userInfo } = useUserInfo();
   const { deleteUserAccount, isDeleting } = useDeleteUser();
 
@@ -36,6 +40,9 @@ const MyPage = () => {
     if (confirmed) {
       try {
         await logout();
+        queryClient.removeQueries({
+          queryKey: queries.user.DEFAULT,
+        });
         localStorage.removeItem('token');
         navigate('/auth');
         toast.success('로그아웃 되었습니다.');
