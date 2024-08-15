@@ -1,8 +1,10 @@
+import { WinnerState } from '@/types/winner';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: WinnerState = {
   eventId: 0,
-  participantCount: '',
+  url: '',
+  participant: '',
   minCharacterCount: '',
   startDate: null,
   endDate: null,
@@ -18,8 +20,11 @@ const winnerSlice = createSlice({
     setEventId(state, action: PayloadAction<number>) {
       state.eventId = action.payload;
     },
+    setUrl(state, action: PayloadAction<string>) {
+      state.url = action.payload;
+    },
     setParticipantCount(state, action: PayloadAction<string>) {
-      state.participantCount = action.payload;
+      state.participant = action.payload;
     },
     setMinCharacterCount(state, action: PayloadAction<string>) {
       state.minCharacterCount = action.payload;
@@ -66,6 +71,7 @@ export const {
   removeKeyword,
   setWinners,
   setWinnerCount,
+  setUrl,
 } = winnerSlice.actions;
 
 export default winnerSlice.reducer;

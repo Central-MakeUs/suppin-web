@@ -2,8 +2,8 @@ import { DateState } from '@/types/comment';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: DateState = {
-  startDate: '',
-  endDate: '',
+  startDate: null,
+  endDate: null,
   announcementDate: null,
 };
 

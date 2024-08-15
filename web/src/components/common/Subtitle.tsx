@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface SubtitleProps {
-  title: string;
+  title: string | null;
   backgroundColor?: string;
   onBackClick?: () => void;
 }

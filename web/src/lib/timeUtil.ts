@@ -1,6 +1,10 @@
+import { AppDispatch } from '@/store';
 import { setEndDate, setStartDate } from '@/store/comment';
 
-export const handleStartDateChange = (date: Date | null, dispatch: any) => {
+export const handleStartDateChange = (
+  date: Date | null,
+  dispatch: AppDispatch
+) => {
   if (date) {
     const formattedDate = formatDate(date);
     dispatch(setStartDate(formattedDate));
@@ -9,7 +13,10 @@ export const handleStartDateChange = (date: Date | null, dispatch: any) => {
   }
 };
 
-export const handleEndDateChange = (date: Date | null, dispatch: any) => {
+export const handleEndDateChange = (
+  date: Date | null,
+  dispatch: AppDispatch
+) => {
   if (date) {
     const formattedDate = formatDate(date);
     dispatch(setEndDate(formattedDate));

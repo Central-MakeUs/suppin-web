@@ -55,7 +55,7 @@ export const checkUserId = async (userId: string) => {
 // 회원정보 상세 조회
 export const getUserInfo = async (): Promise<UserResponse> => {
   const { data } = await axiosInstance.get('/members/me');
-  console.log(data);
+  // console.log(data);
   return data;
 };
 
@@ -116,6 +116,6 @@ export const logout = async () => {
 // 전체 이벤트 조회
 export const getEvents = async (): Promise<EventType[]> => {
   const { data } = await axiosInstance.get('/events/all');
-
+  console.log(data);
   return data.data;
 };

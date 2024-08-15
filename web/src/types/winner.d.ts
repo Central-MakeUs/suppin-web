@@ -1,6 +1,7 @@
-interface WinnerState {
+export interface WinnerState {
   eventId: number;
-  participantCount: string;
+  url: string;
+  participant: string;
   minCharacterCount: string;
   startDate: string | null;
   endDate: string | null;

@@ -45,7 +45,7 @@ export const useSignin = () => {
     },
     // 로그인 성공 시 token 저장 및 콘솔 출력
     onSuccess: data => {
-      console.log(data); // 로그인 성공 시 응답 콘솔 출력
+      // console.log(data); // 로그인 성공 시 응답 콘솔 출력
       if (data && data.data && data.data.token) {
         localStorage.setItem('token', data.data.token); // token을 로컬스토리지에 저장
       }

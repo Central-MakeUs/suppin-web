@@ -7,6 +7,11 @@ export const BarLoaderWrapper = styled.div`
   display: grid;
   place-content: center;
   padding: 1rem;
+  z-index: 900;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
 
   .bar-container {
     display: flex;

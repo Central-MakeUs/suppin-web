@@ -1,22 +1,17 @@
+import { RootState } from '@/store';
 import { body3Style, body4Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-interface CrawlingTimeProps {
-  initialCrawlingTime?: string; // 초기 크롤링 시간 값을 받을 수 있도록 수정
-}
+export const CrawlingTime = ({}) => {
+  const period = useSelector((state: RootState) => state.crawling.period);
 
-export const CrawlingTime = ({
-  initialCrawlingTime = '로딩 중...',
-}: CrawlingTimeProps) => {
-  const [crawlingTime, setCrawlingTime] = useState<string>(initialCrawlingTime);
-
+  // console.log(period);
   return (
     <Container>
-      <Content>이벤트 기간 </Content>
-      {/* 이벤트 기간 수정 */}
-      <Content2>{crawlingTime}</Content2>
+      <Content>댓글 수집 시간 </Content>
+      <Content2>{period}</Content2>
     </Container>
   );
 };

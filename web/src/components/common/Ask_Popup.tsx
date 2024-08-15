@@ -22,8 +22,8 @@ export const AskPopup = ({
       <Container>
         <Comment>{comment}</Comment>
         <BtnContainer>
-          <Btn1 onClick={onConfirm}>{text1}</Btn1>
           <Btn2 onClick={onCancel}>{text2}</Btn2>
+          <Btn1 onClick={onConfirm}>{text1}</Btn1>
         </BtnContainer>
       </Container>
     </Overlay>

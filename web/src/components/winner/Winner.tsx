@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from '@/store';
@@ -15,94 +15,101 @@ import {
   setWinnerCount,
 } from '@/store/winner';
 import { setStartDate, setEndDate } from '@/store/comment';
-import { draftWinners } from '@/services/apis/crawling.service';
 import { toast } from 'sonner';
+import { draftWinners } from '@/services/apis/crawling.service';
 
 interface WinnerContentProps {
-  onWinnerSelected: () => void; // 콜백 프로퍼티 추가
+  onWinnerSelected: () => void; // 당첨자 선택 시 호출되는 함수
+  participantCount: number; // 참여자 수
 }
 
-export const WinnerContent = ({ onWinnerSelected }: WinnerContentProps) => {
-  const dispatch = useDispatch();
+export const WinnerContent = ({
+  participantCount,
+  onWinnerSelected,
+}: WinnerContentProps) => {
+  const dispatch = useDispatch(); // Redux의 dispatch 함수를 사용하기 위해 선언
 
-  // Redux 상태에서 startDate와 endDate를 가져옴
-  const startDate = useSelector((state: RootState) => state.dates.startDate);
-  const endDate = useSelector((state: RootState) => state.dates.endDate);
+  const startDate = useSelector((state: RootState) => state.dates.startDate); // 시작 날짜를 가져옴
+  const endDate = useSelector((state: RootState) => state.dates.endDate); // 종료 날짜를 가져옴
 
-  const { participantCount, minCharacterCount, keywords } = useSelector(
+  const { participant, minCharacterCount, keywords } = useSelector(
     (state: RootState) => state.winner
-  );
+  ); // 참여자, 최소 글자 수, 키워드 목록을 가져옴
 
-  const [inputValue, setInputValue] = useState('');
-  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+  const [inputValue, setInputValue] = useState(''); // 입력 필드의 상태를 관리
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false); // 버튼 활성화 여부를 관리
 
+  // 모든 필드가 입력되었는지 확인하고 버튼 활성화 여부를 설정
   useEffect(() => {
     if (
-      participantCount.trim() !== '' &&
+      participant.trim() !== '' &&
       minCharacterCount.trim() !== '' &&
-      startDate.trim() !== '' &&
-      endDate.trim() !== '' &&
+      (startDate ?? '').trim() !== '' &&
+      (endDate ?? '').trim() !== '' &&
       keywords.length > 0
     ) {
       setIsButtonEnabled(true);
     } else {
       setIsButtonEnabled(false);
     }
-  }, [participantCount, minCharacterCount, startDate, endDate, keywords]);
+  }, [participant, minCharacterCount, startDate, endDate, keywords]);
 
+  // 키워드를 추가하는 함수
   const handleAddKeyword = () => {
     if (inputValue.trim() !== '') {
-      dispatch(addKeyword(inputValue.trim()));
-      setInputValue('');
+      dispatch(addKeyword(inputValue.trim())); // Redux 상태에 키워드를 추가
+      setInputValue(''); // 입력 필드를 초기화
     }
   };
 
+  // 키워드를 제거하는 함수
   const handleRemoveKeyword = (index: number) => {
-    dispatch(removeKeyword(index));
+    dispatch(removeKeyword(index)); // Redux 상태에서 키워드를 제거
   };
 
+  // 입력 필드의 상태를 업데이트하는 함수
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
+  const eventId = localStorage.getItem('eventId'); // 로컬 스토리지에서 이벤트 ID를 가져옴
+
+  // 추첨 버튼 클릭 시 호출되는 함수
   const handleSubmit = async () => {
     if (!isButtonEnabled) {
-      toast.error('모든 필드를 입력해주세요.');
+      toast.error('모든 필드를 입력해주세요.'); // 모든 필드가 입력되지 않았을 경우 경고 메시지 표시
       return;
     }
 
+    const numericEventId = eventId ? parseInt(eventId, 10) : null; // 이벤트 ID를 숫자로 변환
     const payload = {
-      eventId: 1, // 실제 이벤트 ID를 여기에 설정
-      winnerCount: parseInt(participantCount, 10),
+      eventId: numericEventId,
+      winnerCount: parseInt(participant, 10),
       minLength: parseInt(minCharacterCount, 10),
-      startDate,
-      endDate,
+      startDate: startDate || '',
+      endDate: endDate || '',
       keywords,
     };
 
-    console.log(payload);
-
     try {
-      const response = await draftWinners(payload);
-      console.log(response);
+      const data = await draftWinners(payload); // 추첨 API를 호출
+      console.log(data);
 
-      if (response.data.winners.length > 0) {
-        dispatch(setWinners(response.data.winners)); // 당첨자 데이터를 Redux에 저장
-        dispatch(setWinnerCount(response.data.winners.length)); // 당첨자 데이터를 Redux에 저장
-        dispatch(setStartDate(startDate));
-        dispatch(setEndDate(endDate));
-        toast.success(
-          // `당첨자 ${response.data.winners.length}명이 추첨되었습니다!`
-          `당첨자 선정이 완료되었습니다`
-        );
-        onWinnerSelected(); // 콜백 호출
+      if (data.data.winners.length > 0) {
+        dispatch(setWinners(data.data.winners)); // 당첨자 목록을 Redux 상태에 저장
+        dispatch(setWinnerCount(data.data.winners.length)); // 당첨자 수를 Redux 상태에 저장
+        dispatch(setStartDate(startDate)); // 시작 날짜를 Redux 상태에 저장
+        dispatch(setEndDate(endDate)); // 종료 날짜를 Redux 상태에 저장
+        toast.success('당첨자 선정이 완료되었습니다'); // 성공 메시지 표시
+        onWinnerSelected(); // 당첨자 선택 시 호출되는 함수 실행
       } else {
         toast.error(
           '키워드가 포함된 댓글이 조회되지 않았습니다! 키워드 설정을 다시 해주세요!'
-        );
+        ); // 키워드가 포함된 댓글이 없을 경우 경고 메시지 표시
       }
     } catch (error) {
-      toast.error('당첨자 추첨에 실패했습니다.');
+      console.error(error);
+      toast.error('당첨자 추첨 요청 중 오류가 발생했습니다.'); // 에러 발생 시 경고 메시지 표시
     }
   };
 
@@ -111,13 +118,14 @@ export const WinnerContent = ({ onWinnerSelected }: WinnerContentProps) => {
       <Container>
         <Container2>
           <Label>당첨자 수</Label>
-          <ParticipantInfo>참여자 300</ParticipantInfo>
+          <ParticipantInfo>참여자 {participantCount}</ParticipantInfo>{' '}
+          {/* 참여자 수 표시 */}
         </Container2>
         <Input1
           placeholder="당첨자 수를 입력해주세요"
-          value={participantCount}
+          value={participant}
           onChange={e => {
-            dispatch(setParticipantCount(e.target.value));
+            dispatch(setParticipantCount(e.target.value)); // 참여자 수를 설정
           }}
         />
       </Container>
@@ -142,7 +150,7 @@ export const WinnerContent = ({ onWinnerSelected }: WinnerContentProps) => {
             placeholder="글자 수를 입력해주세요"
             value={minCharacterCount}
             onChange={e => {
-              dispatch(setMinCharacterCount(e.target.value));
+              dispatch(setMinCharacterCount(e.target.value)); // 최소 글자 수를 설정
             }}
           />
         </Section>
@@ -156,7 +164,8 @@ export const WinnerContent = ({ onWinnerSelected }: WinnerContentProps) => {
               value={inputValue}
               onChange={handleInputChange}
             />
-            <AddButton onClick={handleAddKeyword}>추가</AddButton>
+            <AddButton onClick={handleAddKeyword}>추가</AddButton>{' '}
+            {/* 키워드 추가 버튼 */}
           </KeywordInputWrapper>
           <HashtagsContainer>
             {keywords.map((tag, index) => (
@@ -166,7 +175,7 @@ export const WinnerContent = ({ onWinnerSelected }: WinnerContentProps) => {
                   variant="delete"
                   width="20px"
                   height="20px"
-                  onClick={() => handleRemoveKeyword(index)}
+                  onClick={() => handleRemoveKeyword(index)} // 키워드 제거 버튼
                 />
               </Hashtag>
             ))}
@@ -178,9 +187,9 @@ export const WinnerContent = ({ onWinnerSelected }: WinnerContentProps) => {
         <SubmitButton
           disabled={!isButtonEnabled}
           $enabled={isButtonEnabled}
-          onClick={handleSubmit}
+          onClick={handleSubmit} // 추첨 버튼 클릭 시 호출되는 함수
         >
-          랜덤 추천하기
+          랜덤 추첨하기
         </SubmitButton>
       </BtnContainer>
     </>

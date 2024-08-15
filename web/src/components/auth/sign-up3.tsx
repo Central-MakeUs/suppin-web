@@ -293,10 +293,10 @@ const TypeButton = styled.button<{ isSelected: boolean }>`
   padding: 10px;
   font-weight: 600;
   font-size: 14px;
-  border: 1px solid ${COLORS.Main};
-  background-color: ${({ isSelected }) =>
-    isSelected ? COLORS.Sub2 : COLORS.white};
-  color: ${({ isSelected }) => (isSelected ? COLORS.Main : COLORS.Main)};
+  border: 1px solid
+    ${({ isSelected }) => (isSelected ? COLORS.Main : COLORS.Gray3)};
+  background-color: ${COLORS.white};
+  color: ${({ isSelected }) => (isSelected ? COLORS.Main : COLORS.Gray3)};
   border-radius: 10px;
 `;
 

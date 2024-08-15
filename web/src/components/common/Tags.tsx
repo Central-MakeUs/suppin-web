@@ -27,14 +27,14 @@ const getWidth = (label: string) => {
   }
 };
 
-const getBackgroundColor = (label: string, variant: string) => {
+const getBackgroundColor = (_label: string, variant: string) => {
   if (variant === 'completed') {
-    return '#E63D54';
+    return '#fcecee';
   }
   return COLORS.Sub2;
 };
 
-const getColor = (label: string, variant: string) => {
+const getColor = (_label: string, variant: string) => {
   if (variant === 'completed') {
     return '#FF425B';
   }

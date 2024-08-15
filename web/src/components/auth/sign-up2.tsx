@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   Form,
   FormControl,
@@ -18,7 +19,6 @@ import { nextStep, updateSignupField } from '@/store/signup/signup';
 import { body1Style, head1Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +27,7 @@ import styled from 'styled-components';
 import { Subtitle } from '../common/Subtitle';
 import { Label } from '../common/label';
 import { SpinLoader } from '../common/loader';
+import Timer from './timer'; // 타이머 컴포넌트 임포트
 
 export const SignUp2 = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -36,6 +37,7 @@ export const SignUp2 = () => {
   const [formattedContact, setFormattedContact] = useState<string>('');
   const [isEmailVerified, setIsEmailVerified] = useState<boolean>(false);
   const [emailCode, setEmailCode] = useState<string>('');
+  const [isTimerActive, setIsTimerActive] = useState<boolean>(false);
 
   const form = useForm<SignupOneStepType>({
     resolver: zodResolver(signupOneStepSchema),
@@ -50,6 +52,7 @@ export const SignUp2 = () => {
     try {
       await sendEmailMutation(form.getValues('email'));
       toast.success('인증번호가 이메일로 전송되었습니다.');
+      setIsTimerActive(true); // 타이머 시작
     } catch (error) {
       console.log('이메일 전송 중 오류 발생!');
       toast.error('인증번호 전송 중 오류가 발생했습니다.');
@@ -69,7 +72,7 @@ export const SignUp2 = () => {
         toast.error('잘못된 인증번호입니다.');
       }
     } catch (error) {
-      toast.error('이메일 인증 중 오류가 발생했습니다.');
+      toast.error('잘못된 인증번호입니다.');
     }
   };
 
@@ -88,6 +91,12 @@ export const SignUp2 = () => {
       toast.error('이메일 인증을 완료해주세요.');
     }
   };
+
+  const handleTimerEnd = () => {
+    setIsTimerActive(false);
+    toast.error('인증 시간이 만료되었습니다. 다시 시도해주세요.');
+  };
+
   const navigate = useNavigate();
   const handleCustomBackClick = () => {
     navigate('/auth?page=1');
@@ -117,7 +126,11 @@ export const SignUp2 = () => {
                         <FormControl>
                           <Input
                             {...field}
-                            className="form-input"
+                            className="form-input "
+                            style={{
+                              borderTopLeftRadius: '10px',
+                              borderTopRightRadius: '10px',
+                            }}
                             placeholder="이름"
                           />
                         </FormControl>
@@ -141,6 +154,10 @@ export const SignUp2 = () => {
                               field.onChange(formatted.replace(/\D/g, ''));
                             }}
                             className="form-input"
+                            style={{
+                              borderBottomLeftRadius: '10px',
+                              borderBottomRightRadius: '10px',
+                            }}
                             placeholder="휴대폰 번호"
                           />
                         </FormControl>
@@ -170,11 +187,21 @@ export const SignUp2 = () => {
                     )}
                   />
                   <CertiContainer>
-                    <Certification
-                      placeholder="인증번호 6자리를 입력해주세요"
-                      value={emailCode}
-                      onChange={e => setEmailCode(e.target.value)}
-                    />
+                    <CertificationContainer>
+                      <Certification
+                        placeholder="인증번호 6자리를 입력해주세요"
+                        value={emailCode}
+                        onChange={e => setEmailCode(e.target.value)}
+                      />
+                      {isTimerActive && (
+                        <TimerWrapper>
+                          <Timer
+                            initialTime={300}
+                            onTimerEnd={handleTimerEnd}
+                          />
+                        </TimerWrapper>
+                      )}
+                    </CertificationContainer>
                     <Confirm1 type="button" onClick={handleVerifyEmailCode}>
                       확인
                     </Confirm1>
@@ -219,13 +246,28 @@ const CertiContainer = styled.div`
   margin-top: 14px;
   width: 100%;
 `;
+
+const CertificationContainer = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+`;
+
 const Certification = styled.input`
   width: 100%;
   height: 45px;
   border-radius: 10px;
   border: 1px solid ${COLORS.Gray4};
   padding: 0.75rem;
-  margin-right: 6px;
+  padding-right: 50px; /* 타이머가 들어갈 공간 확보 */
+`;
+
+const TimerWrapper = styled.div`
+  position: absolute;
+  right: 15px;
+  color: ${COLORS.Gray2};
+  font-size: 12px;
 `;
 
 const Email = styled.input`
@@ -279,3 +321,5 @@ const NextButton = styled.button<NextButtonProps>`
   text-align: center;
   position: sticky;
 `;
+
+export default SignUp2;

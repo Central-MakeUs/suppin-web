@@ -8,7 +8,6 @@ interface CommentBoxProps {
   title: string;
   comment: string;
 }
-
 export const Winner = ({ title, comment }: CommentBoxProps) => {
   return (
     <Container>

@@ -23,9 +23,14 @@ const HomePage = () => {
   const type = searchParams.get('type');
 
   const { eventsData } = useGetEvent();
-
   const [activeTab, setActiveTab] = useState<EventStatus>(p);
   const [events, setEvents] = useState<EventType[] | null>(null);
+
+  // localstorage 삭제 (삭제하지 않으면 댓글 수집하기 다시 들어갔을때 예전 데이터가 남아있음)
+  localStorage.removeItem('youtubeUrl');
+  localStorage.removeItem('eventTitle');
+  localStorage.removeItem('eventId');
+  localStorage.removeItem('eventDescription');
 
   useEffect(() => {
     if (type && (type === p || type === d)) {
@@ -45,6 +50,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (eventsData.data && eventsData.data.length > 0) {
+      console.log('Fetched Events:', eventsData.data);
       setEvents(eventsData.data.filter(ev => ev.status === activeTab));
     }
   }, [activeTab, eventsData.data]);
