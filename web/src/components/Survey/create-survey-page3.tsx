@@ -1,204 +1,144 @@
-import { head1Style } from '@/styles/global-styles';
-import { COLORS } from '@/theme';
+import step3 from '@/assets/step3.png';
+import { useCreateSurvey } from '@/services/queries/survey.mutation';
+import { RootState } from '@/store';
+import { QuestionType } from '@/types/survey';
 import { useState } from 'react';
-import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import { Box } from '../common/box';
+import { Button } from '../common/button';
+import { SpinLoader } from '../common/loader';
+import { PreviewButton } from '../common/preview-button';
+import { Subtitle } from '../common/Subtitle';
+import { Choice } from './choice';
+import {
+  CreateSurveyPageContainer,
+  CreateSurveyPageContent,
+  CreateSurveyPageHeader,
+} from './create-survey-page3.styles';
+import { QuestionSelect } from './question-select';
+import { Subjective } from './subjective';
 
-import { Btn_popup } from '@/components/common/Btn_popup';
-import { PreviewButton } from '@/components/common/preview-button';
-import { Subtitle } from '@/components/common/Subtitle';
-import ObjectiveMultipleForm from '@/components/survey/ObjectiveMultipleForm';
-import ObjectiveSingleForm from '@/components/survey/ObjectiveSingleForm';
-import SubjectiveForm from '@/components/survey/SubjectiveForm';
-import SurveyForm from '@/components/survey/surveyForm';
-import step3 from '../assets/step3.png';
+export const CreateSurveyPageStep3 = () => {
+  const router = useNavigate();
 
-const CreateSurveyPageStep3 = () => {
-  const [isFormComplete, setIsFormComplete] = useState(false);
+  const { createSurveyMutation, isCreateSurveyLoading } = useCreateSurvey();
+
+  const { personalInfoOptionList, eventId } = useSelector(
+    (state: RootState) => state.survey
+  );
+
   const [questions, setQuestions] = useState<
-    { id: number; type: string; content: React.ReactNode }[]
-  >([]);
-
-  const [selectedOption, setSelectedOption] = useState('주관식');
+    {
+      id: string;
+      type: QuestionType;
+      text: string;
+      options: string[];
+    }[]
+  >([
+    {
+      id: uuidv4(),
+      type: 'SUBJECTIVE' as QuestionType,
+      text: '',
+      options: [] as string[],
+    },
+  ]);
 
   const addQuestion = () => {
-    let newContent: React.ReactNode;
-    switch (selectedOption) {
-      case '주관식':
-        newContent = (
-          <SubjectiveForm
-            onRemove={() => removeQuestion(questions.length + 1)}
-          />
-        );
-        break;
-      case '객관식 (단일 선택)':
-        newContent = (
-          <ObjectiveSingleForm
-            onRemove={() => removeQuestion(questions.length + 1)}
-          />
-        );
-        break;
-      case '객관식 (복수 선택)':
-        newContent = (
-          <ObjectiveMultipleForm
-            onRemove={() => removeQuestion(questions.length + 1)}
-          />
-        );
-        break;
-      default:
-        newContent = null;
-    }
-
-    const newQuestion = {
-      id: questions.length + 1,
-      type: selectedOption,
-      content: newContent,
-    };
-    setQuestions([...questions, newQuestion]);
+    setQuestions([
+      ...questions,
+      { id: uuidv4(), type: 'SUBJECTIVE', text: '', options: [] },
+    ]);
   };
 
-  const removeQuestion = (id: number) => {
-    setQuestions(questions.filter(question => question.id !== id));
-  };
-
-  const updateQuestionType = (id: number, newType: string) => {
+  const changeQuestionType = (
+    id: string,
+    type: 'SUBJECTIVE' | 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE'
+  ) => {
     setQuestions(
-      questions.map(question => {
-        if (question.id === id) {
-          let newContent: React.ReactNode;
-          switch (newType) {
-            case '주관식':
-              newContent = (
-                <SubjectiveForm onRemove={() => removeQuestion(id)} />
-              );
-              break;
-            case '객관식 (단일 선택)':
-              newContent = (
-                <ObjectiveSingleForm onRemove={() => removeQuestion(id)} />
-              );
-              break;
-            case '객관식 (복수 선택)':
-              newContent = (
-                <ObjectiveMultipleForm onRemove={() => removeQuestion(id)} />
-              );
-              break;
-            default:
-              newContent = null;
-          }
-          return { ...question, type: newType, content: newContent };
-        }
-        return question;
-      })
+      questions.map(q => (q.id === id ? { ...q, type, options: [] } : q))
     );
   };
 
+  const updateQuestionText = (id: string, text: string) => {
+    setQuestions(questions.map(q => (q.id === id ? { ...q, text } : q)));
+  };
+
+  const updateQuestionOptions = (id: string, options: string[]) => {
+    setQuestions(questions.map(q => (q.id === id ? { ...q, options } : q)));
+  };
+
+  const handleSubmit = () => {
+    const formattedData = {
+      eventId,
+      personalInfoOptionList: personalInfoOptionList.map(option => ({
+        ...option,
+      })),
+      questionList: questions.map(question => ({
+        questionType: question.type,
+        questionText: question.text,
+        options: question.options,
+      })),
+    };
+
+    createSurveyMutation(formattedData);
+  };
+
   return (
-    <PageContainer>
-      <Subtitle title="설문 생성하기" />
-      <Container>
-        <img src={step3} style={{ width: '68px' }}></img>
-        <PreviewButton />
-      </Container>
-      <MainContent>
-        <Heading>당첨자 선정을 위해 필요한</Heading>
-        <Heading>질문을 입력해주세요</Heading>
-      </MainContent>
-      <SubContainer>
-        <FormContainer></FormContainer>
+    <CreateSurveyPageContainer>
+      <Subtitle title="설문 생성하기" onBackClick={() => router('/')} />
+      <CreateSurveyPageHeader>
+        <div className="progress">
+          <img src={step3} style={{ width: '68px' }} alt="Step 3" />
+          <PreviewButton />
+        </div>
+        <h1 className="header">
+          당첨자 선정을 위해 필요한
+          <br />
+          질문을 입력해주세요
+        </h1>
+      </CreateSurveyPageHeader>
+      <CreateSurveyPageContent>
         {questions.map(question => (
-          <Content key={question.id}>
-            <SurveyForm
-              selectedOption={question.type}
-              setSelectedOption={(newType: string) =>
-                updateQuestionType(question.id, newType)
-              }
-              onRemove={() => removeQuestion(question.id)}
+          <Box className="box" key={question.id}>
+            <QuestionSelect
+              value={question.type}
+              onChange={newType => changeQuestionType(question.id, newType)}
             />
-            {question.content}
-          </Content>
+            {question.type === 'SUBJECTIVE' && (
+              <Subjective
+                value={question.text}
+                onChange={text => updateQuestionText(question.id, text)}
+              />
+            )}
+            {question.type !== 'SUBJECTIVE' && (
+              <Choice
+                type={question.type}
+                value={question.text}
+                onChange={text => updateQuestionText(question.id, text)}
+                options={question.options!}
+                onOptionsChange={options =>
+                  updateQuestionOptions(question.id, options)
+                }
+              />
+            )}
+          </Box>
         ))}
-        <AddForm onClick={addQuestion}>+ 질문 추가하기</AddForm>
-        <FixedBottom>
-          <Btn_popup
-            onClick={() => alert('설문 생성 완료!')}
-            $isactive={isFormComplete}
-            text="설문 생성 완료"
-            width="350px"
-          />
-        </FixedBottom>
-      </SubContainer>
-    </PageContainer>
+        <div className="btns">
+          <Button variant="add" className="add" onClick={addQuestion}>
+            + 질문 추가하기
+          </Button>
+          <Button
+            disabled={isCreateSurveyLoading}
+            variant="add"
+            className="submit"
+            onClick={handleSubmit}
+          >
+            {isCreateSurveyLoading ? <SpinLoader /> : '설문 생성 완료'}
+          </Button>
+        </div>
+      </CreateSurveyPageContent>
+    </CreateSurveyPageContainer>
   );
 };
-
-export default CreateSurveyPageStep3;
-
-const PageContainer = styled.div``;
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 20px;
-  margin-top: 10px;
-`;
-
-const MainContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 14px;
-  padding: 0 20px;
-`;
-
-const Heading = styled.h1`
-  ${head1Style}
-`;
-
-const SubContainer = styled.div`
-  background-color: #e9efff;
-  width: 100%;
-  min-height: 600px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 26px;
-  padding: 20px 0px 36px 0px;
-`;
-
-const FormContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  margin-bottom: 20px;
-`;
-
-const Content = styled.div`
-  width: 350px;
-  border-radius: 10px;
-  border: 1px solid ${COLORS.Gray5};
-  background-color: ${COLORS.white};
-  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 14px;
-  padding: 20px;
-  position: relative;
-`;
-
-const AddForm = styled.button`
-  width: 350px;
-  height: 48px;
-  font-weight: 600;
-  color: ${COLORS.Main};
-  border: 1px solid ${COLORS.Main};
-  border-radius: 10px;
-  background-color: white;
-  cursor: pointer;
-  margin-bottom: 16px;
-`;
-
-const FixedBottom = styled.div`
-  position: sticky;
-  bottom: 20px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`;

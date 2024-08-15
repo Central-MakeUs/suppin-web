@@ -1,301 +1,187 @@
-import { Btn_popup } from '@/components/common/Btn_popup';
+import cancelImg from '@/assets/cancel.svg';
+import step2 from '@/assets/step2.png';
 import { Subtitle } from '@/components/common/Subtitle';
-import Tag from '@/components/common/Tags';
-import { Button } from '@/components/common/button';
 import { PreviewButton } from '@/components/common/preview-button';
-import { AppDispatch, RootState } from '@/store';
+import { setFields, setPolicy } from '@/store/survey';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Badge } from '../common/badge';
+import { Box } from '../common/box';
+import { Button } from '../common/button';
+import { Input } from '../common/input';
+import { Textarea } from '../common/textarea';
 import {
-  addField,
-  removeField,
-  resetForm,
-  setDescription,
-  updateFieldLabel,
-} from '@/store/survey';
-import {
-  body3Style,
-  body4Style,
-  body6Style,
-  head1Style,
-} from '@/styles/global-styles';
-import { COLORS } from '@/theme';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
-import step2 from '../assets/step2.png';
+  CreateSurveyPageContent,
+  CreateSurveyPageHeader,
+  PageContainer,
+} from './create-survey-page2.styles';
 
-const CreateSurveyPageStep2 = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { description, fields } = useSelector(
-    (state: RootState) => state.survey
-  );
+const defaultText = {
+  line1: '이벤트 응모에 필요한 개인정보 수집에 동의해 주세요.',
+  line2:
+    '- 수집 항목 : 이벤트 응모 내용(아이디/닉네임), 이름, 휴대전화번호,우편번호, 배송지\n- 수집·이용 목적 : 이벤트 당첨자 본인 확인, 경품 수령 조건 확인, 경품 지급, 의견',
+  line3:
+    '- 개인정보 이용 및 보유 기간: 경품 지급 완료 후 최대 6개월(지급 내용 및 관련 문의응대 완료 후 폐기)',
+  line4:
+    '*개인정보의 수집 및 이용에 대한 동의를 거부할 수 있으며, 이 경우 이벤트 참여가 어렵습니다.',
+};
 
-  const handleRemoveField = (index: number) => {
-    dispatch(removeField(index));
+const defaultFields = [
+  { optionName: '연락처' },
+  { optionName: '아이디' },
+  { optionName: '이름' },
+  { optionName: '주소' },
+];
+
+export const CreateSurveyPageStep2 = () => {
+  const router = useNavigate();
+  const dispatch = useDispatch();
+
+  const [text, setText] = useState<{
+    line1: string;
+    line2: string;
+    line3: string;
+    line4: string;
+  }>(defaultText);
+  const [fields, setLocalFields] =
+    useState<{ optionName: string }[]>(defaultFields);
+
+  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setText(prevText => ({
+      ...prevText,
+      [name]: value,
+    }));
+    adjustHeight(e.target);
   };
 
-  const defaultDescription = `
-이벤트 응모에 필요한 개인정보 수집에 동의해 주세요.
-- 수집 항목: 이벤트 응모 내용(아이디/닉네임), 이름, 휴대전화번호, 우편번호, 배송지
-- 수집·이용 목적: 이벤트 당첨자 본인 확인, 경품 수령 조건 확인, 경품 지급, 의견
-- 개인정보 이용 및 보유 기간: 경품 지급 완료 후 최대 6개월(지급 내용 및 관련 문의 응답 완료 후 폐기)
+  const adjustHeight = (textarea: HTMLTextAreaElement) => {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  };
 
-*개인정보의 수집 및 이용에 대한 동의를 거부할 수 있으며, 이 경우 이벤트 참여가 어려울 수 있습니다.`;
-
-  // 초기 description 값 설정
   useEffect(() => {
-    if (!description) {
-      dispatch(setDescription(defaultDescription.trim()));
-    }
-  }, [dispatch, description]);
+    const textareas = document.querySelectorAll('textarea');
+    textareas.forEach(textarea => adjustHeight(textarea));
+  }, []);
 
-  const isFormComplete = description.length > 0;
-
-  const handleDescriptionChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const value = e.target.value;
-    if (value.length <= 500) {
-      dispatch(setDescription(value));
-    }
-  };
-
-  const handleReset = () => {
-    const confirmReset = window.confirm('템플릿을 초기화하시겠습니까?');
-    if (confirmReset) {
-      dispatch(resetForm());
-    }
+  const handleFieldChange = (index: number, value: string) => {
+    setLocalFields(prevFields => {
+      const newFields = [...prevFields];
+      newFields[index].optionName = value;
+      return newFields;
+    });
   };
 
   const handleAddField = () => {
-    // dispatch(addField(`항목 ${fields.length + 1}`));
-    dispatch(addField('내용을 입력해주세요'));
+    setLocalFields(prevFields => [...prevFields, { optionName: '' }]);
+  };
+
+  const handleRemoveField = (index: number) => {
+    setLocalFields(prevFields => prevFields.filter((_, i) => i !== index));
+  };
+
+  const saveHandler = () => {
+    dispatch(setPolicy(text));
+    dispatch(setFields(fields));
+    router('/survey/new?step=3');
   };
 
   return (
     <PageContainer>
-      <Subtitle title="설문 생성하기" />
-      <Container>
-        <img src={step2} style={{ width: '68px' }} alt="Step 2" />
-        <PreviewButton />
-      </Container>
-      <MainContent>
-        <Heading>수집할 참여자 정보를</Heading>
-        <Heading>입력해주세요</Heading>
-      </MainContent>
-      <SubContainer>
-        <Content>
-          <TopSection>
-            <Tag label="정보 수집 동의" $variant="default" />
-            <Reset onClick={handleReset}>템플릿 초기화하기</Reset>
-          </TopSection>
-          <Explain>저장한 내용은 추후 기본 템플릿으로 사용할 수 있어요</Explain>
-          <TextAreaContainer>
-            <TextArea
-              placeholder="설명글을 입력해주세요 (최대 500자)"
-              value={description}
-              onChange={handleDescriptionChange}
+      <Subtitle title="설문 생성하기" onBackClick={() => router('/')} />
+      <CreateSurveyPageHeader>
+        <div className="progress">
+          <img src={step2} style={{ width: '68px' }} alt="Step 2" />
+          <PreviewButton />
+        </div>
+        <h1 className="header">
+          수집할 참여자 정보를
+          <br />
+          입력해주세요
+        </h1>
+      </CreateSurveyPageHeader>
+      <CreateSurveyPageContent>
+        <Box className="box">
+          <div className="box-header">
+            <Badge variant="default" className="badge">
+              정보 수집 동의
+            </Badge>
+            <span>템플릿 초기화하기</span>
+          </div>
+          <div className="noti">
+            <p>
+              수정 시 그대로 저장되어 다음 번 설문 만들 때 불러와집니다.
+              <br />
+              추후 6개월간 선정한 당첨자의 개인정보를 열람할 수 있습니다.
+            </p>
+          </div>
+          <Box className="box desc-box">
+            <Textarea
+              className="desc"
+              name="line1"
+              value={text.line1}
+              onInput={handleInput}
             />
-            <CharacterCountContainer>
-              <CharacterCount>{description.length}</CharacterCount>/ 500
-            </CharacterCountContainer>
-          </TextAreaContainer>
-        </Content>
-        <Content2>
-          <Tag label="개인 정보 수집" $variant="default" />
-          <Comment>수집할 참여자 정보를 입력해주세요</Comment>
-          {fields.map((field, index) => (
-            <Form key={index}>
-              {/* <CheckButton
-                $variant={'round'}
-                checked={field.checked}
-                onChange={() => dispatch(toggleFieldChecked(index))}
-              /> */}
-              <InputContainer>
+            <Textarea
+              className="desc"
+              name="line2"
+              value={text.line2}
+              onInput={handleInput}
+            />
+            <Textarea
+              className="desc strong"
+              name="line3"
+              value={text.line3}
+              onInput={handleInput}
+            />
+            <Textarea
+              className="desc"
+              name="line4"
+              value={text.line4}
+              onInput={handleInput}
+            />
+          </Box>
+        </Box>
+        <Box className="box">
+          <Badge variant="default" className="badge">
+            개인 정보 수집
+          </Badge>
+          <div className="noti">
+            <h2>수집할 참여자 정보를 입력해주세요</h2>
+            <p>당첨자 선정을 위해 연락처는 필수로 수집해야해요</p>
+          </div>
+          <div className="input-container">
+            {fields.map((field, index) => (
+              <div key={index} className="field-row">
                 <Input
-                  type="text"
-                  value={field.label}
-                  onChange={e =>
-                    dispatch(updateFieldLabel({ index, label: e.target.value }))
-                  }
+                  value={field.optionName}
+                  onChange={e => handleFieldChange(index, e.target.value)}
                 />
-                <Button
-                  onClick={() => handleRemoveField(index)}
-                  variant={'delete'}
-                  width="24px"
-                ></Button>
-              </InputContainer>
-            </Form>
-          ))}
-          <AddFieldButton onClick={handleAddField}>
+                {fields.length > 1 && (
+                  <img
+                    src={cancelImg}
+                    alt="cancel"
+                    onClick={() => handleRemoveField(index)}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="add-input" onClick={handleAddField}>
             + 항목 추가 생성
-          </AddFieldButton>
-        </Content2>
-        <Btn_popup
-          onClick={() => alert('다음으로 버튼 클릭')}
-          $isactive={isFormComplete}
-          text="다음으로"
-          width="350px"
-        />
-      </SubContainer>
+          </div>
+        </Box>
+        <Button
+          type="button"
+          onClick={saveHandler}
+          variant="add"
+          className="button"
+        >
+          다음으로
+        </Button>
+      </CreateSurveyPageContent>
     </PageContainer>
   );
 };
-
-export default CreateSurveyPageStep2;
-
-// 스타일 정의
-const PageContainer = styled.div``;
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 20px;
-  margin-top: 10px;
-`;
-
-const MainContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 14px;
-  padding: 0 20px;
-`;
-
-const Heading = styled.h1`
-  ${head1Style}
-`;
-
-const SubContainer = styled.div`
-  background-color: ${COLORS.Sub2};
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 26px;
-  padding: 20px 0px 36px 0px;
-`;
-
-const Content = styled.div`
-  width: 350px;
-  min-height: 250px;
-  border-radius: 10px;
-  border: 1px solid ${COLORS.Gray5};
-  background-color: ${COLORS.white};
-  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 14px;
-  padding: 20px;
-`;
-
-const TopSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Reset = styled.p`
-  ${body3Style}
-  color: ${COLORS.Main};
-  cursor: pointer;
-`;
-
-const Explain = styled.p`
-  ${body6Style}
-  color: ${COLORS.Gray2};
-  margin: 8px 0px 17px 0px;
-`;
-
-const TextAreaContainer = styled.div`
-  display: flex;
-  height: 307px;
-  position: relative;
-`;
-
-const TextArea = styled.textarea`
-  width: 100%;
-  height: 307px;
-  background-color: ${COLORS.Sub3};
-  font-size: 14px;
-  color: ${COLORS.Gray2};
-  resize: none;
-  outline: none;
-  border: 1px solid ${COLORS.Sub2};
-  border-radius: 10px;
-  padding: 14px;
-`;
-
-const CharacterCountContainer = styled.div`
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  font-size: 14px;
-  color: ${COLORS.Gray2};
-`;
-
-const CharacterCount = styled.span`
-  color: ${COLORS.Main};
-`;
-
-const Content2 = styled.div`
-  width: 350px;
-  min-height: 205px;
-  border-radius: 10px;
-  border: 1px solid ${COLORS.Gray5};
-  background-color: ${COLORS.white};
-  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 26px;
-  padding: 20px;
-`;
-
-const Comment = styled.p`
-  ${body3Style}
-  font-size: 16px;
-  font-weight: 600;
-  margin-top: 7px;
-  margin-bottom: 20px;
-`;
-
-const Form = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-const InputContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  border: 1px solid ${COLORS.Gray5};
-  border-radius: 10px;
-  background-color: ${COLORS.white};
-  padding-right: 10px;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  height: 46px;
-  padding: 0 10px;
-  border-radius: 10px;
-  border: none;
-  color: ${COLORS.Gray1};
-  outline: none;
-  ${body4Style}
-`;
-
-const AddFieldButton = styled.p`
-  width: 100%;
-  height: 22px;
-  color: ${COLORS.Gray2};
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 8px;
-  text-decoration: underline;
-  display: flex;
-  justify-content: flex-end;
-`;
