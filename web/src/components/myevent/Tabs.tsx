@@ -1,16 +1,16 @@
+import { DoneEventCard, ProcessingEventCard } from '@/components/myevent';
+import { COLORS } from '@/theme';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { ProgressContent, CompletedContent } from '@/components/myevent';
-import { COLORS } from '@/theme';
 
 const Tabs = () => {
   const [activeTab, setActiveTab] = useState('progress');
 
   const renderContent = () => {
     if (activeTab === 'progress') {
-      return <ProgressContent />;
+      return <ProcessingEventCard />;
     } else if (activeTab === 'completed') {
-      return <CompletedContent />;
+      return <DoneEventCard />;
     }
   };
 

@@ -1,5 +1,6 @@
 const USER = 'user';
 const EVENTS = 'events';
+const SURVEY = 'survey';
 
 export const queries = {
   user: {
@@ -7,5 +8,13 @@ export const queries = {
   },
   events: {
     DEFAULT: [EVENTS],
+  },
+  survey: {
+    DEFAULT: [SURVEY],
+    result: (surveyId: string, questionId: string) => [
+      SURVEY,
+      surveyId,
+      questionId,
+    ],
   },
 };

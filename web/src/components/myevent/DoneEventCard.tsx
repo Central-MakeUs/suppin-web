@@ -5,15 +5,15 @@ import {
   head4Style,
 } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
+import { EventOrServey, EventStatus, EventType } from '@/types/event';
 import styled from 'styled-components';
-import Tag from '../common/Tags';
+import mainCard from '../../assets/main_card.png';
+import mainCard2 from '../../assets/main_card2.png';
 import mainCardBig from '../../assets/main_card_big.png';
 import mainCardBig2 from '../../assets/main_card_big2.png';
-import mainCard2 from '../../assets/main_card2.png';
-import mainCard from '../../assets/main_card.png';
-import { EventOrServey, EventStatus, EventType } from '@/types/event';
+import Tag from '../common/Tags';
 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const DoneEventCard = ({ event }: { event: EventType }) => {
   const navigate = useNavigate();
@@ -26,39 +26,43 @@ const DoneEventCard = ({ event }: { event: EventType }) => {
 
   return (
     <DoneCardWrapper $eventType={event.type} $eventStatus={event.status}>
-      <HeaderContainer>
-        <CardHeader>
-          <EventTypeWrapper>
-            <Tag
-              label={event.type === 'COMMENT' ? '댓글 수집형' : '설문형'}
-              $variant={'default'}
-            />
-            {event.status === 'DONE' && (
-              <Tag label={'당첨자 선정 완료'} $variant={'completed'} />
-            )}
-          </EventTypeWrapper>
-          <EventCount>
-            {event.type === 'COMMENT' ? '수집 댓글 수' : '응답자 수'} |{' '}
-            {event.commentCount}
-          </EventCount>
-        </CardHeader>
-      </HeaderContainer>
-      <EventTitle>{event.title}</EventTitle>
-      <EventDates>
-        <EventContainer>
-          <EventDate>이벤트 기간 </EventDate>
-          <Date>
-            {event.startDate} - {event.endDate}
-          </Date>
-        </EventContainer>
-        <EventContainer>
-          <EventDate>당첨자 발표</EventDate>
-          <Date>{event.announcementDate}</Date>
-        </EventContainer>
-      </EventDates>
-      {event.status === 'DONE' && (
-        <ActionButton onClick={handleWinnerClick}>당첨자 확인하기</ActionButton>
-      )}
+      <Link to={`/result/${event.eventId}`}>
+        <HeaderContainer>
+          <CardHeader>
+            <EventTypeWrapper>
+              <Tag
+                label={event.type === 'COMMENT' ? '댓글 수집형' : '설문형'}
+                $variant={'default'}
+              />
+              {event.status === 'DONE' && (
+                <Tag label={'당첨자 선정 완료'} $variant={'completed'} />
+              )}
+            </EventTypeWrapper>
+            <EventCount>
+              {event.type === 'COMMENT' ? '수집 댓글 수' : '응답자 수'} |{' '}
+              {event.commentCount}
+            </EventCount>
+          </CardHeader>
+        </HeaderContainer>
+        <EventTitle>{event.title}</EventTitle>
+        <EventDates>
+          <EventContainer>
+            <EventDate>이벤트 기간 </EventDate>
+            <Date>
+              {event.startDate} - {event.endDate}
+            </Date>
+          </EventContainer>
+          <EventContainer>
+            <EventDate>당첨자 발표</EventDate>
+            <Date>{event.announcementDate}</Date>
+          </EventContainer>
+        </EventDates>
+        {event.status === 'DONE' && (
+          <ActionButton onClick={handleWinnerClick}>
+            당첨자 확인하기
+          </ActionButton>
+        )}
+      </Link>
     </DoneCardWrapper>
   );
 };

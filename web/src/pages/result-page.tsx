@@ -1,3 +1,9 @@
+import { ResultContent } from '@/components/winner/result-content';
+import { useParams } from 'react-router-dom';
+
 export const ResultPage = () => {
-  return <div />;
+  const params = useParams();
+  console.log(params);
+
+  return <ResultContent />;
 };

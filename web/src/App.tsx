@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       {
-        path: 'result',
+        path: 'result/:id',
         lazy: async () => {
           const { ResultPage } = await import('@/pages/result-page');
           return {

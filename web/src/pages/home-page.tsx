@@ -61,7 +61,7 @@ const HomePage = () => {
   } else if (eventsData.isFetching) {
     content = <BarLoader />;
   } else if (eventsData.isError) {
-    content = <div>Error,,</div>;
+    content = <NoResult />;
   } else if (!events || events.length === 0) {
     content = <NoResult />;
   } else {

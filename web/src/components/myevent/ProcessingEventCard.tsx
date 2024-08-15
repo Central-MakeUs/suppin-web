@@ -155,4 +155,5 @@ const EventLink = styled.div`
   ${body5Style}
   color: ${COLORS.Gray2};
   text-align: right;
+  z-index: 10;
 `;
