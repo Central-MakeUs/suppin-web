@@ -83,8 +83,15 @@ export const CreateSurveyPageStep2 = () => {
   };
 
   const saveHandler = () => {
+    const filteredFields = fields.filter(
+      field =>
+        !defaultFields.some(
+          defaultField => defaultField.optionName === field.optionName
+        )
+    );
+
     dispatch(setPolicy(text));
-    dispatch(setFields(fields));
+    dispatch(setFields(filteredFields));
     router('/survey/new?step=3');
   };
 

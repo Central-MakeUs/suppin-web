@@ -7,6 +7,7 @@ export type EventType = {
   title: string;
   url: string;
   startDate: string;
+  surveyId: string;
   endDate: string;
   announcementDate: string;
   surveyCount: number;

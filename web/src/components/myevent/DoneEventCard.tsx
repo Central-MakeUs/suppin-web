@@ -26,7 +26,7 @@ export const DoneEventCard = ({ event }: { event: EventType }) => {
 
   return (
     <DoneCardWrapper $eventType={event.type} $eventStatus={event.status}>
-      <Link to={`/result/${event.eventId}`}>
+      <Link to={`/result/${event.eventId}?survey=${event.surveyId}`}>
         <HeaderContainer>
           <CardHeader>
             <EventTypeWrapper>
