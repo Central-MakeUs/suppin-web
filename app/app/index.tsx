@@ -24,7 +24,7 @@ const App = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <WebViewBridge source={{ uri: "http://:3000/" }} />
+      <WebViewBridge source={{ uri: "https://suppin-web.vercel.app/" }} />
     </SafeAreaView>
   );
 };
