@@ -25,7 +25,7 @@ export const CreateSurveyPageStep3 = () => {
 
   const { createSurveyMutation, isCreateSurveyLoading } = useCreateSurvey();
 
-  const { personalInfoOptionList, eventId } = useSelector(
+  const { personalInfoOptionList, eventId, policy } = useSelector(
     (state: RootState) => state.survey
   );
 
@@ -72,6 +72,7 @@ export const CreateSurveyPageStep3 = () => {
   const handleSubmit = () => {
     const formattedData = {
       eventId,
+      consentFormHtml: policy,
       personalInfoOptionList: personalInfoOptionList.map(option => ({
         ...option,
       })),
