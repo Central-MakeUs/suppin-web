@@ -8,7 +8,7 @@ import mainCard from '../../assets/main_card.png';
 import mainCard2 from '../../assets/main_card2.png';
 import Tag from '../common/Tags';
 
-const ProcessingEventCard = ({ event }: { event: EventType }) => {
+export const ProcessingEventCard = ({ event }: { event: EventType }) => {
   const handleCopyLink = () => {
     const link = `https://suppin-survey.vercel.app/${event.uuid}`;
     navigator.clipboard.writeText(link).then(
@@ -62,8 +62,6 @@ const ProcessingEventCard = ({ event }: { event: EventType }) => {
     </ProcessingCardWrapper>
   );
 };
-
-export default ProcessingEventCard;
 
 const getBackgroundImage = ($eventType: EventOrServey) => {
   return $eventType === 'COMMENT' ? mainCard2 : mainCard;

@@ -1,7 +1,6 @@
-import ProcessingEventCard from '../myevent/ProcessingEventCard';
-import DoneEventCard from '../myevent/DoneEventCard';
+import { EventStatus, EventType } from '@/types/event';
 import styled from 'styled-components';
-import { EventType, EventStatus } from '@/types/event';
+import { DoneEventCard, ProcessingEventCard } from '../myevent';
 
 interface EventListProps {
   events: EventType[];

@@ -15,11 +15,11 @@ import Tag from '../common/Tags';
 
 import { Link, useNavigate } from 'react-router-dom';
 
-const DoneEventCard = ({ event }: { event: EventType }) => {
+export const DoneEventCard = ({ event }: { event: EventType }) => {
   const navigate = useNavigate();
 
   const handleWinnerClick = () => {
-    if (event.status === 'DONE') {
+    if (event.type === 'COMMENT') {
       navigate(`/crawling/${event.eventId}`); // 해당 eventId를 사용하여 이동
     }
   };
@@ -66,8 +66,6 @@ const DoneEventCard = ({ event }: { event: EventType }) => {
     </DoneCardWrapper>
   );
 };
-
-export default DoneEventCard;
 
 const getBackgroundImage = (
   $eventType: EventOrServey,

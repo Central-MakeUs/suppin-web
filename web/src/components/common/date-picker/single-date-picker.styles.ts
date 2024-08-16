@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const SignleDatePickerWrapper = styled.div`
   .date-box {
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -14,8 +15,12 @@ export const SignleDatePickerWrapper = styled.div`
     margin-bottom: 0.25rem;
   }
 
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
   .react-datepicker__input-container {
     input {
+      width: 100%;
       background: transparent;
       border: none;
       color: ${COLORS.Gray2};

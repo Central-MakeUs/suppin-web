@@ -112,17 +112,34 @@ export const CreateSurveyPageStep1 = () => {
                 <FormField
                   control={form.control}
                   name="eventPeriod.startDate"
-                  render={({ field }) => (
-                    <FormItem style={{ marginBottom: 0 }}>
-                      <FormControl>
-                        <SignleDatePicker
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) => {
+                    const startDate = new Date();
+
+                    const minTime = startDate
+                      ? new Date(
+                          startDate.setHours(startDate.getHours(), 0, 0, 0)
+                        )
+                      : undefined;
+
+                    const maxTime = startDate
+                      ? new Date(startDate.setHours(23, 59, 59, 999))
+                      : undefined;
+
+                    return (
+                      <FormItem style={{ marginBottom: 0, width: '100%' }}>
+                        <FormControl>
+                          <SignleDatePicker
+                            value={field.value}
+                            onChange={field.onChange}
+                            minDate={startDate}
+                            minTime={minTime}
+                            maxTime={maxTime}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
                 <FormField
                   control={form.control}
@@ -143,7 +160,7 @@ export const CreateSurveyPageStep1 = () => {
                       : undefined;
 
                     return (
-                      <FormItem style={{ marginBottom: 0 }}>
+                      <FormItem style={{ marginBottom: 0, width: '100%' }}>
                         <FormControl>
                           <SignleDatePicker
                             value={field.value}
@@ -170,7 +187,7 @@ export const CreateSurveyPageStep1 = () => {
                       : undefined;
 
                     return (
-                      <FormItem style={{ marginBottom: 0 }}>
+                      <FormItem style={{ marginBottom: 0, width: '100%' }}>
                         <FormControl>
                           <SignleDatePicker
                             value={field.value}
