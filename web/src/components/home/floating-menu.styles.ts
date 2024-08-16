@@ -2,7 +2,7 @@ import { COLORS } from '@/theme';
 import styled from 'styled-components';
 
 export const FloatingMenuWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 6.5rem;
   right: 1rem;
   display: flex;
