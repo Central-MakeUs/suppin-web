@@ -3,12 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: SurveyState = {
   eventId: -1,
-  policy: {
-    line1: '',
-    line2: '',
-    line3: '',
-    line4: '',
-  },
+  policy: '',
   personalInfoOptionList: [],
   questionType: 'SUBJECTIVE',
 };
@@ -20,7 +15,7 @@ const surveySlice = createSlice({
     setEventId(state, action: PayloadAction<number>) {
       state.eventId = action.payload;
     },
-    setPolicy(state, action: PayloadAction<SurveyState['policy']>) {
+    setPolicy(state, action: PayloadAction<string>) {
       state.policy = action.payload;
     },
     setFields(state, action: PayloadAction<{ optionName: string }[]>) {

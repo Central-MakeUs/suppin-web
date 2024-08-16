@@ -115,16 +115,6 @@ export const CreateSurveyPageStep1 = () => {
                   render={({ field }) => {
                     const startDate = new Date();
 
-                    const minTime = startDate
-                      ? new Date(
-                          startDate.setHours(startDate.getHours(), 0, 0, 0)
-                        )
-                      : undefined;
-
-                    const maxTime = startDate
-                      ? new Date(startDate.setHours(23, 59, 59, 999))
-                      : undefined;
-
                     return (
                       <FormItem style={{ marginBottom: 0, width: '100%' }}>
                         <FormControl>
@@ -132,8 +122,6 @@ export const CreateSurveyPageStep1 = () => {
                             value={field.value}
                             onChange={field.onChange}
                             minDate={startDate}
-                            minTime={minTime}
-                            maxTime={maxTime}
                           />
                         </FormControl>
                         <FormMessage />
@@ -149,16 +137,6 @@ export const CreateSurveyPageStep1 = () => {
                       ? new Date(form.getValues('eventPeriod.startDate'))
                       : undefined;
 
-                    const minTime = startDate
-                      ? new Date(
-                          startDate.setHours(startDate.getHours(), 0, 0, 0)
-                        )
-                      : undefined;
-
-                    const maxTime = startDate
-                      ? new Date(startDate.setHours(23, 59, 59, 999))
-                      : undefined;
-
                     return (
                       <FormItem style={{ marginBottom: 0, width: '100%' }}>
                         <FormControl>
@@ -166,8 +144,6 @@ export const CreateSurveyPageStep1 = () => {
                             value={field.value}
                             onChange={field.onChange}
                             minDate={startDate}
-                            minTime={minTime}
-                            maxTime={maxTime}
                           />
                         </FormControl>
                         <FormMessage />

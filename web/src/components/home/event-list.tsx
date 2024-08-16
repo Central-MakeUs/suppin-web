@@ -24,6 +24,5 @@ const EventList = ({ events, status }: EventListProps) => {
 export default EventList;
 
 const EventListWrapper = styled.div`
-  padding: 0px 20px;
-  margin-top: 32px;
+  padding: 32px 20px;
 `;

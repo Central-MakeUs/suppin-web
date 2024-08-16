@@ -89,8 +89,16 @@ export const CreateSurveyPageStep2 = () => {
           defaultField => defaultField.optionName === field.optionName
         )
     );
+    const textHtml = `
+    <div>
+      <p>${text.line1}</p>
+      <p>${text.line2}</p>
+      <p><strong>${text.line3}</strong></p>
+      <p>${text.line4}</p>
+    </div>
+  `;
 
-    dispatch(setPolicy(text));
+    dispatch(setPolicy(textHtml));
     dispatch(setFields(filteredFields));
     router('/survey/new?step=3');
   };
