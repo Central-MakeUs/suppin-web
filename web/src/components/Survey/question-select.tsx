@@ -6,8 +6,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/common/select';
+import { QuestionSelectWrapper } from '@/components/Survey/question-select.styles';
 import { X } from 'lucide-react';
-import { QuestionSelectWrapper } from './question-select.styles';
 
 const valueMap = {
   SUBJECTIVE: '주관식',

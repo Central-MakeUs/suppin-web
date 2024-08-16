@@ -27,7 +27,7 @@ export const ResultContent = () => {
   } else if (survey.isFetching) {
     content = <BarLoader />;
   } else if (survey.data) {
-    content = <SurveyResult survey={survey.data} />;
+    content = <SurveyResult />;
   } else {
     content = null;
   }

@@ -1,6 +1,6 @@
-import { CreateSurveyPageStep1 } from '@/components/survey/create-survey-page1';
-import { CreateSurveyPageStep2 } from '@/components/survey/create-survey-page2';
-import { CreateSurveyPageStep3 } from '@/components/survey/create-survey-page3';
+import { CreateSurveyPageStep1 } from '@/components/Survey/create-survey-page1';
+import { CreateSurveyPageStep2 } from '@/components/Survey/create-survey-page2';
+import { CreateSurveyPageStep3 } from '@/components/Survey/create-survey-page3';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 

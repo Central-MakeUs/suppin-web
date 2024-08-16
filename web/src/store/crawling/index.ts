@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CrawlingState } from '@/types/signup/crawling';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: CrawlingState = {
   activeTab: 'comment',
@@ -20,6 +20,7 @@ const crawlingSlice = createSlice({
     setPeriod(state, action: PayloadAction<string>) {
       state.period = action.payload;
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setComments(state, action: PayloadAction<any[]>) {
       state.comments = action.payload;
     },

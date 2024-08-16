@@ -1,10 +1,10 @@
+import { ChoiceWrapper } from '@/components/Survey/choice.styles';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 import { Box } from '../common/box';
 import { Input } from '../common/input';
-import { ChoiceWrapper } from './choice.styles';
 
 type ChoiceProps = {
   type: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE';

@@ -1,4 +1,12 @@
 import step3 from '@/assets/step3.png';
+import { Choice } from '@/components/Survey/choice';
+import {
+  CreateSurveyPageContainer,
+  CreateSurveyPageContent,
+  CreateSurveyPageHeader,
+} from '@/components/Survey/create-survey-page3.styles';
+import { QuestionSelect } from '@/components/Survey/question-select';
+import { Subjective } from '@/components/Survey/subjective';
 import { useCreateSurvey } from '@/services/queries/survey.mutation';
 import { RootState } from '@/store';
 import { QuestionType } from '@/types/survey';
@@ -11,14 +19,6 @@ import { Button } from '../common/button';
 import { SpinLoader } from '../common/loader';
 import { PreviewButton } from '../common/preview-button';
 import { Subtitle } from '../common/Subtitle';
-import { Choice } from './choice';
-import {
-  CreateSurveyPageContainer,
-  CreateSurveyPageContent,
-  CreateSurveyPageHeader,
-} from './create-survey-page3.styles';
-import { QuestionSelect } from './question-select';
-import { Subjective } from './subjective';
 
 export const CreateSurveyPageStep3 = () => {
   const router = useNavigate();

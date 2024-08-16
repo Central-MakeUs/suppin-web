@@ -6,7 +6,7 @@ interface BtnPopupProps {
   text?: string;
   width?: string;
   height?: string;
-  $isactive?: boolean;
+  isactive?: boolean;
 }
 
 export const Btn_popup = ({

@@ -1,6 +1,6 @@
 import { axiosInstance } from '@/services/axios-instance';
 
-interface createCommentEvent {
+interface CreateCommentEventType {
   type: string;
   title: string;
   description: string;
@@ -11,7 +11,7 @@ interface createCommentEvent {
 }
 
 // 1. 이벤트 생성
-export const createCommentEvent = async (payload: createCommentEvent) => {
+export const createCommentEvent = async (payload: CreateCommentEventType) => {
   const { data } = await axiosInstance.post(
     '/events/new/comment/crawling',
     payload,

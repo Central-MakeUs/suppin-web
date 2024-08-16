@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
+import { draftWinners } from '@/services/apis/crawling.service';
 import { RootState } from '@/store';
-import { COLORS } from '@/theme';
-import { Button } from '../common/button';
-import { SurveyTimeInput } from '../common/SurveyTimeInput';
-import { head4Style, body3Style, body1Style } from '@/styles/global-styles';
+import { setEndDate, setStartDate } from '@/store/comment';
 import {
-  setParticipantCount,
-  setMinCharacterCount,
   addKeyword,
   removeKeyword,
-  setWinners,
+  setMinCharacterCount,
+  setParticipantCount,
   setWinnerCount,
+  setWinners,
 } from '@/store/winner';
-import { setStartDate, setEndDate } from '@/store/comment';
+import { body1Style, body3Style, head4Style } from '@/styles/global-styles';
+import { COLORS } from '@/theme';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
-import { draftWinners } from '@/services/apis/crawling.service';
+import styled from 'styled-components';
+import { Button } from '../common/button';
+import { SurveyTimeInput } from '../common/SurveyTimeInput';
 
 interface WinnerContentProps {
   onWinnerSelected: () => void; // 당첨자 선택 시 호출되는 함수
@@ -83,7 +83,7 @@ export const WinnerContent = ({
 
     const numericEventId = eventId ? parseInt(eventId, 10) : null; // 이벤트 ID를 숫자로 변환
     const payload = {
-      eventId: numericEventId,
+      eventId: numericEventId!,
       winnerCount: parseInt(participant, 10),
       minLength: parseInt(minCharacterCount, 10),
       startDate: startDate || '',

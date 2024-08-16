@@ -1,5 +1,10 @@
 import cancelImg from '@/assets/cancel.svg';
 import step2 from '@/assets/step2.png';
+import {
+  CreateSurveyPageContent,
+  CreateSurveyPageHeader,
+  PageContainer,
+} from '@/components/Survey/create-survey-page2.styles';
 import { Subtitle } from '@/components/common/Subtitle';
 import { PreviewButton } from '@/components/common/preview-button';
 import { setFields, setPolicy } from '@/store/survey';
@@ -11,11 +16,6 @@ import { Box } from '../common/box';
 import { Button } from '../common/button';
 import { Input } from '../common/input';
 import { Textarea } from '../common/textarea';
-import {
-  CreateSurveyPageContent,
-  CreateSurveyPageHeader,
-  PageContainer,
-} from './create-survey-page2.styles';
 
 const defaultText = {
   line1: '이벤트 응모에 필요한 개인정보 수집에 동의해 주세요.',

@@ -19,17 +19,10 @@ export const CheckButton = ({ variant, ...props }: CheckButtonProps) => {
       {isChecked ? (
         <img src={variant === 'round' ? checkRound : checkRect} alt="Checked" />
       ) : (
-        <div className="empty" $variant={variant} />
+        <div className="empty" />
       )}
     </ButtonContainer>
   );
 };
 
 const ButtonContainer = styled.button``;
-
-const CheckImage = styled.img`
-  width: 20px;
-  height: 20px;
-`;
-
-const EmptyShape = styled.div<{ $variant: 'round' | 'rect' }>``;

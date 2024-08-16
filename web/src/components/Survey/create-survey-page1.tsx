@@ -1,6 +1,11 @@
 import step1 from '@/assets/step1.png';
 import { PreviewButton } from '@/components/common/preview-button';
 import { Subtitle } from '@/components/common/Subtitle';
+import {
+  CreateSurveyPageContent,
+  CreateSurveyPageHeader,
+  CreateSurveyPageWrapper,
+} from '@/components/Survey/create-survey-page1.styles';
 import { createEventSchema, CreateEventType } from '@/lib/schema/event.schema';
 import { useCreateEvent } from '@/services/queries/event.mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -20,11 +25,6 @@ import { Input } from '../common/input';
 import { Label } from '../common/label';
 import { SpinLoader } from '../common/loader';
 import { Textarea } from '../common/textarea';
-import {
-  CreateSurveyPageContent,
-  CreateSurveyPageHeader,
-  CreateSurveyPageWrapper,
-} from './create-survey-page1.styles';
 
 export const CreateSurveyPageStep1 = () => {
   const router = useNavigate();

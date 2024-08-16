@@ -56,19 +56,6 @@ export const SurveyCheck = ({ $variant }: SurveyCheckProps) => {
   );
 };
 
-const CheckButton = styled.div<{ isActive: boolean }>`
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 10px;
-  background-color: ${({ isActive }) =>
-    isActive ? COLORS.Sub2 : COLORS.white};
-  color: ${COLORS.Gray2};
-  cursor: pointer;
-  border: 1px solid ${({ isActive }) => (isActive ? COLORS.Main : COLORS.Gray4)};
-`;
-
 const CheckContainer = styled.div`
   margin-right: 10px;
 `;

@@ -1,28 +1,28 @@
-import { useCallback, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { HomePageWrapper } from './home-page.styles';
+import { Subtitle } from '@/components/common/Subtitle';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@/components/common/tabs';
-import { WinnerContent } from '@/components/winner/Winner';
 import Comment from '@/components/winner/Comment';
-import { Subtitle } from '@/components/common/Subtitle';
+import { WinnerContent } from '@/components/winner/Winner';
 import { WinnerResult } from '@/components/winner/WinnerResult';
 import { getCommentsList } from '@/services/apis/crawling.service';
+import { RootState } from '@/store';
 import {
   setActiveTab,
-  setPeriod,
   setComments,
   setParticipantCount,
-  setTotalCommentCount,
+  setPeriod,
   setShowWinnerResult,
+  setTotalCommentCount,
 } from '@/store/crawling';
+import { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
-import { RootState } from '@/store';
+import { HomePageWrapper } from './home-page.styles';
 
 const CrawlingPage = () => {
   const dispatch = useDispatch();
@@ -99,6 +99,7 @@ const CrawlingPage = () => {
 
   // 새로고침 방지 및 경고 메시지를 표시하는 함수
   useEffect(() => {
+    // @ts-expect-error asdf
     const handleBeforeUnload = event => {
       event.preventDefault();
       event.returnValue = ''; // 브라우저에 경고 메시지를 표시
@@ -138,9 +139,6 @@ const CrawlingPage = () => {
             <WinnerResult />
           ) : (
             <WinnerContent
-              eventId={eventId}
-              url={url}
-              comments={comments}
               participantCount={participantCount}
               onWinnerSelected={() => dispatch(setShowWinnerResult(true))}
             />

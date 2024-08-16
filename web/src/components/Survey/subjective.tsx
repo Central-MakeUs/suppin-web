@@ -1,6 +1,6 @@
+import { SubjectiveWrapper } from '@/components/Survey/subjective.styles';
 import React, { useEffect } from 'react';
 import { Textarea } from '../common/textarea';
-import { SubjectiveWrapper } from './subjective.styles';
 
 type SubjectiveProps = {
   value: string;

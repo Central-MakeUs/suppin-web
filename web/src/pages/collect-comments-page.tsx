@@ -1,32 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { RootState } from '@/store';
+import commentComplete from '@/assets/commentComplete.png';
 import { Popup } from '@/components/common/Popup';
+import { SingleDatePicker } from '@/components/common/SingleDatePicker';
 import { Subtitle } from '@/components/common/Subtitle';
 import { SurveyTimeInput } from '@/components/common/SurveyTimeInput';
-import { SingleDatePicker } from '@/components/common/SingleDatePicker';
-import { body2Style } from '@/styles/global-styles';
-import { COLORS } from '@/theme';
 import {
   checkUrlDuplicate,
   createCommentEvent,
   youtubeCrawling,
 } from '@/services/apis/crawling.service';
+import { RootState } from '@/store';
 import { setEventId, setUrl } from '@/store/winner';
-import { toast } from 'sonner'; // 알림 메시지를 표시하는 라이브러리
-import commentComplete from '@/assets/commentComplete.png';
+import { body2Style } from '@/styles/global-styles';
+import { COLORS } from '@/theme';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 훅
+import { toast } from 'sonner'; // 알림 메시지를 표시하는 라이브러리
+import styled from 'styled-components';
 // import { AskPopup } from '@/components/common/Ask_Popup';
-import { useDispatch, useSelector } from 'react-redux';
+import { BarLoader } from '@/components/common/loader';
 import {
-  setIsPopupVisible,
-  setCommentCount,
-  setIsDuplicateUrl,
-  selectIsPopupVisible,
   selectCommentCount,
   selectIsDuplicateUrl,
+  selectIsPopupVisible,
+  setCommentCount,
+  setIsDuplicateUrl,
+  setIsPopupVisible,
 } from '@/store/collect';
-import { BarLoader } from '@/components/common/loader';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const CollectCommentsPage = () => {
   const dispatch = useDispatch(); // Redux store에 액션을 디스패치하기 위한 훅
@@ -77,7 +77,7 @@ export const CollectCommentsPage = () => {
     dispatch(setIsPopupVisible(false)); // 팝업 닫을 때 상태 초기화
     navigate('/crawling', {
       state: {
-        eventId: eventId,
+        eventId,
         url: youtubeUrl,
       },
     });
@@ -105,9 +105,9 @@ export const CollectCommentsPage = () => {
       title: eventTitle,
       description: eventDescription,
       url: youtubeUrl,
-      startDate: startDate,
-      endDate: endDate,
-      announcementDate: announcementDate,
+      startDate,
+      endDate,
+      announcementDate,
     };
 
     try {

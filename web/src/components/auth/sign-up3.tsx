@@ -96,7 +96,11 @@ export const SignUp3 = () => {
   };
 
   const handleUserTypeSelect = (userType: string) => {
-    let formattedUserType = '';
+    let formattedUserType:
+      | '인플루언서'
+      | '마케팅대행사'
+      | '브랜딩담당자'
+      | undefined = '인플루언서';
     switch (userType) {
       case 'influencer':
         formattedUserType = '인플루언서';
@@ -202,7 +206,7 @@ export const SignUp3 = () => {
             <FormField
               control={form.control}
               name="userType"
-              render={({ field }) => (
+              render={() => (
                 <FormItem className="form-item">
                   <FormLabel className="form-label">유형</FormLabel>
                   <FormControl>
