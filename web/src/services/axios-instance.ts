@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
-  baseURL: '/api', // TODO: 개발 환경과 실서버 환경시 url 다르게 설정
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true,
 });
 

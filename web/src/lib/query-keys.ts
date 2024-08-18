@@ -12,7 +12,7 @@ export const queries = {
   survey: {
     DEFAULT: [SURVEY],
     detail: (surveyId: string) => [SURVEY, surveyId],
-    result: (surveyId: string, questionId: string, page: number) => [
+    result: (surveyId: number, questionId: number, page: number) => [
       SURVEY,
       surveyId,
       questionId,

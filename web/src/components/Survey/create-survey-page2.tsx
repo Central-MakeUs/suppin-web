@@ -67,6 +67,7 @@ export const CreateSurveyPageStep2 = () => {
   }, []);
 
   const handleFieldChange = (index: number, value: string) => {
+    if (index < 4) return;
     setLocalFields(prevFields => {
       const newFields = [...prevFields];
       newFields[index].optionName = value;
@@ -79,6 +80,7 @@ export const CreateSurveyPageStep2 = () => {
   };
 
   const handleRemoveField = (index: number) => {
+    if (index < 4) return;
     setLocalFields(prevFields => prevFields.filter((_, i) => i !== index));
   };
 
@@ -174,7 +176,7 @@ export const CreateSurveyPageStep2 = () => {
                   value={field.optionName}
                   onChange={e => handleFieldChange(index, e.target.value)}
                 />
-                {fields.length > 1 && (
+                {index > 3 && fields.length > 1 && (
                   <img
                     src={cancelImg}
                     alt="cancel"

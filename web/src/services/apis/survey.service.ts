@@ -9,8 +9,8 @@ export const createSurvey = async (payload: SurveyPayload) => {
 
 /** 설문 결과 조회 api */
 export const getSurveyResult = async (
-  surveyId: string,
-  questionId: string,
+  surveyId: number,
+  questionId: number,
   page: number,
   size: number
 ) => {

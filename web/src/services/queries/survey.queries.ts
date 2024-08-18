@@ -3,16 +3,16 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getSurvey, getSurveyResult } from '../apis/survey.service';
 
 export const useSurveyResult = (
-  surveyId: string,
-  questionId: string,
+  surveyId: number,
+  questionId: number,
   page: number = 1
 ) => {
   const surveyResult = useInfiniteQuery({
     queryKey: queries.survey.result(surveyId, questionId, page),
     queryFn: ({ queryKey }) =>
       getSurveyResult(
-        queryKey[1] as string,
-        queryKey[2] as string,
+        queryKey[1] as number,
+        queryKey[2] as number,
         queryKey[3] as number,
         10
       ),
@@ -31,7 +31,7 @@ export const useSurveyResult = (
 
       return firstPageParam - 1;
     },
-    enabled: !!surveyId && surveyId !== '',
+    enabled: !!surveyId,
   });
 
   return { surveyResult };

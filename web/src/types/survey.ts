@@ -21,6 +21,7 @@ export type SurveyResponse = {
   code: string;
   message: string;
   data: {
+    surveyId: number;
     eventId: number;
     eventTitle: string;
     eventDescription: string;
@@ -35,6 +36,7 @@ export type SurveyResponse = {
     ];
     questions: [
       {
+        questionId: number;
         questionType: QuestionType;
         questionText: string;
         options: [string];
@@ -43,6 +45,7 @@ export type SurveyResponse = {
   };
 };
 export type SurveyDataType = {
+  surveyId: number;
   eventId: number;
   eventTitle: string;
   eventDescription: string;
@@ -57,9 +60,29 @@ export type SurveyDataType = {
   ];
   questions: [
     {
+      questionId: number;
       questionType: QuestionType;
       questionText: string;
       options: [string];
     },
   ];
+};
+
+export type AnswerDataType = {
+  questionId: number;
+  questionText: string;
+  totalPages: number;
+  totalElements: number;
+  answers: [
+    {
+      questionId: number;
+      answerText: string;
+      selectedOptions: [string];
+    },
+  ];
+};
+export type AnswerResponse = {
+  code: string;
+  message: string;
+  data: AnswerDataType;
 };

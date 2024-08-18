@@ -7,7 +7,7 @@ import { SurveyResult } from './survey-result';
 
 export const ResultContent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const surveyId = searchParams.get('surveyId');
+  const surveyId = searchParams.get('survey');
   const type = searchParams.get('type');
 
   const { survey } = useGetSurvey(surveyId || '');
@@ -15,7 +15,7 @@ export const ResultContent = () => {
   useEffect(() => {
     if (!type && surveyId) {
       setSearchParams({
-        surveyId,
+        survey: surveyId,
         type: 'survey-result',
       });
     }
@@ -27,12 +27,20 @@ export const ResultContent = () => {
   } else if (survey.isFetching) {
     content = <BarLoader />;
   } else if (survey.data) {
-    content = <SurveyResult />;
+    content = <SurveyResult survey={survey.data} />;
   } else {
     content = null;
   }
   return (
-    <Tabs value={type || 'survey-result'}>
+    <Tabs
+      value={type || 'survey-result'}
+      onValueChange={e => {
+        setSearchParams({
+          survey: surveyId!,
+          type: e,
+        });
+      }}
+    >
       <TabsList>
         <TabsTrigger value="survey-result">설문 결과</TabsTrigger>
         <TabsTrigger value="winner">당첨자 선정</TabsTrigger>
