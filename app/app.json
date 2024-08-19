@@ -26,7 +26,8 @@
       "typedRoutes": true
     },
     "android": {
-      "package": "com.suppin.app"
+      "package": "com.suppin.app",
+      "versionCode": 2
     },
     "extra": {
       "router": {
