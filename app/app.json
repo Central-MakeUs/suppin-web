@@ -4,7 +4,7 @@
     "slug": "app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "myapp",
+    "scheme": "suppin",
     "userInterfaceStyle": "automatic",
     "assetBundlePatterns": ["**/*"],
     "splash": {
@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.app"
+      "bundleIdentifier": "com.suppin.app"
     },
     "web": {
       "bundler": "metro",
@@ -26,7 +26,15 @@
       "typedRoutes": true
     },
     "android": {
-      "package": "com.anonymous.app"
+      "package": "com.suppin.app"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "e9114904-e18c-4934-975c-3488f0d497ed"
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-import Constants from "expo-constants";
+import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 
@@ -18,7 +18,7 @@ export async function registerForPushNotificationsAsync() {
     return;
   }
 
-  if (Constants.isDevice) {
+  if (Device.isDevice) {
     token = (await Notifications.getExpoPushTokenAsync()).data;
     console.log(token);
     fetch("https://api.suppin.store/api/v1/fcm/send", {
