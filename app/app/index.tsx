@@ -59,15 +59,14 @@ const App = () => {
       // 서버로 푸시 토큰 전송
       const sendTokenToServer = async (token: string) => {
         try {
-          await fetch("https://api.suppin.store/api/v1/fcm/send", {
+          await fetch("https://api.suppin.store/api/v1/fcm/register", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
               token,
-              title: "Device Registered",
-              body: "The device has been successfully registered for push notifications.",
+              deviceType: Platform.OS === "android" ? "ANDROID" : "IOS",
             }),
           });
           console.log("Token sent to server successfully");
