@@ -2,7 +2,7 @@
   "expo": {
     "name": "app",
     "slug": "app",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "orientation": "portrait",
     "scheme": "suppin",
     "userInterfaceStyle": "automatic",
@@ -27,7 +27,7 @@
     },
     "android": {
       "package": "com.suppin.app",
-      "versionCode": 2
+      "versionCode": 3
     },
     "extra": {
       "router": {

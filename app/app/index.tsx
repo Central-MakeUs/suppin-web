@@ -1,46 +1,84 @@
 import { WebViewBridge } from "@/components/webview-bridge";
-import { bridgeEventEmitter } from "@/lib/event-emitter";
-import { registerForPushNotificationsAsync } from "@/lib/noti";
-import { WebViewMessage } from "@/types/webview";
+import Constants from "expo-constants";
+import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
-import React, { useEffect } from "react";
-import { SafeAreaView } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Platform, SafeAreaView } from "react-native";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 const App = () => {
-  useEffect(() => {
-    const handleMessageFromWebView = (message: WebViewMessage) => {
-      console.log("Received message from WebView:", message);
-      try {
-        const parsedPayload = JSON.parse(message.payload);
-      } catch (error) {
-        console.error("Error parsing payload:", error);
-      }
-    };
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [channels, setChannels] = useState<Notifications.NotificationChannel[]>(
+    []
+  );
+  const [notification, setNotification] = useState<
+    Notifications.Notification | undefined
+  >(undefined);
+  const notificationListener = useRef<Notifications.Subscription>();
+  const responseListener = useRef<Notifications.Subscription>();
 
-    bridgeEventEmitter.on("messageFromWebView", handleMessageFromWebView);
+  useEffect(() => {
+    registerForPushNotificationsAsync().then(
+      (token) => token && setExpoPushToken(token)
+    );
+
+    if (Platform.OS === "android") {
+      Notifications.getNotificationChannelsAsync().then((value) =>
+        setChannels(value ?? [])
+      );
+    }
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
+
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
 
     return () => {
-      bridgeEventEmitter.off("messageFromWebView", handleMessageFromWebView);
+      notificationListener.current &&
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
+      responseListener.current &&
+        Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
 
-  registerForPushNotificationsAsync();
+  useEffect(() => {
+    if (expoPushToken) {
+      // 서버로 푸시 토큰 전송
+      const sendTokenToServer = async (token: string) => {
+        try {
+          await fetch("https://api.suppin.store/api/v1/fcm/send", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              token,
+              title: "Device Registered",
+              body: "The device has been successfully registered for push notifications.",
+            }),
+          });
+          console.log("Token sent to server successfully");
+        } catch (error) {
+          console.error("Error sending token to server:", error);
+        }
+      };
 
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    }),
-  });
-
-  Notifications.addNotificationReceivedListener((notification) => {
-    console.log("Notification received:", notification);
-  });
-
-  Notifications.addNotificationResponseReceivedListener((response) => {
-    console.log("Notification response received:", response);
-  });
+      sendTokenToServer(expoPushToken);
+    }
+  }, [expoPushToken]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -50,3 +88,52 @@ const App = () => {
 };
 
 export default App;
+
+async function registerForPushNotificationsAsync() {
+  let token;
+
+  if (Platform.OS === "android") {
+    await Notifications.setNotificationChannelAsync("default", {
+      name: "default",
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#FF231F7C",
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== "granted") {
+      alert("Failed to get push token for push notification!");
+      return;
+    }
+
+    try {
+      const projectId =
+        Constants?.expoConfig?.extra?.eas?.projectId ??
+        Constants?.easConfig?.projectId;
+      if (!projectId) {
+        throw new Error("Project ID not found");
+      }
+      token = (
+        await Notifications.getExpoPushTokenAsync({
+          projectId,
+        })
+      ).data;
+      console.log("Expo Push Token:", token);
+    } catch (e) {
+      console.error("Error fetching push token:", e);
+      token = `${e}`;
+    }
+  } else {
+    alert("Must use physical device for Push Notifications");
+  }
+
+  return token;
+}
