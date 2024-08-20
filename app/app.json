@@ -7,6 +7,7 @@
     "scheme": "suppin",
     "userInterfaceStyle": "automatic",
     "assetBundlePatterns": ["**/*"],
+    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -14,7 +15,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.suppin.app"
+      "bundleIdentifier": "com.suppin.suppin",
+      "icon": "./assets/icon.png"
     },
     "web": {
       "bundler": "metro",
@@ -27,7 +29,7 @@
     },
     "android": {
       "package": "com.suppin.app",
-      "versionCode": 1
+      "versionCode": 3
     },
     "extra": {
       "router": {
