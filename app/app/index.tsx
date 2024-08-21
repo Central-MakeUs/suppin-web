@@ -3,7 +3,7 @@ import Constants from "expo-constants";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import React, { useEffect, useRef, useState } from "react";
-import { Platform, SafeAreaView } from "react-native";
+import { Platform, SafeAreaView, StatusBar, View } from "react-native";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -81,7 +81,9 @@ const App = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <WebViewBridge source={{ uri: "https://suppin-web.vercel.app/" }} />
+      <View style={{ flex: 1, marginTop: StatusBar.currentHeight || 0 }}>
+        <WebViewBridge source={{ uri: "https://suppin-web.vercel.app/" }} />
+      </View>
     </SafeAreaView>
   );
 };
