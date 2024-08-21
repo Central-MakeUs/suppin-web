@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "app",
-    "slug": "app",
+    "name": "suppin - 써핀",
+    "slug": "suppin-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "suppin",
@@ -18,9 +18,10 @@
       "bundleIdentifier": "com.suppin.suppin",
       "icon": "./assets/icon.png",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleDisplayName": "suppin - 써핀"
       },
-      "buildNumber": "2"
+      "buildNumber": "3"
     },
     "web": {
       "bundler": "metro",
@@ -33,7 +34,8 @@
     },
     "android": {
       "package": "com.suppin.app",
-      "versionCode": 3
+      "versionCode": 4,
+      "icon": "./assets/android-icon.png"
     },
     "extra": {
       "router": {
