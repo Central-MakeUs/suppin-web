@@ -21,7 +21,7 @@
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleDisplayName": "suppin - 써핀"
       },
-      "buildNumber": "3"
+      "buildNumber": "4"
     },
     "web": {
       "bundler": "metro",
@@ -34,7 +34,7 @@
     },
     "android": {
       "package": "com.suppin.app",
-      "versionCode": 4,
+      "versionCode": 5,
       "icon": "./assets/android-icon.png"
     },
     "extra": {
