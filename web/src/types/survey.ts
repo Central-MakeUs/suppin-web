@@ -75,6 +75,7 @@ export type AnswerDataType = {
   totalElements: number;
   answers: [
     {
+      participantName: string;
       questionId: number;
       answerText: string;
       selectedOptions: [string];

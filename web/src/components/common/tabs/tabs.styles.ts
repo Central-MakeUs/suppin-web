@@ -46,4 +46,5 @@ export const animatedUnderline = css`
   left: 0;
   height: 2.5px;
   background: ${COLORS.Main};
+  margin-bottom: 2px;
 `;

@@ -29,9 +29,9 @@ export const WinnerResult = () => {
   };
 
   // 페이지 새로고침 함수
-  const refreshPage = () => {
-    window.location.reload();
-  };
+  // const refreshPage = () => {
+  //   window.location.reload();
+  // };
 
   // 키워드를 클릭했을 때 호출되는 함수
   const handleKeywordClick = (keyword: string) => {
@@ -69,8 +69,8 @@ export const WinnerResult = () => {
         <Header>당첨자 선별 조건</Header>
         <HeaderContainer>
           <WinnerContainer>
-            <Title>당첨자 </Title>
-            <Content style={{ marginLeft: '12px' }}>{winnerCount}</Content>
+            <Title>당첨자</Title>
+            <Content style={{ marginLeft: '17 px' }}>{winnerCount}</Content>
           </WinnerContainer>
           <PeriodContainer>
             <Title>참여일시</Title>
@@ -118,7 +118,7 @@ export const WinnerResult = () => {
         )}
       </AccordionContainer>
       <BtnContainer>
-        <Home onClick={refreshPage}>당첨자 관리</Home> {/* 새로고침 버튼 */}
+        {/* <Home onClick={refreshPage}>당첨자 관리</Home> 새로고침 버튼 */}
         <Home onClick={goHome}>홈으로</Home> {/* 홈으로 이동 버튼 */}
       </BtnContainer>
     </Container>
@@ -138,8 +138,8 @@ const HeaderContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: 85px;
-  padding: 15px;
-  border: ${COLORS.Sub2};
+  padding: 0px 0px 0px 10px;
+  border: #e9efff;
   border-radius: 10px;
   background-color: #e9efff;
   margin-top: 17px;
@@ -155,12 +155,10 @@ const Header = styled.p`
 const WinnerContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 15px;
 `;
 
 const PeriodContainer = styled.div`
   display: flex;
-  gap: 15px;
   align-items: center;
 `;
 
@@ -174,6 +172,7 @@ const Content = styled.p`
   font-weight: 500;
   font-size: 14px;
   color: ${COLORS.Gray2};
+  margin-left: 5px;
 `;
 
 const TagContainer = styled.div`
@@ -268,12 +267,13 @@ const BtnContainer = styled.div`
 `;
 
 const Home = styled.button`
-  width: 170px;
+  width: 100%;
   height: 48px;
   border: none;
   border-radius: 10px;
   color: white;
   background-color: ${COLORS.Main};
+  font-weight: 600;
 `;
 
 const HighlightedText = styled.span`

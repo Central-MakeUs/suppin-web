@@ -130,6 +130,7 @@ export const SignUp2 = () => {
                             style={{
                               borderTopLeftRadius: '10px',
                               borderTopRightRadius: '10px',
+                              borderBottom: 'none',
                             }}
                             placeholder="이름"
                           />

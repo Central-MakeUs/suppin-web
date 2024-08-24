@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const dateTimeRegex = /^\d{4}\. \d{2}\. \d{2} \d{2}:\d{2}$/;
+const dateTimeRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/;
 
 export const createEventSchema = z.object({
   title: z

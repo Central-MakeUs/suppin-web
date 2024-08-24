@@ -50,6 +50,9 @@ const BackContainer = styled.div`
 `;
 
 const Title = styled.h3`
+  display: flex;
+  justify-content: center;
+  width: 80%;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);

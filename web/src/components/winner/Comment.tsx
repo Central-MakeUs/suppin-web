@@ -41,7 +41,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0px 20px;
-  margin-bottom: 31px;
+  margin-bottom: 30px;
 `;
 
 const Container2 = styled.div`

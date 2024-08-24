@@ -1,12 +1,11 @@
-import { RootState } from '@/store';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { body4Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
-import { CSSProperties } from 'react';
+import { CSSProperties, useState } from 'react';
 import calendarIcon from '../../assets/calander.png';
 import { handleEndDateChange, handleStartDateChange } from '@/lib/timeUtil';
 
@@ -23,38 +22,48 @@ export const SurveyTimeInput = ({
 }: SurveyTimeInputProps) => {
   const dispatch = useDispatch();
 
-  const startDate = useSelector((state: RootState) => state.dates?.startDate);
-  const endDate = useSelector((state: RootState) => state.dates?.endDate);
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  console.log(startDate);
+  const handleStartDate = (date: Date | null) => {
+    setStartDate(date ?? undefined);
+    handleStartDateChange(date, dispatch);
+  };
+
+  const handleEndDate = (date: Date | null) => {
+    setEndDate(date ?? undefined);
+    handleEndDateChange(date, dispatch);
+  };
 
   return (
     <Container style={style}>
-      <div className="time-conatiner">
+      <div className="time-container">
         <Icon src={calendarIcon} alt="calendar" />
         <DatePickerWrapper>
           <DatePicker
-            selected={startDate ? new Date(startDate) : null} // Redux에서 상태를 받아서 Date 객체로 변환
-            onChange={date => handleStartDateChange(date, dispatch)}
+            selected={startDate}
+            onChange={handleStartDate}
             placeholderText={placeholderStart}
-            dateFormat="yyyy. MM. dd HH:mm"
+            dateFormat="yyyy-MM-dd"
             showTimeSelect
             selectsStart
-            startDate={startDate ? new Date(startDate) : undefined}
-            endDate={endDate ? new Date(endDate) : undefined}
+            startDate={startDate}
+            endDate={endDate}
           />
         </DatePickerWrapper>
       </div>
       <Text>~</Text>
-      <div className="time-conatiner">
+      <div className="time-container">
         <DatePickerWrapper>
           <DatePicker
-            selected={endDate ? new Date(endDate) : null} // Redux에서 상태를 받아서 Date 객체로 변환
-            onChange={date => handleEndDateChange(date, dispatch)}
+            selected={endDate}
+            onChange={handleEndDate}
             placeholderText={placeholderEnd}
-            dateFormat="yyyy. MM. dd HH:mm"
+            dateFormat="yyyy-MM-dd"
             showTimeSelect
             selectsEnd
-            startDate={startDate ? new Date(startDate) : undefined}
-            endDate={endDate ? new Date(endDate) : undefined}
+            startDate={startDate}
+            endDate={endDate}
           />
         </DatePickerWrapper>
       </div>
@@ -72,7 +81,7 @@ const Container = styled.div`
   width: 100%;
   height: 46px;
 
-  .time-conatiner {
+  .time-container {
     display: flex;
     align-items: center;
   }
@@ -89,12 +98,30 @@ const DatePickerWrapper = styled.div`
 
   .react-datepicker-wrapper {
     width: 100%;
+    .__navigation--next {
+      right: 0px;
+    }
   }
 
-  .react-datepicker__input-container {
+  .react-datepicker__input-container,
+  .react-datepicker__month-container {
     width: 100%;
   }
 
+  .react-datepicker-popper {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    will-change: transform;
+    margin-top: 1rem;
+  }
+  .react-datepicker__time-container {
+    width: 100% !important;
+  }
+  .react-datepicker__navigation--next--with-time:not(
+      .react-datepicker__navigation--next--with-today-button
+    ) {
+    right: 0px;
+  }
   input {
     ${body4Style}
     color: ${COLORS.Gray2};
@@ -103,6 +130,8 @@ const DatePickerWrapper = styled.div`
     outline: none;
     width: 100%;
     text-align: center;
+    font-size: 14px;
+    padding: 0px;
   }
 `;
 

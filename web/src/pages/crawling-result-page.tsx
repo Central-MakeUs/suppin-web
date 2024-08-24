@@ -20,7 +20,7 @@ import {
 } from '@/store/crawling';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { HomePageWrapper } from './home-page.styles';
 
@@ -112,10 +112,14 @@ const CrawlingPage = () => {
       window.removeEventListener('beforeunload', handleBeforeUnload); // 컴포넌트가 언마운트될 때 이벤트 리스너를 제거
     };
   }, []);
+  const navigate = useNavigate();
+  const goHome = () => {
+    navigate('/');
+  };
 
   return (
     <HomePageWrapper>
-      <Subtitle title={eventTitle} />
+      <Subtitle title={eventTitle} onBackClick={goHome} />
       <Tabs
         style={{ height: 'calc(100% - 6.375rem)' }}
         value={activeTab}

@@ -5,15 +5,11 @@ import {
   head4Style,
 } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
-import { EventOrServey, EventStatus, EventType } from '@/types/event';
+import { EventType } from '@/types/event';
 import styled from 'styled-components';
-import mainCard from '../../assets/main_card.png';
-import mainCard2 from '../../assets/main_card2.png';
-import mainCardBig from '../../assets/main_card_big.png';
-import mainCardBig2 from '../../assets/main_card_big2.png';
 import Tag from '../common/Tags';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const DoneEventCard = ({ event }: { event: EventType }) => {
   const navigate = useNavigate();
@@ -25,8 +21,14 @@ export const DoneEventCard = ({ event }: { event: EventType }) => {
   };
 
   return (
-    <DoneCardWrapper $eventType={event.type} $eventStatus={event.status}>
-      <Link to={`/result/${event.eventId}?survey=${event.surveyId}`}>
+    <DoneCardWrapper>
+      <div
+        onClick={() => {
+          if (event.type === 'SURVEY') {
+            navigate(`/result/${event.eventId}?survey=${event.surveyId}`);
+          }
+        }}
+      >
         <HeaderContainer>
           <CardHeader>
             <EventTypeWrapper>
@@ -40,7 +42,9 @@ export const DoneEventCard = ({ event }: { event: EventType }) => {
             </EventTypeWrapper>
             <EventCount>
               {event.type === 'COMMENT' ? '수집 댓글 수' : '응답자 수'} |{' '}
-              {event.commentCount}
+              {event.type === 'COMMENT'
+                ? event.commentCount
+                : event.surveyCount}
             </EventCount>
           </CardHeader>
         </HeaderContainer>
@@ -62,35 +66,15 @@ export const DoneEventCard = ({ event }: { event: EventType }) => {
             당첨자 확인하기
           </ActionButton>
         )}
-      </Link>
+      </div>
     </DoneCardWrapper>
   );
 };
 
-const getBackgroundImage = (
-  $eventType: EventOrServey,
-  $eventStatus: EventStatus
-) => {
-  if ($eventStatus === 'DONE') {
-    return $eventType === 'COMMENT' ? mainCardBig2 : mainCardBig;
-  } else {
-    return $eventType === 'COMMENT' ? mainCard2 : mainCard;
-  }
-};
-
-const DoneCardWrapper = styled.div.attrs<{
-  $eventType: EventOrServey;
-  $eventStatus: EventStatus;
-}>(({ $eventType, $eventStatus }) => ({
-  style: {
-    backgroundImage: `url(${getBackgroundImage($eventType, $eventStatus)})`,
-  },
-}))<{ $eventType: EventOrServey; $eventStatus: EventStatus }>`
-  padding: 20px;
+const DoneCardWrapper = styled.div`
+  padding: 18px 20px;
   margin-bottom: 16px;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
+  box-shadow: 0px 0px 4px 0px #0000004d;
 `;
 
 const HeaderContainer = styled.div`

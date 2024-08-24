@@ -48,12 +48,12 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 350px;
+  width: 373px;
   height: 345px;
   border-radius: 16px;
   background-color: white;
   border: 1px solid ${COLORS.Gray4};
-  padding: 20px;
+  /* padding: 20px; */
 `;
 
 const Container2 = styled.img`

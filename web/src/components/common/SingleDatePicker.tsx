@@ -2,7 +2,7 @@ import { RootState } from '@/store';
 import { setAnnouncementDate } from '@/store/comment';
 import { body4Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
-import { CSSProperties } from 'react';
+import { CSSProperties, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,19 +23,28 @@ export const SingleDatePicker = ({
     (state: RootState) => state.dates?.announcementDate
   );
 
+  const [date, setDate] = useState<Date | undefined>(
+    selectedDate ? new Date(selectedDate) : undefined
+  );
+
   const handleDateChange = (date: Date | null) => {
     if (date) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더함
-      const day = String(date.getDate()).padStart(2, '0');
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-
-      const formattedDate = `${year}. ${month}. ${day} ${hours}:${minutes}`;
+      const formattedDate = formatDate(date);
       dispatch(setAnnouncementDate(formattedDate));
+      setDate(date); // 선택된 날짜를 상태로 저장
     } else {
       dispatch(setAnnouncementDate(null));
+      setDate(undefined); // 날짜를 초기화
     }
+  };
+
+  const formatDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
   };
 
   return (
@@ -43,10 +52,10 @@ export const SingleDatePicker = ({
       <Icon src={calendarIcon} alt="calendar" />
       <DatePickerWrapper>
         <DatePicker
-          selected={selectedDate ? new Date(selectedDate) : null} // Redux 상태를 Date 객체로 변환
+          selected={date} // 상태로 관리되는 날짜를 사용
           onChange={handleDateChange}
           placeholderText={placeholder}
-          dateFormat="yyyy. MM. dd HH:mm"
+          dateFormat="yyyy-MM-dd HH:mm"
           showTimeSelect
         />
       </DatePickerWrapper>
@@ -60,7 +69,7 @@ const Container = styled.div`
   border: 1px solid ${COLORS.Gray5};
   border-radius: 10px;
   background-color: ${COLORS.Gray6};
-  padding: 10px;
+  padding: 15px;
   width: 100%;
   height: 46px;
   margin-bottom: 40px;
@@ -74,6 +83,7 @@ const Icon = styled.img`
 
 const DatePickerWrapper = styled.div`
   flex: 1;
+  margin-left: 10px;
 
   .react-datepicker-wrapper {
     width: 100%;

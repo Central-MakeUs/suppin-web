@@ -2,7 +2,9 @@ import { SurveyPayload, SurveyResponse } from '@/types/survey';
 import { axiosInstance } from '../axios-instance';
 
 /** 설문 생성 api */
-export const createSurvey = async (payload: SurveyPayload) => {
+export const createSurvey = async (
+  payload: SurveyPayload
+): Promise<{ surveyId: number; uuid: string }> => {
   const { data } = await axiosInstance.post('/survey/create', payload);
   return data;
 };

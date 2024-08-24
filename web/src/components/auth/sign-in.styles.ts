@@ -9,11 +9,12 @@ export const SigninWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2.5rem;
+  /* gap: 2.5rem; */
 
   .logo {
     width: 7.75rem;
     height: 2.375rem;
+    margin-bottom: 35px;
   }
 
   .form {
@@ -29,6 +30,7 @@ export const SigninWrapper = styled.div`
 
     .signin-btn {
       width: 100%;
+      font-weight: 600;
     }
   }
 
@@ -56,6 +58,19 @@ export const SigninWrapper = styled.div`
       align-items: center;
       color: ${COLORS.Gray2};
       font-weight: 600;
+      margin-top: 16px;
     }
+  }
+
+  .contact {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: ${COLORS.Gray3};
+    font-size: 14px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 `;

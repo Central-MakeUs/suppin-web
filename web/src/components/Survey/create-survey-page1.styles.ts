@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 export const CreateSurveyPageWrapper = styled.main`
   height: 100%;
-  overflow-y: hidden;
 `;
 
 export const CreateSurveyPageHeader = styled.header`
@@ -23,7 +22,7 @@ export const CreateSurveyPageHeader = styled.header`
   .header {
     font-size: 1.5rem;
     line-height: 2rem;
-    font-weight: 400;
+    font-weight: 600;
     margin-bottom: 0.75rem;
   }
 `;
@@ -42,7 +41,7 @@ export const CreateSurveyPageContent = styled.section`
   .box {
     background-color: ${COLORS.white};
     box-shadow: 0px 0px 4px 0px #00000040;
-    padding: 1.25rem;
+    padding: 1.25rem 1.125rem;
 
     .input {
       border: none;
@@ -79,7 +78,7 @@ export const CreateSurveyPageContent = styled.section`
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background-color: ${COLORS.Gray5};
+      background-color: ${COLORS.Gray6};
       border: 1px solid ${COLORS.Gray5};
       border-radius: 10px;
       padding: 0.5rem 0.75rem;
@@ -87,7 +86,12 @@ export const CreateSurveyPageContent = styled.section`
   }
 
   .button {
-    width: 100%;
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 2.5rem);
     margin-top: 1rem;
+    font-weight: 600;
   }
 `;

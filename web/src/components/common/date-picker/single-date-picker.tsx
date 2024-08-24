@@ -38,7 +38,7 @@ export const SignleDatePicker = ({
       const hours = String(date.getHours()).padStart(2, '0');
       const minutes = String(date.getMinutes()).padStart(2, '0');
 
-      const dateString = `${year}. ${month}. ${day} ${hours}:${minutes}`;
+      const dateString = `${year}-${month}-${day} ${hours}:${minutes}`;
       setSelected(date);
       onChange(dateString);
     } else {

@@ -1,15 +1,19 @@
 import { body5Style, body6Style, head4Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
-import { EventOrServey, EventStatus, EventType } from '@/types/event';
+import { EventOrServey, EventType } from '@/types/event';
+import { MouseEventHandler } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import styled from 'styled-components';
 import chain from '../../assets/chain.png';
-import mainCard from '../../assets/main_card.png';
-import mainCard2 from '../../assets/main_card2.png';
 import Tag from '../common/Tags';
 
 export const ProcessingEventCard = ({ event }: { event: EventType }) => {
-  const handleCopyLink = () => {
+  const router = useNavigate();
+
+  const handleCopyLink: MouseEventHandler<HTMLDivElement> = e => {
+    e.stopPropagation();
+
     const link = `https://suppin-survey.vercel.app/${event.uuid}`;
     navigator.clipboard.writeText(link).then(
       () => {
@@ -24,62 +28,59 @@ export const ProcessingEventCard = ({ event }: { event: EventType }) => {
   };
 
   return (
-    <ProcessingCardWrapper $eventType={event.type} $eventStatus={event.status}>
-      <HeaderContainer>
-        <CardHeader>
-          <EventTypeWrapper $eventType={event.type}>
-            {/* 타입 태그 */}
-            <Tag
-              label={event.type === 'COMMENT' ? '댓글 수집형' : '설문형'}
-              $variant={'default'}
-            />
-          </EventTypeWrapper>
-          <EventCount>
-            {event.type === 'COMMENT' ? '수집 댓글 수' : '응답자 수'} |{' '}
-            {event.commentCount}
-          </EventCount>
-        </CardHeader>
-        {event.type === 'SURVEY' && (
-          <EventLinkContainer onClick={handleCopyLink}>
-            <Copy src={chain} />
-            <EventLink>링크 복사하기</EventLink>
-          </EventLinkContainer>
-        )}
-      </HeaderContainer>
-      <EventTitle>{event.title}</EventTitle>
-      <EventDates>
-        <EventContainer>
-          <EventDate>이벤트 기간 </EventDate>
-          <Date>
-            {event.startDate} - {event.endDate}
-          </Date>
-        </EventContainer>
-        <EventContainer>
-          <EventDate>당첨자 발표</EventDate>
-          <Date>{event.announcementDate}</Date>
-        </EventContainer>
-      </EventDates>
+    <ProcessingCardWrapper>
+      <div
+        onClick={() => {
+          if (event.type === 'SURVEY') {
+            router(`/result/${event.eventId}?survey=${event.surveyId}`);
+          }
+        }}
+      >
+        <HeaderContainer>
+          <CardHeader>
+            <EventTypeWrapper $eventType={event.type}>
+              {/* 타입 태그 */}
+              <Tag
+                label={event.type === 'COMMENT' ? '댓글 수집형' : '설문형'}
+                $variant={'default'}
+              />
+            </EventTypeWrapper>
+            <EventCount>
+              {event.type === 'COMMENT' ? '수집 댓글 수' : '응답자 수'} |{' '}
+              {event.type === 'COMMENT'
+                ? event.commentCount
+                : event.surveyCount}
+            </EventCount>
+          </CardHeader>
+          {event.type === 'SURVEY' && (
+            <EventLinkContainer onClick={handleCopyLink}>
+              <Copy src={chain} />
+              <EventLink>링크 복사하기</EventLink>
+            </EventLinkContainer>
+          )}
+        </HeaderContainer>
+        <EventTitle>{event.title}</EventTitle>
+        <EventDates>
+          <EventContainer>
+            <EventDate>이벤트 기간 </EventDate>
+            <Date>
+              {event.startDate} - {event.endDate}
+            </Date>
+          </EventContainer>
+          <EventContainer>
+            <EventDate>당첨자 발표</EventDate>
+            <Date>{event.announcementDate}</Date>
+          </EventContainer>
+        </EventDates>
+      </div>
     </ProcessingCardWrapper>
   );
 };
 
-const getBackgroundImage = ($eventType: EventOrServey) => {
-  return $eventType === 'COMMENT' ? mainCard2 : mainCard;
-};
-
-const ProcessingCardWrapper = styled.div.attrs<{
-  $eventType: EventOrServey;
-  $eventStatus: EventStatus;
-}>(({ $eventType }) => ({
-  style: {
-    backgroundImage: `url(${getBackgroundImage($eventType)})`,
-  },
-}))<{ $eventType: EventOrServey; $eventStatus: EventStatus }>`
-  padding: 20px;
+const ProcessingCardWrapper = styled.div`
+  padding: 18px 20px;
   margin-bottom: 16px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  box-shadow: 0px 0px 4px 0px #0000004d;
 `;
 
 const HeaderContainer = styled.div`
@@ -144,6 +145,7 @@ const EventLinkContainer = styled.div`
   color: ${COLORS.Gray2};
   margin-left: 60px;
   cursor: pointer;
+  z-index: 1;
 `;
 
 const Copy = styled.img`

@@ -10,7 +10,7 @@ import {
 } from '@/services/apis/crawling.service';
 import { RootState } from '@/store';
 import { setEventId, setUrl } from '@/store/winner';
-import { body2Style } from '@/styles/global-styles';
+import { body2Style, head1Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 훅
@@ -228,8 +228,9 @@ const MainContent = styled.div`
 `;
 
 const Head = styled.h1`
-  font-size: 24px;
-  font-weight: bold;
+  ${head1Style}
+  color: #0F1114;
+  font-weight: 600;
 `;
 
 const Sub = styled.p`

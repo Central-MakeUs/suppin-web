@@ -3,7 +3,8 @@ import { CreateEventPayload } from '@/types/event';
 import { useMutation } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { createEvent } from '../apis/event.service';
+import { toast } from 'sonner';
+import { createEvent, deleteEvent } from '../apis/event.service';
 
 export const useCreateEvent = () => {
   const router = useNavigate();
@@ -26,4 +27,20 @@ export const useCreateEvent = () => {
   });
 
   return { createEventMutation, isCreateEventLoading, isCreateEventSuccess };
+};
+
+export const useDeleteEvent = () => {
+  const router = useNavigate();
+
+  const { mutate: deleteEventMutation } = useMutation({
+    mutationFn: (eventId: string) => deleteEvent(eventId),
+    onSuccess: () => {
+      toast.error('설문이 존재하지 않는 이벤트입니다');
+      router('/');
+    },
+  });
+
+  return {
+    deleteEventMutation,
+  };
 };

@@ -42,15 +42,6 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: 'myevent',
-        lazy: async () => {
-          const { MyEvent } = await import('@/pages/myevent-page');
-          return {
-            Component: MyEvent,
-          };
-        },
-      },
-      {
         path: 'collect',
         lazy: async () => {
           const { CollectCommentsPage } = await import(
@@ -93,6 +84,13 @@ const router = createBrowserRouter([
     ],
   },
   { path: '/auth', element: <AuthPage /> },
+  {
+    path: '/policy',
+    lazy: async () => {
+      const { PolicyPage } = await import('@/pages/policy-page');
+      return { Component: PolicyPage };
+    },
+  },
 ]);
 
 export default function App() {
@@ -101,7 +99,7 @@ export default function App() {
       <PersistGate loading={null} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
           <GlobalStyles />
-          <Toaster position="bottom-center" richColors />
+          <Toaster position="top-center" richColors />
           <RouterProvider router={router} />
         </QueryClientProvider>
       </PersistGate>

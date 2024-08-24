@@ -78,14 +78,11 @@ export const SignIn = () => {
         </form>
       </Form>
       <div className="signin-config">
-        <p>아이디 찾기</p>
-        <div className="sep" />
-        <p>비밀번호 찾기</p>
-        <div className="sep" />
         <Link to="/auth?authType=up" className="signup">
           회원가입
         </Link>
       </div>
+      <span className="contact">문의접수: suppin.official@gmail.com</span>
     </SigninWrapper>
   );
 };

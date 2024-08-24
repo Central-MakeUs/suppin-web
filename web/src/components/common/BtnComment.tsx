@@ -25,7 +25,7 @@ const CommentButton = styled.button`
   justify-content: center;
   cursor: pointer;
   padding: 0 10px;
-  border-radius: 5px;
+  border-radius: 10px;
 `;
 
 const CommentImage = styled.img`

@@ -9,7 +9,6 @@ import { Subtitle } from '../common/Subtitle';
 
 import { useNavigate } from 'react-router-dom';
 import checkRound from '../../assets/checkRound.png';
-import rightArrow from '../../assets/rigth.png';
 import uncheckRound from '../../assets/uncheckRound.png';
 
 export const SignUp1: React.FC = () => {
@@ -61,7 +60,7 @@ export const SignUp1: React.FC = () => {
               />
               <Label>(필수) 만 14세 이상입니다.</Label>
             </TermContent>
-            <img src={rightArrow} width="18px" height="18px" />
+            {/* <img src={rightArrow} width="18px" height="18px" /> */}
           </TermItem>
           <TermItem>
             <TermContent onClick={() => handleCheck('terms')}>
@@ -76,7 +75,7 @@ export const SignUp1: React.FC = () => {
               href="https://phase-comic-d2b.notion.site/c77adc8b28934f1194b9787150a16364?pvs=4"
               target="blank"
             >
-              <img src={rightArrow} width="18px" height="18px" />
+              {/* <img src={rightArrow} width="18px" height="18px" /> */}
             </a>
           </TermItem>
           <TermItem>
@@ -92,7 +91,7 @@ export const SignUp1: React.FC = () => {
               href="https://phase-comic-d2b.notion.site/7ab3169dc4564272b42c0074d86e5806?pvs=4"
               target="blank"
             >
-              <img src={rightArrow} width="18px" height="18px" />
+              {/* <img src={rightArrow} width="18px" height="18px" /> */}
             </a>
           </TermItem>
           <TermItem>
@@ -108,7 +107,7 @@ export const SignUp1: React.FC = () => {
               href="https://phase-comic-d2b.notion.site/7b8c9c80568f4599acd1046c619425ee?pvs=4"
               target="blank"
             >
-              <img src={rightArrow} width="18px" height="18px" />
+              {/* <img src={rightArrow} width="18px" height="18px" /> */}
             </a>
           </TermItem>
         </TermsContainer>

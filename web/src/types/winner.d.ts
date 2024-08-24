@@ -9,3 +9,13 @@ export interface WinnerState {
   winners: Array<{ author: string; commentText: string; commentDate: string }>; // 당첨자 리스트 추가
   winnerCount: number;
 }
+
+export type WinnerPayload = {
+  surveyId: number;
+  questionId: number;
+  winnerCount: number;
+  startDate: string;
+  endDate: string;
+  minLength: number;
+  keywords: string[];
+};

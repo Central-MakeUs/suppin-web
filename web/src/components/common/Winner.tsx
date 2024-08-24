@@ -11,7 +11,7 @@ interface CommentBoxProps {
 export const Winner = ({ title, comment }: CommentBoxProps) => {
   return (
     <Container>
-      <CustomAccordion>
+      <CustomAccordion defaultExpanded>
         <CustomAccordionSummary
           aria-controls="panel1-content"
           id="panel1-header"
@@ -30,7 +30,7 @@ export const Winner = ({ title, comment }: CommentBoxProps) => {
 };
 
 const Container = styled.div`
-  margin: 10px 0;
+  /* margin: 10px 0; */
   width: 100%;
 `;
 
@@ -38,7 +38,7 @@ const CustomAccordion = styled(Accordion)`
   border: 1px solid ${COLORS.Gray5};
   border-radius: 10px !important;
   box-shadow: none;
-
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   &:before {
     display: none; // MUI에서 기본적으로 추가되는 border 제거
   }

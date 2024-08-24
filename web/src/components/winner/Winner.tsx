@@ -42,11 +42,11 @@ export const WinnerContent = ({
   // 모든 필드가 입력되었는지 확인하고 버튼 활성화 여부를 설정
   useEffect(() => {
     if (
-      participant.trim() !== '' &&
-      minCharacterCount.trim() !== '' &&
-      (startDate ?? '').trim() !== '' &&
-      (endDate ?? '').trim() !== '' &&
-      keywords.length > 0
+      participant.trim() !== ''
+      // minCharacterCount.trim() !== '' &&
+      // (startDate ?? '').trim() !== '' &&
+      // (endDate ?? '').trim() !== '' &&
+      // keywords.length > 0
     ) {
       setIsButtonEnabled(true);
     } else {
@@ -302,6 +302,7 @@ const AddButton = styled.button`
   border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
 `;
 
 const HashtagsContainer = styled.div`
@@ -320,6 +321,7 @@ const Hashtag = styled.div`
   padding: 5px 10px;
   border-radius: 20px;
   gap: 10px;
+  font-weight: 600;
 `;
 
 const BtnContainer = styled.div`

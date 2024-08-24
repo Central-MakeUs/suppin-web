@@ -22,7 +22,7 @@ export const CreateSurveyPageHeader = styled.header`
   .header {
     font-size: 1.5rem;
     line-height: 2rem;
-    font-weight: 400;
+    font-weight: 600;
     margin-bottom: 0.75rem;
   }
 `;
@@ -38,7 +38,7 @@ export const CreateSurveyPageContent = styled.section`
   .box {
     background-color: ${COLORS.white};
     box-shadow: 0px 0px 4px 0px #00000040;
-    padding: 1.25rem;
+    padding: 1.25rem 0.875rem;
     display: flex;
     flex-direction: column;
     gap: 0.625rem;
@@ -122,5 +122,6 @@ export const CreateSurveyPageContent = styled.section`
   .button {
     width: 100%;
     margin-top: 1rem;
+    font-weight: 600;
   }
 `;

@@ -2,50 +2,42 @@ import { queries } from '@/lib/query-keys';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getSurvey, getSurveyResult } from '../apis/survey.service';
 
-export const useSurveyResult = (
-  surveyId: number,
-  questionId: number,
-  page: number = 1
-) => {
-  const surveyResult = useInfiniteQuery({
-    queryKey: queries.survey.result(surveyId, questionId, page),
-    queryFn: ({ queryKey }) =>
-      getSurveyResult(
-        queryKey[1] as number,
-        queryKey[2] as number,
-        queryKey[3] as number,
-        10
-      ),
+export const useSurveyResult = (surveyId: number, questionId: number) => {
+  return useInfiniteQuery({
+    queryKey: queries.survey.result(surveyId, questionId),
+    queryFn: ({ queryKey, pageParam }) => {
+      const [, surveyId, questionId] = queryKey;
+      return getSurveyResult(
+        surveyId as number,
+        questionId as number,
+        pageParam,
+        5
+      );
+    },
     initialPageParam: 1,
     getNextPageParam: (lastPage, _allPages, lastPageParam) => {
-      if (lastPage.length === 0) {
-        return undefined;
-      }
-
-      return lastPageParam + 1;
+      const { totalPages, answers } = lastPage.data;
+      return lastPageParam < totalPages && answers.length > 5
+        ? lastPageParam + 1
+        : undefined;
     },
     getPreviousPageParam: (_firstPage, _allPages, firstPageParam) => {
-      if (firstPageParam <= 1) {
-        return undefined;
-      }
-
-      return firstPageParam - 1;
+      return firstPageParam > 1 ? firstPageParam - 1 : undefined;
     },
-    enabled: !!surveyId,
+    enabled: Boolean(surveyId),
+    staleTime: 1 * 60 * 1000,
   });
-
-  return { surveyResult };
 };
 
 export const useGetSurvey = (surveyId: string) => {
-  const survey = useQuery({
+  return useQuery({
     queryKey: queries.survey.detail(surveyId),
-    queryFn: ({ queryKey }) => getSurvey(queryKey[1]),
-    enabled: surveyId !== '',
+    queryFn: ({ queryKey }) => {
+      const [, surveyId] = queryKey;
+      return getSurvey(surveyId);
+    },
+    enabled: Boolean(surveyId),
     select: data => data.data,
+    staleTime: 3 * 60 * 1000,
   });
-
-  return {
-    survey,
-  };
 };

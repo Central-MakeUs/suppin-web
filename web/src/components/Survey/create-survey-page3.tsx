@@ -19,16 +19,20 @@ import { Button } from '../common/button';
 import { SpinLoader } from '../common/loader';
 import { PreviewButton } from '../common/preview-button';
 import { Subtitle } from '../common/Subtitle';
+import { CompleteSurveyMoadl } from './complete-survey-modal';
 
 export const CreateSurveyPageStep3 = () => {
   const router = useNavigate();
 
-  const { createSurveyMutation, isCreateSurveyLoading } = useCreateSurvey();
+  const { createSurveyMutation, isError, isCreateSurveyLoading } =
+    useCreateSurvey();
 
   const { personalInfoOptionList, eventId, policy } = useSelector(
     (state: RootState) => state.survey
   );
 
+  const [link, setLink] = useState<string>('');
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [questions, setQuestions] = useState<
     {
       id: string;
@@ -69,7 +73,7 @@ export const CreateSurveyPageStep3 = () => {
     setQuestions(questions.map(q => (q.id === id ? { ...q, options } : q)));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const formattedData = {
       eventId,
       consentFormHtml: policy,
@@ -83,63 +87,80 @@ export const CreateSurveyPageStep3 = () => {
       })),
     };
 
-    createSurveyMutation(formattedData);
+    const data = await createSurveyMutation(formattedData);
+
+    if (isError) {
+      return;
+    }
+    setIsOpen(true);
+    setLink(data.uuid);
   };
 
   return (
-    <CreateSurveyPageContainer>
-      <Subtitle title="설문 생성하기" onBackClick={() => router('/')} />
-      <CreateSurveyPageHeader>
-        <div className="progress">
-          <img src={step3} style={{ width: '68px' }} alt="Step 3" />
-          <PreviewButton />
-        </div>
-        <h1 className="header">
-          당첨자 선정을 위해 필요한
-          <br />
-          질문을 입력해주세요
-        </h1>
-      </CreateSurveyPageHeader>
-      <CreateSurveyPageContent>
-        {questions.map(question => (
-          <Box className="box" key={question.id}>
-            <QuestionSelect
-              value={question.type}
-              onChange={newType => changeQuestionType(question.id, newType)}
-            />
-            {question.type === 'SUBJECTIVE' && (
-              <Subjective
-                value={question.text}
-                onChange={text => updateQuestionText(question.id, text)}
+    <>
+      <CreateSurveyPageContainer>
+        <Subtitle title="설문 생성하기" onBackClick={() => router('/')} />
+        <CreateSurveyPageHeader>
+          <div className="progress">
+            <img src={step3} style={{ width: '68px' }} alt="Step 3" />
+            <PreviewButton />
+          </div>
+          <h1 className="header">
+            당첨자 선정을 위해 필요한
+            <br />
+            질문을 입력해주세요
+          </h1>
+        </CreateSurveyPageHeader>
+        <CreateSurveyPageContent>
+          {questions.map(question => (
+            <Box className="box" key={question.id}>
+              <QuestionSelect
+                value={question.type}
+                onChange={newType => changeQuestionType(question.id, newType)}
               />
-            )}
-            {question.type !== 'SUBJECTIVE' && (
-              <Choice
-                type={question.type}
-                value={question.text}
-                onChange={text => updateQuestionText(question.id, text)}
-                options={question.options!}
-                onOptionsChange={options =>
-                  updateQuestionOptions(question.id, options)
-                }
-              />
-            )}
-          </Box>
-        ))}
-        <div className="btns">
-          <Button variant="add" className="add" onClick={addQuestion}>
-            + 질문 추가하기
-          </Button>
-          <Button
-            disabled={isCreateSurveyLoading}
-            variant="add"
-            className="submit"
-            onClick={handleSubmit}
-          >
-            {isCreateSurveyLoading ? <SpinLoader /> : '설문 생성 완료'}
-          </Button>
-        </div>
-      </CreateSurveyPageContent>
-    </CreateSurveyPageContainer>
+              {question.type === 'SUBJECTIVE' && (
+                <Subjective
+                  value={question.text}
+                  onChange={text => updateQuestionText(question.id, text)}
+                />
+              )}
+              {question.type !== 'SUBJECTIVE' && (
+                <Choice
+                  type={question.type}
+                  value={question.text}
+                  onChange={text => updateQuestionText(question.id, text)}
+                  options={question.options!}
+                  onOptionsChange={options =>
+                    updateQuestionOptions(question.id, options)
+                  }
+                />
+              )}
+            </Box>
+          ))}
+          <div className="btns">
+            <Button variant="add" className="add" onClick={addQuestion}>
+              + 질문 추가하기
+            </Button>
+            <Button
+              disabled={isCreateSurveyLoading}
+              variant="add"
+              className="submit"
+              onClick={() => {
+                handleSubmit();
+              }}
+            >
+              {isCreateSurveyLoading ? <SpinLoader /> : '설문 생성 완료'}
+            </Button>
+          </div>
+        </CreateSurveyPageContent>
+      </CreateSurveyPageContainer>
+      {isOpen && (
+        <CompleteSurveyMoadl
+          uuid={link}
+          open={isOpen}
+          onOpenChange={setIsOpen}
+        />
+      )}
+    </>
   );
 };

@@ -6,7 +6,8 @@ import {
   SurveyDataType,
 } from '@/types/survey';
 import { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import {
   Select,
   SelectContent,
@@ -28,18 +29,29 @@ export type QuestionLocal = {
 const SurveyContent = ({
   surveyResult,
 }: {
-  surveyResult: UseInfiniteQueryResult<InfiniteData<unknown, unknown>, Error>;
+  surveyResult: UseInfiniteQueryResult<InfiniteData<AnswerResponse>, Error>;
 }) => {
-  if ((surveyResult.data?.pages[0] as AnswerResponse)?.data?.answers) {
-    const { questionText, answers } = (
-      surveyResult.data?.pages[0] as AnswerResponse
-    ).data as AnswerDataType;
-    return answers.map((answer, index) => (
-      <SurveyQuestionItem key={index} question={questionText} answer={answer} />
-    ));
-  }
+  const { ref, inView } = useInView({
+    threshold: 1.0,
+  });
 
-  return <div>No data,,,</div>;
+  useEffect(() => {
+    if (inView) {
+      surveyResult.fetchNextPage();
+    }
+  }, [inView, surveyResult.fetchNextPage]);
+
+  return (
+    <>
+      {surveyResult.data?.pages.map((page, pageIndex) => {
+        const { answers } = page.data as AnswerDataType;
+        return answers.map((answer, index) => (
+          <SurveyQuestionItem key={`${pageIndex}-${index}`} answer={answer} />
+        ));
+      })}
+      <div ref={ref} style={{ height: '1px' }} />
+    </>
+  );
 };
 
 export const SurveyResult = ({ survey }: { survey: SurveyDataType }) => {
@@ -48,10 +60,9 @@ export const SurveyResult = ({ survey }: { survey: SurveyDataType }) => {
     questions[0]
   );
 
-  const { surveyResult } = useSurveyResult(
+  const surveyResult = useSurveyResult(
     survey.surveyId,
-    selectedQuestion.questionId,
-    1
+    selectedQuestion.questionId
   );
 
   const handleSelectChange = useCallback((value: QuestionLocal) => {

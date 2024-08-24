@@ -125,7 +125,7 @@ export const CreateSurveyPageStep2 = () => {
             <Badge variant="default" className="badge">
               정보 수집 동의
             </Badge>
-            <span>템플릿 초기화하기</span>
+            {/* <span>템플릿 초기화하기</span> */}
           </div>
           <div className="noti">
             <p>

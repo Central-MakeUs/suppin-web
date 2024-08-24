@@ -23,6 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-.env
+.env.*
+vercel.json
+.DS_Store
 
 *storybook.log
