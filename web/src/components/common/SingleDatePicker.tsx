@@ -47,6 +47,9 @@ export const SingleDatePicker = ({
     return `${year}-${month}-${day} ${hours}:${minutes}`;
   };
 
+  const maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + 120); // 오늘부터 120일 후
+
   return (
     <Container style={style}>
       <Icon src={calendarIcon} alt="calendar" />
@@ -57,6 +60,8 @@ export const SingleDatePicker = ({
           placeholderText={placeholder}
           dateFormat="yyyy-MM-dd HH:mm"
           showTimeSelect
+          minDate={new Date()} // 시작일은 오늘부터 선택 가능
+          maxDate={maxDate} // 오늘부터 3달 후까지만 선택 가능
         />
       </DatePickerWrapper>
     </Container>

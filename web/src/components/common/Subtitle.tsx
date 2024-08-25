@@ -6,12 +6,14 @@ interface SubtitleProps {
   title: string | null;
   backgroundColor?: string;
   onBackClick?: () => void;
+  showBackButton?: boolean; // 새로 추가된 prop
 }
 
 export const Subtitle = ({
   title,
   backgroundColor,
   onBackClick,
+  showBackButton = true, // 기본값은 true로 설정하여 뒤로 가기 버튼이 보이도록 설정
 }: SubtitleProps) => {
   const navigate = useNavigate();
 
@@ -25,9 +27,11 @@ export const Subtitle = ({
 
   return (
     <Container $backgroundColor={backgroundColor}>
-      <BackContainer>
-        <Button variant="back" onClick={handleBackClick} />
-      </BackContainer>
+      {showBackButton && ( // showBackButton이 true일 때만 렌더링
+        <BackContainer>
+          <Button variant="back" onClick={handleBackClick} />
+        </BackContainer>
+      )}
       <Title>{title}</Title>
     </Container>
   );

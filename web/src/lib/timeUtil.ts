@@ -5,7 +5,8 @@ export const handleStartDateChange = (
   date: Date | null,
   dispatch: AppDispatch
 ) => {
-  if (date) {
+  if (date && !isNaN(date.getTime())) {
+    // 유효한 날짜인지 확인
     const formattedDate = formatDate(date);
     dispatch(setStartDate(formattedDate));
   } else {
@@ -17,7 +18,8 @@ export const handleEndDateChange = (
   date: Date | null,
   dispatch: AppDispatch
 ) => {
-  if (date) {
+  if (date && !isNaN(date.getTime())) {
+    // 유효한 날짜인지 확인
     const formattedDate = formatDate(date);
     dispatch(setEndDate(formattedDate));
   } else {

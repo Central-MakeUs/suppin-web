@@ -14,11 +14,15 @@ import type { EventStatus, EventType } from '@/types/event';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { HomePageWrapper } from './home-page.styles';
+import { resetWinnerState, resetDateState } from '@/store/winner';
+import { useDispatch } from 'react-redux';
 
 const p = 'PROCESSING';
 const d = 'DONE';
 
 const HomePage = () => {
+  const dispatch = useDispatch();
+
   const [searchParams, setSearchParams] = useSearchParams();
   const type = searchParams.get('type');
 
@@ -34,6 +38,9 @@ const HomePage = () => {
   localStorage.removeItem('eventDescription');
 
   useEffect(() => {
+    // WinnerContent에서 사용하는 상태들을 초기화
+    dispatch(resetWinnerState()); // WinnerContent에서 사용하는 상태를 초기화합니다.
+    dispatch(resetDateState()); // 날짜 관련 상태를 초기화합니다.
     if (type && (type === p || type === d)) {
       setActiveTab(type);
     } else {
@@ -90,3 +97,6 @@ const HomePage = () => {
 };
 
 export default HomePage;
+function dispatch(arg0: any) {
+  throw new Error('Function not implemented.');
+}

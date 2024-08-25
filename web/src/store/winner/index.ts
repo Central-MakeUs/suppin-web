@@ -57,6 +57,18 @@ const winnerSlice = createSlice({
     setWinnerCount(state, action: PayloadAction<number>) {
       state.winnerCount = action.payload;
     },
+    // home-page로 이동 시 조건들 초기화 (초기화하지 않으면 새 이벤트 생성에도 불구하고 이전에 선택되었던 데이터들이 남아있음)
+    resetWinnerState(state) {
+      state.participant = '';
+      state.minCharacterCount = '';
+      state.keywords = [];
+      state.winners = [];
+      state.winnerCount = 0;
+    },
+    resetDateState(state) {
+      state.startDate = null;
+      state.endDate = null;
+    },
   },
 });
 
@@ -72,6 +84,8 @@ export const {
   setWinners,
   setWinnerCount,
   setUrl,
+  resetWinnerState,
+  resetDateState,
 } = winnerSlice.actions;
 
 export default winnerSlice.reducer;
