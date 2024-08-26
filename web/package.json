@@ -33,6 +33,7 @@
     "date-fns": "^3.6.0",
     "eventemitter3": "^5.0.1",
     "framer-motion": "^11.3.8",
+    "html-react-parser": "^5.1.12",
     "lucide-react": "^0.427.0",
     "markdown-to-jsx": "^7.5.0",
     "react": "^18.3.1",

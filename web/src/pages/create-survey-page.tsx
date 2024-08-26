@@ -1,6 +1,7 @@
 import { CreateSurveyPageStep1 } from '@/components/Survey/create-survey-page1';
 import { CreateSurveyPageStep2 } from '@/components/Survey/create-survey-page2';
 import { CreateSurveyPageStep3 } from '@/components/Survey/create-survey-page3';
+import { SurveyPreview } from '@/components/Survey/preview/survey-preview';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -22,10 +23,9 @@ export const CreateSurveyPage = () => {
     content = <CreateSurveyPageStep2 />;
   } else if (step === '3') {
     content = <CreateSurveyPageStep3 />;
-  }
-  // } else if (step === 'preview') {
-  //   content = <SurveyPreviewPage />;
-  else {
+  } else if (step === 'preview') {
+    content = <SurveyPreview />;
+  } else {
     content = <CreateSurveyPageStep1 />; // Default 값으로 첫 페이지
   }
 

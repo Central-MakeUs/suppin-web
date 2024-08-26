@@ -1,5 +1,4 @@
 import step1 from '@/assets/step1.png';
-import { PreviewButton } from '@/components/common/preview-button';
 import { Subtitle } from '@/components/common/Subtitle';
 import {
   CreateSurveyPageContent,
@@ -61,7 +60,6 @@ export const CreateSurveyPageStep1 = () => {
       <CreateSurveyPageHeader>
         <div className="progress">
           <img src={step1} style={{ width: '68px' }} alt="Step 1" />
-          <PreviewButton />
         </div>
         <h1 className="header">
           이벤트 생성을 위한
