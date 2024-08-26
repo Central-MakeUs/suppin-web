@@ -1,7 +1,9 @@
+import { CreateEventPayload } from './event';
+
 export type QuestionType = 'SUBJECTIVE' | 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE';
 
 export interface SurveyState {
-  eventId: number;
+  event: CreateEventPayload & { id: number };
   policy: string;
   personalInfoOptionList: { optionName: string }[];
   questionType: QuestionType;

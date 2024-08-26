@@ -6,24 +6,39 @@ export const PolicyWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1.625rem;
+    background-color: ${COLORS.white};
+    border-radius: 10px;
+    padding: 36px 20px;
+    box-shadow: 0px 0px 4px 0px #00000040;
 
-    .info {
+    .policy div {
+      color: ${COLORS.Gray2};
+      font-weight: 400;
+      font-size: 0.875rem;
       display: flex;
       flex-direction: column;
-      gap: 1.75rem;
+      gap: 0.5rem;
+    }
 
-      h1 {
-        color: ${COLORS.Gray1};
-        font-weight: 500;
-        font-size: 1.5rem;
-      }
-      .policy div {
-        color: ${COLORS.Gray2};
-        font-weight: 400;
-        font-size: 0.875rem;
+    .btns {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .agree {
         display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
+        align-items: center;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 10px;
+        height: 46px;
+        background-color: ${COLORS.Gray6};
+        border: 1px solid ${COLORS.Gray5};
+
+        img {
+          width: 22px;
+          height: 22px;
+        }
       }
     }
   }
