@@ -26,7 +26,7 @@ export const Choice = ({
   );
 
   useEffect(() => {
-    if (type === 'MULTIPLE_CHOICE' && choices.length < 2) {
+    if (choices.length < 2) {
       const newChoices = [...choices, { id: uuidv4(), value: '' }];
       setChoices(newChoices);
       onOptionsChange(newChoices.map(choice => choice.value));
@@ -34,14 +34,18 @@ export const Choice = ({
   }, [type, choices, onOptionsChange]);
 
   const handleAddChoice = () => {
+    if (choices.length === 10) {
+      toast.error('질문 선택지는 최대 10개입니다.');
+      return;
+    }
     const newChoices = [...choices, { id: uuidv4(), value: '' }];
     setChoices(newChoices);
     onOptionsChange(newChoices.map(choice => choice.value));
   };
 
   const handleRemoveChoice = (id: string) => {
-    if (type === 'MULTIPLE_CHOICE' && choices.length <= 2) {
-      toast.error('복수선택 질문 유형에서는 최소 2개의 선택지가 필요합니다.');
+    if (choices.length <= 2) {
+      toast.error('질문 유형에서는 최소 2개의 선택지가 필요합니다.');
       return;
     }
     const newChoices = choices.filter(choice => choice.id !== id);
