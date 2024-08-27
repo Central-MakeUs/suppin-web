@@ -31,6 +31,10 @@ export const ResultContent = () => {
     }
     if (surveyId === 'null') {
       deleteEventMutation(params.id!);
+      sessionStorage.removeItem('question');
+      sessionStorage.removeItem('policy');
+      sessionStorage.removeItem('personal');
+      sessionStorage.removeItem('event');
     }
   }, [surveyId]);
 

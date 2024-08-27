@@ -94,6 +94,10 @@ export const CreateSurveyPageStep3 = () => {
     }
     setIsOpen(true);
     setLink(data.uuid);
+    sessionStorage.removeItem('question');
+    sessionStorage.removeItem('policy');
+    sessionStorage.removeItem('personal');
+    sessionStorage.removeItem('event');
   };
 
   const previewHandler = () => {
