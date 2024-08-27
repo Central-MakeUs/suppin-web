@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const CreateSurveyPageWrapper = styled.main`
   height: 100%;
+  overflow-y: hidden;
 `;
 
 export const CreateSurveyPageHeader = styled.header`
@@ -86,11 +87,7 @@ export const CreateSurveyPageContent = styled.section`
   }
 
   .button {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 2.5rem);
+    width: 100%;
     margin-top: 1rem;
     font-weight: 600;
   }
