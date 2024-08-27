@@ -87,11 +87,13 @@ export const CreateSurveyPageStep3 = () => {
       toast.error('질문을 입력해주세요.');
       return;
     }
+
     if (
-      questions.filter(
-        q =>
-          q.type !== 'SUBJECTIVE' && q.options.map(c => c.trim().length === 0)
-      ).length > 0
+      questions.map(q =>
+        q.type !== 'SUBJECTIVE'
+          ? q.options.filter(c => c.trim().length === 0).length
+          : null
+      )[1] !== 0
     ) {
       toast.error('객관식 항목은 빈 값일 수 없습니다.');
       return;
