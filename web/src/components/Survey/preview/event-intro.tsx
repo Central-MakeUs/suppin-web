@@ -12,8 +12,8 @@ export const EventIntro = () => {
     <EventIntroWrapper>
       <Box className="box">
         <div className="info">
-          <h1>{event.title}</h1>
-          <div className="policy">{event.description}</div>
+          <h1>{event?.title}</h1>
+          <div className="policy">{event?.description}</div>
         </div>
         <Box className="date">
           <div className="calendar">
@@ -22,12 +22,12 @@ export const EventIntro = () => {
           <div className="date-detail">
             <span>이벤트 진행 기간</span>
             <div className="date-number">
-              {event.startDate} ~ {event.endDate}
+              {event?.startDate} ~ {event?.endDate}
             </div>
           </div>
           <div className="date-detail">
             <span>당첨자 발표일</span>
-            <div className="date-number">{event.announcementDate}</div>
+            <div className="date-number">{event?.announcementDate}</div>
           </div>
         </Box>
       </Box>
