@@ -3,13 +3,13 @@ import { COLORS } from '@/theme';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const PreviewButton = ({ onClick }: { onClick: () => void }) => {
+export const PreviewButton = ({ onClick }: { onClick?: () => void }) => {
   const router = useNavigate();
 
   return (
     <PreviewButtonWrapper
       onClick={() => {
-        onClick();
+        onClick && onClick();
         router('/survey/new?step=preview');
       }}
     >

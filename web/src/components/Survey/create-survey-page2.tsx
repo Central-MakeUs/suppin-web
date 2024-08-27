@@ -106,13 +106,18 @@ export const CreateSurveyPageStep2 = () => {
     router('/survey/new?step=3');
   };
 
+  const previewHandler = () => {
+    sessionStorage.setItem('policy', textHtml);
+    sessionStorage.setItem('personal', JSON.stringify(fields));
+  };
+
   return (
     <PageContainer>
       <Subtitle title="설문 생성하기" onBackClick={() => router('/')} />
       <CreateSurveyPageHeader>
         <div className="progress">
           <img src={step2} style={{ width: '68px' }} alt="Step 2" />
-          <PreviewButton onClick={() => dispatch(setPolicy(textHtml))} />
+          <PreviewButton onClick={previewHandler} />
         </div>
         <h1 className="header">
           수집할 참여자 정보를

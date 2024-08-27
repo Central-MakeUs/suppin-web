@@ -1,11 +1,12 @@
 import calendarIcon from '@/assets/calander.png';
 import { Box } from '@/components/common/box';
-import { RootState } from '@/store';
-import { useSelector } from 'react-redux';
+import { CreateEventPayload } from '@/types/event';
 import { EventIntroWrapper } from './event-intro.styles';
 
 export const EventIntro = () => {
-  const { event } = useSelector((state: RootState) => state.survey);
+  const event = JSON.parse(
+    sessionStorage.getItem('event') as string
+  ) as unknown as CreateEventPayload;
 
   return (
     <EventIntroWrapper>

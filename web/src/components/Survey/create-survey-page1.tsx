@@ -7,10 +7,8 @@ import {
 } from '@/components/Survey/create-survey-page1.styles';
 import { createEventSchema, CreateEventType } from '@/lib/schema/event.schema';
 import { useCreateEvent } from '@/services/queries/event.mutation';
-import { setEvent } from '@/store/survey';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '../common/box';
 import { Button } from '../common/button';
@@ -30,8 +28,6 @@ import { Textarea } from '../common/textarea';
 export const CreateSurveyPageStep1 = () => {
   const router = useNavigate();
 
-  const dispatch = useDispatch();
-
   const { createEventMutation, isCreateEventLoading } = useCreateEvent();
 
   const form = useForm<CreateEventType>({
@@ -48,8 +44,9 @@ export const CreateSurveyPageStep1 = () => {
   });
 
   const submitHandler = (values: CreateEventType) => {
-    dispatch(
-      setEvent({
+    sessionStorage.setItem(
+      'event',
+      JSON.stringify({
         announcementDate: values.announcementDate,
         description: values.description,
         title: values.title,
