@@ -100,6 +100,20 @@ export const CreateSurveyPageContent = styled.section`
         align-items: center;
         justify-content: space-between;
 
+        .name {
+          position: relative;
+          width: 100%;
+          span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: ${COLORS.Gray2};
+            white-space: nowrap;
+            font-size: 10px;
+          }
+        }
+
         img {
           position: absolute;
           top: 50%;
