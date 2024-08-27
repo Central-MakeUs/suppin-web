@@ -13,6 +13,7 @@ import { QuestionType } from '@/types/survey';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 import { Box } from '../common/box';
 import { Button } from '../common/button';
@@ -50,10 +51,18 @@ export const CreateSurveyPageStep3 = () => {
   ]);
 
   const addQuestion = () => {
+    if (questions.length === 10) {
+      toast.error('질문은 최대 10개입니다.');
+      return;
+    }
     setQuestions([
       ...questions,
       { id: uuidv4(), type: 'SUBJECTIVE', text: '', options: [] },
     ]);
+  };
+
+  const deleteQuestion = (id: string) => {
+    setQuestions(questions.filter(q => q.id !== id));
   };
 
   const changeQuestionType = (
@@ -74,6 +83,20 @@ export const CreateSurveyPageStep3 = () => {
   };
 
   const handleSubmit = async () => {
+    if (questions.filter(q => q.text.trim().length === 0).length > 0) {
+      toast.error('질문을 입력해주세요.');
+      return;
+    }
+    if (
+      questions.filter(
+        q =>
+          q.type !== 'SUBJECTIVE' && q.options.map(c => c.trim().length === 0)
+      ).length > 0
+    ) {
+      toast.error('객관식 항목은 빈 값일 수 없습니다.');
+      return;
+    }
+
     const formattedData = {
       eventId,
       consentFormHtml: policy,
@@ -117,6 +140,7 @@ export const CreateSurveyPageStep3 = () => {
               <QuestionSelect
                 value={question.type}
                 onChange={newType => changeQuestionType(question.id, newType)}
+                onDelete={() => deleteQuestion(question.id)}
               />
               {question.type === 'SUBJECTIVE' && (
                 <Subjective

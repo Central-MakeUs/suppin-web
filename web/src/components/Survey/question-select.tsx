@@ -20,9 +20,14 @@ type ValueType = keyof typeof valueMap;
 type QuestionSelectProps = {
   value: ValueType;
   onChange: (value: ValueType) => void;
+  onDelete: () => void;
 };
 
-export const QuestionSelect = ({ value, onChange }: QuestionSelectProps) => {
+export const QuestionSelect = ({
+  value,
+  onChange,
+  onDelete,
+}: QuestionSelectProps) => {
   return (
     <QuestionSelectWrapper>
       <Select value={value} onValueChange={onChange}>
@@ -49,7 +54,8 @@ export const QuestionSelect = ({ value, onChange }: QuestionSelectProps) => {
           </SelectGroup>
         </SelectContent>
       </Select>
-      <X />
+      <X onClick={onDelete} style={{ cursor: 'pointer' }} />{' '}
+      {/* Add the onClick handler */}
     </QuestionSelectWrapper>
   );
 };
