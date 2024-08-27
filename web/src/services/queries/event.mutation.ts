@@ -1,4 +1,4 @@
-import { setEventId } from '@/store/survey';
+import { setEvent } from '@/store/survey';
 import { CreateEventPayload } from '@/types/event';
 import { useMutation } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
@@ -19,9 +19,7 @@ export const useCreateEvent = () => {
       await createEvent(payload),
 
     onSuccess: (data: { data: { eventId: number } }) => {
-      console.log(data);
-
-      dispatch(setEventId(data.data.eventId));
+      dispatch(setEvent({ id: data.data.eventId }));
       router('/survey/new?step=2');
     },
   });

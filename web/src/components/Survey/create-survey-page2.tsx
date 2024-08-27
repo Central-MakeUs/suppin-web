@@ -48,6 +48,15 @@ export const CreateSurveyPageStep2 = () => {
   const [fields, setLocalFields] =
     useState<{ optionName: string }[]>(defaultFields);
 
+  const textHtml = `
+    <div>
+      <p>${text.line1}</p>
+      <p>${text.line2}</p>
+      <p><strong>${text.line3}</strong></p>
+      <p>${text.line4}</p>
+    </div>
+  `;
+
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setText(prevText => ({
@@ -101,18 +110,15 @@ export const CreateSurveyPageStep2 = () => {
           defaultField => defaultField.optionName === field.optionName
         )
     );
-    const textHtml = `
-    <div>
-      <p>${text.line1}</p>
-      <p>${text.line2}</p>
-      <p><strong>${text.line3}</strong></p>
-      <p>${text.line4}</p>
-    </div>
-  `;
 
     dispatch(setPolicy(textHtml));
     dispatch(setFields(filteredFields));
     router('/survey/new?step=3');
+  };
+
+  const previewHandler = () => {
+    sessionStorage.setItem('policy', textHtml);
+    sessionStorage.setItem('personal', JSON.stringify(fields));
   };
 
   return (
@@ -121,7 +127,7 @@ export const CreateSurveyPageStep2 = () => {
       <CreateSurveyPageHeader>
         <div className="progress">
           <img src={step2} style={{ width: '68px' }} alt="Step 2" />
-          <PreviewButton />
+          <PreviewButton onClick={previewHandler} />
         </div>
         <h1 className="header">
           수집할 참여자 정보를

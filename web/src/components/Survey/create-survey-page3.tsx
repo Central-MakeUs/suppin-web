@@ -27,7 +27,7 @@ export const CreateSurveyPageStep3 = () => {
   const { createSurveyMutation, isError, isCreateSurveyLoading } =
     useCreateSurvey();
 
-  const { personalInfoOptionList, eventId, policy } = useSelector(
+  const { personalInfoOptionList, event, policy } = useSelector(
     (state: RootState) => state.survey
   );
 
@@ -75,7 +75,7 @@ export const CreateSurveyPageStep3 = () => {
 
   const handleSubmit = async () => {
     const formattedData = {
-      eventId,
+      eventId: event.id,
       consentFormHtml: policy,
       personalInfoOptionList: personalInfoOptionList.map(option => ({
         ...option,
@@ -94,6 +94,14 @@ export const CreateSurveyPageStep3 = () => {
     }
     setIsOpen(true);
     setLink(data.uuid);
+    sessionStorage.removeItem('question');
+    sessionStorage.removeItem('policy');
+    sessionStorage.removeItem('personal');
+    sessionStorage.removeItem('event');
+  };
+
+  const previewHandler = () => {
+    sessionStorage.setItem('question', JSON.stringify(questions));
   };
 
   return (
@@ -103,7 +111,7 @@ export const CreateSurveyPageStep3 = () => {
         <CreateSurveyPageHeader>
           <div className="progress">
             <img src={step3} style={{ width: '68px' }} alt="Step 3" />
-            <PreviewButton />
+            <PreviewButton onClick={previewHandler} />
           </div>
           <h1 className="header">
             당첨자 선정을 위해 필요한
