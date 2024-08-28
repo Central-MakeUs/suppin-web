@@ -62,8 +62,8 @@ export const SurveyWinner = ({ surveyId, questions }: SurveyWinnerProps) => {
           startDate: string;
           endDate: string;
         };
-        minLength: string;
-        keywords: string[];
+        minLength?: string | undefined;
+        keywords?: (string | undefined)[] | undefined;
       },
       'keywords'
     >
@@ -77,7 +77,10 @@ export const SurveyWinner = ({ surveyId, questions }: SurveyWinnerProps) => {
         });
       }
       if (!field.value?.includes(tagValue as never)) {
-        form.setValue('keywords', [...field.value, tagValue]);
+        form.setValue(
+          'keywords',
+          field.value ? [...field.value, tagValue] : [tagValue]
+        );
         if (keywordInputRef.current) keywordInputRef.current.value = '';
         form.clearErrors('keywords');
       }
@@ -95,13 +98,13 @@ export const SurveyWinner = ({ surveyId, questions }: SurveyWinnerProps) => {
           startDate: string;
           endDate: string;
         };
-        minLength: string;
-        keywords: string[];
+        minLength?: string | undefined;
+        keywords?: (string | undefined)[] | undefined;
       },
       'keywords'
     >
   ) => {
-    const newTags = field.value.filter((t: string) => t !== tag);
+    const newTags = field.value?.filter(t => t !== tag);
     form.setValue('keywords', newTags);
   };
 
@@ -110,7 +113,7 @@ export const SurveyWinner = ({ surveyId, questions }: SurveyWinnerProps) => {
       keywords: values.keywords,
       endDate: values.eventPeriod.endDate,
       startDate: values.eventPeriod.startDate,
-      minLength: parseInt(values.minLength),
+      minLength: parseInt(values.minLength || '0'),
       winnerCount: parseInt(values.winnerCount),
       surveyId: parseInt(surveyId),
       questionId: questions[0]?.questionId,
@@ -119,6 +122,7 @@ export const SurveyWinner = ({ surveyId, questions }: SurveyWinnerProps) => {
 
     router('/');
   };
+  console.log(form.formState.errors);
 
   return (
     <SurveyWinnerWrapper>
@@ -149,10 +153,17 @@ export const SurveyWinner = ({ surveyId, questions }: SurveyWinnerProps) => {
           </div>
           <div className="date">
             <div className="date-info">
-              <h2>기간 설정</h2>
+              <div className="date-label">
+                <h2>기간 설정</h2>
+                {form.getFieldState('eventPeriod').error && (
+                  <p className="error">기간을 입력해주세요</p>
+                )}
+              </div>
               <p>특정 날짜에 응답한 참여자 중 당첨자를 선정할 수 있어요.</p>
             </div>
-            <div className="date-container">
+            <div
+              className={`date-container ${form.getFieldState('eventPeriod').error && 'date-error'}`}
+            >
               <FormField
                 control={form.control}
                 name="eventPeriod.startDate"
@@ -165,7 +176,6 @@ export const SurveyWinner = ({ surveyId, questions }: SurveyWinnerProps) => {
                           onChange={field.onChange}
                         />
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   );
                 }}
@@ -187,7 +197,6 @@ export const SurveyWinner = ({ surveyId, questions }: SurveyWinnerProps) => {
                           minDate={startDate}
                         />
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   );
                 }}
@@ -212,7 +221,6 @@ export const SurveyWinner = ({ surveyId, questions }: SurveyWinnerProps) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -243,12 +251,14 @@ export const SurveyWinner = ({ surveyId, questions }: SurveyWinnerProps) => {
                           추가
                         </Button>
                       </div>
-                      {field.value.length > 0 && (
+                      {field.value && field.value.length > 0 && (
                         <BadgeContainer>
-                          {field.value.map((keyword: string) => (
+                          {field.value.map(keyword => (
                             <Badge
                               key={keyword}
-                              onClick={() => tagRemoveHandler(keyword, field)}
+                              onClick={() =>
+                                keyword && tagRemoveHandler(keyword, field)
+                              }
                             >
                               {keyword}
                               <X />
@@ -258,7 +268,6 @@ export const SurveyWinner = ({ surveyId, questions }: SurveyWinnerProps) => {
                       )}
                     </div>
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />

@@ -16,6 +16,6 @@ export type WinnerPayload = {
   winnerCount: number;
   startDate: string;
   endDate: string;
-  minLength: number;
-  keywords: string[];
+  minLength?: number;
+  keywords: (string | undefined)[] | undefined;
 };
