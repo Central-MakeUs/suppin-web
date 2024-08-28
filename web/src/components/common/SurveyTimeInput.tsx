@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { body4Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
-import { CSSProperties, useState } from 'react';
+import { CSSProperties, useState, useEffect } from 'react';
 import calendarIcon from '../../assets/calander.png';
 import { handleEndDateChange, handleStartDateChange } from '@/lib/timeUtil';
 
@@ -21,11 +21,29 @@ export const SurveyTimeInput = ({
 }: SurveyTimeInputProps) => {
   const dispatch = useDispatch();
 
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined); // 기본값 오늘
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined); // 기본값 오늘
+  // 오늘 날짜 설정
+  const today = new Date();
 
-  const maxDate = new Date();
-  maxDate.setDate(maxDate.getDate() + 120); // 오늘부터 120일 후
+  // 2개월 전과 2개월 후의 날짜 설정
+  const minDate = new Date(today);
+  minDate.setMonth(today.getMonth() - 2);
+
+  const maxDate = new Date(today);
+  maxDate.setMonth(today.getMonth() + 2);
+
+  // 기본 시작일과 마감일 설정
+  const initialStartDate = new Date(today);
+  initialStartDate.setDate(today.getDate() - 7); // 기본 시작일: 오늘로부터 7일 전
+
+  const [startDate, setStartDate] = useState<Date | undefined>(
+    initialStartDate
+  );
+  const [endDate, setEndDate] = useState<Date | undefined>(today);
+
+  useEffect(() => {
+    handleStartDateChange(initialStartDate, dispatch);
+    handleEndDateChange(today, dispatch);
+  }, [initialStartDate, today, dispatch]);
 
   const handleStartDate = (date: Date | null) => {
     if (date) {
@@ -59,8 +77,8 @@ export const SurveyTimeInput = ({
             selectsStart
             startDate={startDate}
             endDate={endDate}
-            minDate={new Date()} // 시작일은 오늘부터 선택 가능
-            maxDate={maxDate} // 오늘부터 3달 후까지만 선택 가능
+            minDate={minDate} // 시작일은 2개월 전부터 선택 가능
+            maxDate={maxDate} // 시작일은 2개월 후까지만 선택 가능
           />
         </DatePickerWrapper>
       </div>
@@ -76,8 +94,8 @@ export const SurveyTimeInput = ({
             selectsEnd
             startDate={startDate}
             endDate={endDate}
-            minDate={startDate} // 종료일은 시작일 이후로 선택 가능
-            maxDate={maxDate} // 오늘부터 7일 후까지만 선택 가능
+            minDate={minDate} // 종료일은 2개월 전부터 선택 가능
+            maxDate={maxDate} // 종료일은 2개월 후까지만 선택 가능
           />
         </DatePickerWrapper>
       </div>
