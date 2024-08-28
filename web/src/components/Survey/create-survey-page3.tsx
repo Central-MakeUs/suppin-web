@@ -13,6 +13,7 @@ import { QuestionType } from '@/types/survey';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 import { Box } from '../common/box';
 import { Button } from '../common/button';
@@ -27,7 +28,7 @@ export const CreateSurveyPageStep3 = () => {
   const { createSurveyMutation, isError, isCreateSurveyLoading } =
     useCreateSurvey();
 
-  const { personalInfoOptionList, eventId, policy } = useSelector(
+  const { personalInfoOptionList, event, policy } = useSelector(
     (state: RootState) => state.survey
   );
 
@@ -50,10 +51,18 @@ export const CreateSurveyPageStep3 = () => {
   ]);
 
   const addQuestion = () => {
+    if (questions.length === 10) {
+      toast.error('질문은 최대 10개입니다.');
+      return;
+    }
     setQuestions([
       ...questions,
       { id: uuidv4(), type: 'SUBJECTIVE', text: '', options: [] },
     ]);
+  };
+
+  const deleteQuestion = (id: string) => {
+    setQuestions(questions.filter(q => q.id !== id));
   };
 
   const changeQuestionType = (
@@ -74,8 +83,24 @@ export const CreateSurveyPageStep3 = () => {
   };
 
   const handleSubmit = async () => {
+    if (questions.filter(q => q.text.trim().length === 0).length > 0) {
+      toast.error('질문을 입력해주세요.');
+      return;
+    }
+
+    if (
+      questions.map(q =>
+        q.type !== 'SUBJECTIVE'
+          ? q.options.filter(c => c.trim().length === 0).length
+          : null
+      )[1] !== 0
+    ) {
+      toast.error('객관식 항목은 빈 값일 수 없습니다.');
+      return;
+    }
+
     const formattedData = {
-      eventId,
+      eventId: event.id,
       consentFormHtml: policy,
       personalInfoOptionList: personalInfoOptionList.map(option => ({
         ...option,
@@ -94,6 +119,14 @@ export const CreateSurveyPageStep3 = () => {
     }
     setIsOpen(true);
     setLink(data.uuid);
+    sessionStorage.removeItem('question');
+    sessionStorage.removeItem('policy');
+    sessionStorage.removeItem('personal');
+    sessionStorage.removeItem('event');
+  };
+
+  const previewHandler = () => {
+    sessionStorage.setItem('question', JSON.stringify(questions));
   };
 
   return (
@@ -103,7 +136,7 @@ export const CreateSurveyPageStep3 = () => {
         <CreateSurveyPageHeader>
           <div className="progress">
             <img src={step3} style={{ width: '68px' }} alt="Step 3" />
-            <PreviewButton />
+            <PreviewButton onClick={previewHandler} />
           </div>
           <h1 className="header">
             당첨자 선정을 위해 필요한
@@ -117,6 +150,7 @@ export const CreateSurveyPageStep3 = () => {
               <QuestionSelect
                 value={question.type}
                 onChange={newType => changeQuestionType(question.id, newType)}
+                onDelete={() => deleteQuestion(question.id)}
               />
               {question.type === 'SUBJECTIVE' && (
                 <Subjective

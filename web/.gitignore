@@ -28,3 +28,5 @@ vercel.json
 .DS_Store
 
 *storybook.log
+
+sourcemap

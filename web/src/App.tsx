@@ -99,7 +99,13 @@ export default function App() {
       <PersistGate loading={null} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
           <GlobalStyles />
-          <Toaster position="top-center" richColors />
+          <Toaster
+            duration={1500}
+            visibleToasts={3}
+            closeButton={true}
+            position="top-center"
+            richColors
+          />
           <RouterProvider router={router} />
         </QueryClientProvider>
       </PersistGate>

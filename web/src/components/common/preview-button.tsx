@@ -1,10 +1,18 @@
 import { body3Style } from '@/styles/global-styles';
 import { COLORS } from '@/theme';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const PreviewButton = () => {
+export const PreviewButton = ({ onClick }: { onClick?: () => void }) => {
+  const router = useNavigate();
+
   return (
-    <PreviewButtonWrapper>
+    <PreviewButtonWrapper
+      onClick={() => {
+        onClick && onClick();
+        router('/survey/new?step=preview');
+      }}
+    >
       <Preview>미리보기</Preview>
     </PreviewButtonWrapper>
   );

@@ -44,10 +44,22 @@ export const SurveyWinnerWrapper = styled.div`
       gap: 0.625rem;
       padding: 0 2rem;
 
-      h2 {
-        font-weight: 500;
-        font-size: 1rem;
-        color: ${COLORS.Gray1};
+      .date-label {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        .error {
+          color: #ff4848;
+          font-weight: 400;
+          font-size: 0.75rem;
+        }
+
+        h2 {
+          font-weight: 500;
+          font-size: 1rem;
+          color: ${COLORS.Gray1};
+        }
       }
       p {
         font-size: 0.75rem;
@@ -64,6 +76,9 @@ export const SurveyWinnerWrapper = styled.div`
       border: 1px solid ${COLORS.Gray5};
       border-radius: 10px;
       padding: 0.5rem 0.75rem;
+    }
+    .date-error {
+      border-color: #ff4848;
     }
 
     .min-len {

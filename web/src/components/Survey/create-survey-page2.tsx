@@ -11,6 +11,7 @@ import { setFields, setPolicy } from '@/store/survey';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { Badge } from '../common/badge';
 import { Box } from '../common/box';
 import { Button } from '../common/button';
@@ -47,6 +48,15 @@ export const CreateSurveyPageStep2 = () => {
   const [fields, setLocalFields] =
     useState<{ optionName: string }[]>(defaultFields);
 
+  const textHtml = `
+    <div>
+      <p>${text.line1}</p>
+      <p>${text.line2}</p>
+      <p><strong>${text.line3}</strong></p>
+      <p>${text.line4}</p>
+    </div>
+  `;
+
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setText(prevText => ({
@@ -67,7 +77,7 @@ export const CreateSurveyPageStep2 = () => {
   }, []);
 
   const handleFieldChange = (index: number, value: string) => {
-    if (index < 4) return;
+    if (index < 1) return;
     setLocalFields(prevFields => {
       const newFields = [...prevFields];
       newFields[index].optionName = value;
@@ -76,33 +86,39 @@ export const CreateSurveyPageStep2 = () => {
   };
 
   const handleAddField = () => {
+    if (fields.length === 10) {
+      toast.error('개인정보 수집 항목은 최대 10개입니다.');
+      return;
+    }
     setLocalFields(prevFields => [...prevFields, { optionName: '' }]);
   };
 
   const handleRemoveField = (index: number) => {
-    if (index < 4) return;
+    if (index < 1) return;
     setLocalFields(prevFields => prevFields.filter((_, i) => i !== index));
   };
 
   const saveHandler = () => {
+    if (fields.filter(item => item.optionName.trim().length === 0).length > 0) {
+      toast.error('빈 항목을 추가할 수 없습니다.');
+      return;
+    }
+
     const filteredFields = fields.filter(
       field =>
         !defaultFields.some(
           defaultField => defaultField.optionName === field.optionName
         )
     );
-    const textHtml = `
-    <div>
-      <p>${text.line1}</p>
-      <p>${text.line2}</p>
-      <p><strong>${text.line3}</strong></p>
-      <p>${text.line4}</p>
-    </div>
-  `;
 
     dispatch(setPolicy(textHtml));
     dispatch(setFields(filteredFields));
     router('/survey/new?step=3');
+  };
+
+  const previewHandler = () => {
+    sessionStorage.setItem('policy', textHtml);
+    sessionStorage.setItem('personal', JSON.stringify(fields));
   };
 
   return (
@@ -111,7 +127,7 @@ export const CreateSurveyPageStep2 = () => {
       <CreateSurveyPageHeader>
         <div className="progress">
           <img src={step2} style={{ width: '68px' }} alt="Step 2" />
-          <PreviewButton />
+          <PreviewButton onClick={previewHandler} />
         </div>
         <h1 className="header">
           수집할 참여자 정보를
@@ -172,11 +188,21 @@ export const CreateSurveyPageStep2 = () => {
           <div className="input-container">
             {fields.map((field, index) => (
               <div key={index} className="field-row">
-                <Input
-                  value={field.optionName}
-                  onChange={e => handleFieldChange(index, e.target.value)}
-                />
-                {index > 3 && fields.length > 1 && (
+                {field.optionName === '이름' ? (
+                  <div className="name">
+                    <Input
+                      value={field.optionName}
+                      onChange={e => handleFieldChange(index, e.target.value)}
+                    />
+                    <span>수집한 아이디는 응답 내용과 함께 보여져요</span>
+                  </div>
+                ) : (
+                  <Input
+                    value={field.optionName}
+                    onChange={e => handleFieldChange(index, e.target.value)}
+                  />
+                )}
+                {index > 0 && fields.length > 1 && (
                   <img
                     src={cancelImg}
                     alt="cancel"
