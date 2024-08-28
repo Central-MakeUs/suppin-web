@@ -28,7 +28,7 @@ export const winnerSchema = z.object({
         });
       }
     }),
-  minLength: z.string(),
-  keywords: z.array(z.string().min(1).max(15)).min(1),
+  minLength: z.string().optional(),
+  keywords: z.array(z.string().min(1).max(15).optional()).optional(),
 });
 export type WinnerFormType = z.infer<typeof winnerSchema>;
