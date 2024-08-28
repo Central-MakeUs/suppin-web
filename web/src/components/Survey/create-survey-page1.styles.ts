@@ -56,6 +56,9 @@ export const CreateSurveyPageContent = styled.section`
         color: ${COLORS.Gray3};
       }
     }
+    .error {
+      border-color: #ff4848;
+    }
 
     .textarea {
       border: none;
@@ -71,10 +74,22 @@ export const CreateSurveyPageContent = styled.section`
       color: ${COLORS.Gray2};
       font-size: 0.875rem;
       font-size: 400;
+    }
+
+    .date-label {
+      display: flex;
+      align-items: center;
       margin-bottom: 0.625rem;
+      .error-text {
+        margin-left: 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 400;
+        color: #ff4848;
+      }
     }
 
     .date-container {
+      position: relative;
       height: 2.875rem;
       display: flex;
       align-items: center;
@@ -83,6 +98,9 @@ export const CreateSurveyPageContent = styled.section`
       border: 1px solid ${COLORS.Gray5};
       border-radius: 10px;
       padding: 0.5rem 0.75rem;
+    }
+    .date-error {
+      border-color: #ff4848;
     }
   }
 
