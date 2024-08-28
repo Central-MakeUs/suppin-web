@@ -19,7 +19,7 @@ export const StyledFormDescription = styled.p`
 `;
 
 export const StyledFormMessage = styled.p`
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: red;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #ff4848;
 `;

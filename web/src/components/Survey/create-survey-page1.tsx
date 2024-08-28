@@ -86,16 +86,21 @@ export const CreateSurveyPageStep1 = () => {
               <FormField
                 control={form.control}
                 name="title"
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <FormItem>
                     <FormControl>
                       <Input
                         placeholder="제목을 입력해주세요"
                         {...field}
-                        className="input"
+                        className={`input ${fieldState.error && 'error'}`}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage
+                      style={{
+                        paddingTop: '4px',
+                        paddingLeft: '10px',
+                      }}
+                    />
                   </FormItem>
                 )}
               />
@@ -111,14 +116,26 @@ export const CreateSurveyPageStep1 = () => {
                         className="textarea"
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage
+                      style={{
+                        paddingLeft: '10px',
+                      }}
+                    />
                   </FormItem>
                 )}
               />
             </Box>
             <Box className="box">
-              <Label>이벤트 진행 기간</Label>
-              <div className="date-container">
+              <div className="date-label">
+                <Label>이벤트 진행 기간</Label>
+                {(form.getFieldState('eventPeriod.startDate').error ||
+                  form.getFieldState('eventPeriod.endDate').error) && (
+                  <p className="error-text">이벤트 진행 기간을 입력해주세요</p>
+                )}
+              </div>
+              <div
+                className={`date-container ${(form.getFieldState('eventPeriod.endDate') || form.getFieldState('eventPeriod.startDate')) && 'date-error'}`}
+              >
                 <FormField
                   control={form.control}
                   name="eventPeriod.startDate"
@@ -134,7 +151,6 @@ export const CreateSurveyPageStep1 = () => {
                             minDate={startDate}
                           />
                         </FormControl>
-                        <FormMessage />
                       </FormItem>
                     );
                   }}
@@ -156,14 +172,20 @@ export const CreateSurveyPageStep1 = () => {
                             minDate={startDate}
                           />
                         </FormControl>
-                        <FormMessage />
                       </FormItem>
                     );
                   }}
                 />
               </div>
-              <Label style={{ marginTop: '1rem' }}>당첨자 발표일</Label>
-              <div className="date-container">
+              <div style={{ marginTop: '1rem' }} className="date-label">
+                <Label>당첨자 발표일</Label>
+                {form.getFieldState('announcementDate').error && (
+                  <p className="error-text">당첨자 발표일시를 입력해주세요</p>
+                )}
+              </div>
+              <div
+                className={`date-container ${form.getFieldState('announcementDate') && 'date-error'}`}
+              >
                 <FormField
                   control={form.control}
                   name="announcementDate"
@@ -181,7 +203,6 @@ export const CreateSurveyPageStep1 = () => {
                             minDate={endDate}
                           />
                         </FormControl>
-                        <FormMessage />
                       </FormItem>
                     );
                   }}
