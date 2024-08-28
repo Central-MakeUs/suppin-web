@@ -81,6 +81,7 @@ const ProcessingCardWrapper = styled.div`
   padding: 18px 20px;
   margin-bottom: 16px;
   box-shadow: 0px 0px 4px 0px #0000004d;
+  border-radius: 15px;
 `;
 
 const HeaderContainer = styled.div`

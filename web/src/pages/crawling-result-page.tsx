@@ -66,7 +66,7 @@ const CrawlingPage = () => {
           eventId: parseInt(eventId, 10), // eventId를 숫자로 변환
           url,
           page: 1,
-          size: 300, // 최대 300개의 댓글을 가져옴 (무한 스크롤 적용 전)
+          size: 500, // 최대 500개의 댓글을 가져옴 (무한 스크롤 적용 전)
         });
         console.log(response);
 
@@ -119,7 +119,11 @@ const CrawlingPage = () => {
 
   return (
     <HomePageWrapper>
-      <Subtitle title={eventTitle} onBackClick={goHome} />
+      <Subtitle
+        title={eventTitle}
+        onBackClick={goHome}
+        showBackButton={false}
+      />
       <Tabs
         style={{ height: 'calc(100% - 6.375rem)' }}
         value={activeTab}

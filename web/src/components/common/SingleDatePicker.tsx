@@ -47,6 +47,15 @@ export const SingleDatePicker = ({
     return `${year}-${month}-${day} ${hours}:${minutes}`;
   };
 
+  // 오늘 기준으로 -2개월부터 +2개월까지의 범위 설정
+  const today = new Date();
+
+  const minDate = new Date(today);
+  minDate.setMonth(today.getMonth() - 2);
+
+  const maxDate = new Date(today);
+  maxDate.setMonth(today.getMonth() + 2);
+
   return (
     <Container style={style}>
       <Icon src={calendarIcon} alt="calendar" />
@@ -57,6 +66,8 @@ export const SingleDatePicker = ({
           placeholderText={placeholder}
           dateFormat="yyyy-MM-dd HH:mm"
           showTimeSelect
+          minDate={minDate} // 오늘부터 2개월 전부터 선택 가능
+          maxDate={maxDate} // 오늘부터 2개월 후까지만 선택 가능
         />
       </DatePickerWrapper>
     </Container>
