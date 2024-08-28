@@ -1,14 +1,29 @@
-import { useState } from 'react';
-import { RootState } from '@/store';
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
 import btn_open from '@/assets/btn_open.png';
-import { AccordionDetails } from '@mui/material';
+import { RootState } from '@/store';
+import { AccordionDetails, Container } from '@mui/material';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { COLORS } from '@/theme';
-import { body5Style, head3Style } from '@/styles/global-styles';
+import {
+  AccordionContainer,
+  Comment,
+  CommentContainer,
+  ConditionContainer,
+  Content,
+  CustomAccordion,
+  CustomAccordionSummary,
+  Header,
+  HeaderContainer,
+  HighlightedText,
+  Home,
+  Open,
+  PeriodContainer,
+  Tag,
+  TagContainer,
+  Title,
+  WinnerContainer,
+} from './winner-result.styles';
+import { BtnContainer } from './winner.styles';
 
 export const WinnerResult = () => {
   const Keywords = useSelector((state: RootState) => state.winner.keywords); // 키워드 목록을 가져옴
@@ -124,160 +139,3 @@ export const WinnerResult = () => {
     </Container>
   );
 };
-
-const Container = styled.div`
-  width: 100%;
-  padding: 0px 20px;
-`;
-
-const ConditionContainer = styled.div``;
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-direction: column;
-  width: 100%;
-  height: 85px;
-  padding: 0px 0px 0px 10px;
-  border: #e9efff;
-  border-radius: 10px;
-  background-color: #e9efff;
-  margin-top: 17px;
-  gap: 10px;
-`;
-
-const Header = styled.p`
-  ${head3Style}
-  color: ${COLORS.Gray1};
-  margin-top: 38px;
-`;
-
-const WinnerContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const PeriodContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Title = styled.p`
-  font-weight: 600;
-  font-size: 14px;
-  color: ${COLORS.Gray2};
-`;
-
-const Content = styled.p`
-  font-weight: 500;
-  font-size: 14px;
-  color: ${COLORS.Gray2};
-  margin-left: 5px;
-`;
-
-const TagContainer = styled.div`
-  width: 100%;
-  gap: 3px;
-  margin-bottom: 24px;
-  display: flex;
-`;
-
-const Tag = styled.button<{ isSelected: boolean }>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 72px;
-  height: 30px;
-  border-radius: 100px;
-  border: 1px solid ${COLORS.Main};
-  background-color: ${({ isSelected }) => (isSelected ? COLORS.Main : 'white')};
-  color: ${({ isSelected }) => (isSelected ? 'white' : COLORS.Main)};
-  ${body5Style}
-  cursor: pointer;
-`;
-
-const AccordionContainer = styled.div`
-  padding-bottom: 20px;
-`;
-
-const CustomAccordion = styled(Accordion)`
-  border: 1px solid ${COLORS.Gray5};
-  border-radius: 10px !important;
-  box-shadow: none;
-  margin-bottom: 14px;
-
-  &:before {
-    display: none; // MUI에서 기본적으로 추가되는 border 제거
-  }
-`;
-
-const CustomAccordionSummary = styled(AccordionSummary)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  background-color: ${COLORS.Gray6};
-  border-bottom: 1px solid ${COLORS.Gray4};
-  border-radius: 10px !important;
-
-  & .MuiAccordionSummary-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin: 10px 0px;
-  }
-
-  &.Mui-expanded {
-    div {
-      margin: 0px;
-    }
-  }
-`;
-
-const CommentContainer = styled.div`
-  width: 100%;
-  background-color: ${COLORS.Gray6};
-  padding: 20px;
-  border: 1px solid ${COLORS.Gray5};
-  border-radius: 10px;
-`;
-
-const Comment = styled.div`
-  color: ${COLORS.Gray2};
-  font-size: 14px;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-`;
-
-const Open = styled.img`
-  width: 45px;
-  height: 45px;
-`;
-
-const BtnContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  position: sticky;
-  bottom: 20px;
-  margin-top: 20px;
-`;
-
-const Home = styled.button`
-  width: 100%;
-  height: 48px;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  background-color: ${COLORS.Main};
-  font-weight: 600;
-`;
-
-const HighlightedText = styled.span`
-  background-color: ${COLORS.Main}; /* 하이라이팅 색상 */
-  color: white;
-  font-weight: bold;
-`;
